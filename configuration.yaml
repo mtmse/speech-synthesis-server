@@ -1,0 +1,19 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: speech-synthesis.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: speech-synthesis-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
