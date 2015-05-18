@@ -13,10 +13,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SynthesizedIntegrationTest {
+    private int port;
 
     @Before
     public void setup() throws Exception {
-        ApplicationRunner.runApplication();
+        Main application = ApplicationRunner.runApplication();
+        port = application.getListeningPort();
     }
 
     @Test
@@ -25,7 +27,7 @@ public class SynthesizedIntegrationTest {
         Client client = ClientBuilder.newClient();
 
         String expectedParagraph = "Hello Filibuster!";
-        Synthesized entity = client.target("http://localhost:8080")
+        Synthesized entity = client.target("http://localhost:" + port)
                 .path("synthesize")
                 .queryParam("paragraph", expectedParagraph)
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -34,15 +36,12 @@ public class SynthesizedIntegrationTest {
         assertThat(entity.getParagraph(), is("Hello Filibuster!"));
         assertThat(entity.getSound(), is("Hello Filibuster!".getBytes(Charset.forName("UTF-8"))));
 
-        String json = client.target("http://localhost:8080")
+        String json = client.target("http://localhost:" + port)
                 .path("synthesize")
                 .queryParam("paragraph", expectedParagraph)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get(String.class);
 
         assertThat(json, is("{\"paragraph\":\"Hello Filibuster!\",\"sound\":\"SGVsbG8gRmlsaWJ1c3RlciE=\"}"));
-
-        System.out.println(json);
-
     }
 }
