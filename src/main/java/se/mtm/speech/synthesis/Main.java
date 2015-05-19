@@ -12,7 +12,7 @@ import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
 
 public class Main extends Application<Configuration> {
-    private int httpPort;
+    private Configuration configuration;
 
     public static void main(String[] args) throws Exception {
         new Main().run(args);
@@ -28,16 +28,7 @@ public class Main extends Application<Configuration> {
         SynthesizeResource synthesizeResource = new SynthesizeResource(speechSynthesizer);
         environment.jersey().register(synthesizeResource);
 
-        findHttpPort(configuration);
-    }
-
-    private void findHttpPort(Configuration configuration) {
-        DefaultServerFactory serverFactory = (DefaultServerFactory) configuration.getServerFactory();
-        for (ConnectorFactory connector : serverFactory.getApplicationConnectors()) {
-            if (connector.getClass().isAssignableFrom(HttpConnectorFactory.class)) {
-                httpPort = ((HttpConnectorFactory) connector).getPort();
-            }
-        }
+        this.configuration = configuration;
     }
 
     @Override
@@ -49,7 +40,14 @@ public class Main extends Application<Configuration> {
     public void initialize(Bootstrap<Configuration> bootstrap) {
     }
 
-    public int getListeningPort() {
-        return httpPort;
+    public int getHttpPort() {
+        DefaultServerFactory serverFactory = (DefaultServerFactory) configuration.getServerFactory();
+        for (ConnectorFactory connector : serverFactory.getApplicationConnectors()) {
+            if (connector.getClass().isAssignableFrom(HttpConnectorFactory.class)) {
+                return ((HttpConnectorFactory) connector).getPort();
+            }
+        }
+
+        return -1;
     }
 }
