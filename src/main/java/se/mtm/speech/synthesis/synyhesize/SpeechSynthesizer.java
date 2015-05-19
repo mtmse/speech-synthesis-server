@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -64,6 +65,8 @@ public class SpeechSynthesizer implements Managed {
 
             Paragraph synthesizedParagraph = synthesize(paragraph);
 
+            simulateSlowExecution();
+
             addSynthesizedParagraph(synthesizedParagraph);
         }
 
@@ -81,6 +84,16 @@ public class SpeechSynthesizer implements Managed {
             } catch (InterruptedException e) {
                 LOGGER.warn(e.getMessage());
             }
+        }
+
+        private void simulateSlowExecution() {
+            int min = 10;
+            int max = 200;
+
+            Random random = new Random();
+            int sleepTime = random.nextInt(max) + min;
+
+            pause(sleepTime);
         }
     }
 }
