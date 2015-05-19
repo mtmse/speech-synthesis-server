@@ -11,7 +11,7 @@ A server that could act as a facade for speech synthesis
 ## Run
 
 ```
-java -jar build/libs/speech-synthesis-server-1.0.0-all.jar server configuration.yaml 
+java -jar server\build\libs\server-1.0.0-all.jar server configuration.yaml
 ```
 
 ## References
