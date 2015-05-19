@@ -2,11 +2,13 @@ package se.mtm.speech.synthesis.synyhesize;
 
 
 import com.codahale.metrics.annotation.Timed;
-import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/synthesize")
@@ -22,29 +24,26 @@ public class SynthesizeResource {
 
     @GET
     @Timed
-    public Synthesized synthesize(@QueryParam("paragraph") String paragraph) {
-        LOGGER.info("Received: <" + paragraph + ">");
+    public Paragraph synthesize(@QueryParam("sentence") String sentance) {
+        LOGGER.info("Received: <" + sentance + ">");
 
-        return synthesizer.synthesize(paragraph);
+        String key = "17";
+        Paragraph paragraph = new Paragraph(key, sentance);
+
+        synthesizer.addParagraph(paragraph);
+
+        while (synthesizer.getParagraph(key) instanceof ParagraphNotReady) {
+            pause();
+        }
+
+        return synthesizer.getParagraph(key);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SynthesizeResource that = (SynthesizeResource) o;
-        return Objects.equal(synthesizer, that.synthesizer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(synthesizer);
-    }
-
-    @Override
-    public String toString() {
-        return "SynthesizeResource{" +
-                "synthesizer=" + synthesizer +
-                '}';
+    private void pause() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            LOGGER.warn(e.getMessage());
+        }
     }
 }
