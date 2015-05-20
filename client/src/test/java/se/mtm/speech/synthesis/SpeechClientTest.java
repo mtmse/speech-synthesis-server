@@ -46,12 +46,4 @@ public class SpeechClientTest {
         verify(webTarget).request(MediaType.APPLICATION_JSON_TYPE);
         verify(builder).get(String.class);
     }
-
-    @Test
-    @Ignore
-    public void call_real_server() { // NOPMD
-        SpeechClient client = new SpeechClient("localhost", 8080);
-        Paragraph response = client.synthesise("Hello");
-        assertThat(response.getSentence(), is("Hello"));
-    }
 }
