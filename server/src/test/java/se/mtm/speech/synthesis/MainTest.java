@@ -20,14 +20,14 @@ public class MainTest {
     private final Configuration config = new Configuration();
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         when(environment.lifecycle()).thenReturn(lifecycleEnv);
         when(environment.healthChecks()).thenReturn(healthCheck);
         when(environment.jersey()).thenReturn(jersey);
     }
 
     @Test
-    public void buildsASynthesizeResourceResource() throws Exception {
+    public void buildsASynthesizeResourceResource() throws Exception { // NOPMD
         application.run(config, environment);
 
         verify(jersey).register(isA(SynthesizeResource.class));

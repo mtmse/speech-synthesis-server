@@ -22,6 +22,11 @@ public class Paragraph {
         this.sentence = sentence;
     }
 
+    public Paragraph(String sentence, byte[] sound) {
+        this.sentence = sentence;
+        this.sound =  Arrays.copyOf(sound, sound.length);
+    }
+
     public Paragraph(String key, String sentence, byte[] sound) {
         this.key = key;
         this.sentence = sentence;
