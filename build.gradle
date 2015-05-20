@@ -26,6 +26,7 @@ subprojects {
                 'java-empty',
                 'java-finalizers',
                 'java-imports',
+                'java-junit',
                 'java-logging-jakarta-commons',
                 'java-logging-java',
                 'java-migrating',
