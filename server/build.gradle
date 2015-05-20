@@ -10,6 +10,7 @@ dependencies {
     compile 'io.dropwizard:dropwizard-core:' + dropwizardVersion
     compile 'io.dropwizard:dropwizard-client:' + dropwizardVersion
 
+    testCompile project(':client')
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion
 }
 
