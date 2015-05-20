@@ -14,11 +14,11 @@ public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
     private static final int CAPACITY = 17;
 
-    private Queue<Paragraph> in;
-    private Map<String, Paragraph> out;
+    private final Queue<Paragraph> inQue;
+    private final Map<String, Paragraph> out;
 
     public SpeechSynthesizer() {
-        in = new LinkedBlockingQueue<>(CAPACITY);
+        inQue = new LinkedBlockingQueue<>(CAPACITY);
         out = new ConcurrentHashMap<>();
     }
 
@@ -35,11 +35,11 @@ public class SpeechSynthesizer implements Managed {
     }
 
     public boolean addParagraph(Paragraph paragraph) {
-        return in.add(paragraph);
+        return inQue.add(paragraph);
     }
 
     private Paragraph getNext() {
-        return in.poll();
+        return inQue.poll();
     }
 
     private void addSynthesizedParagraph(Paragraph paragraph) {
@@ -63,11 +63,11 @@ public class SpeechSynthesizer implements Managed {
                 pause(1);
             }
 
-            Paragraph synthesizedParagraph = synthesize(paragraph);
+            Paragraph synthesized = synthesize(paragraph);
 
             simulateSlowExecution();
 
-            addSynthesizedParagraph(synthesizedParagraph);
+            addSynthesizedParagraph(synthesized);
         }
 
         private Paragraph synthesize(Paragraph paragraph) {

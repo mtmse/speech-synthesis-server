@@ -15,14 +15,14 @@ public class MainTest {
     private final Environment environment = mock(Environment.class);
     private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
     private final Main application = new Main();
-    private final LifecycleEnvironment lifecycleEnvironment = new LifecycleEnvironment();
-    private final HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
+    private final LifecycleEnvironment lifecycleEnv = new LifecycleEnvironment();
+    private final HealthCheckRegistry healthCheck = new HealthCheckRegistry();
     private final Configuration config = new Configuration();
 
     @Before
     public void setup() throws Exception {
-        when(environment.lifecycle()).thenReturn(lifecycleEnvironment);
-        when(environment.healthChecks()).thenReturn(healthCheckRegistry);
+        when(environment.lifecycle()).thenReturn(lifecycleEnv);
+        when(environment.healthChecks()).thenReturn(healthCheck);
         when(environment.jersey()).thenReturn(jersey);
     }
 

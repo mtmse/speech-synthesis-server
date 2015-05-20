@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.Transient;
+import java.util.Arrays;
 
 public class Paragraph {
     @JsonIgnore
@@ -13,6 +14,7 @@ public class Paragraph {
     private byte[] sound;
 
     public Paragraph() {
+        // is this enough for pmd?
     }
 
     public Paragraph(String key, String sentence) {
@@ -23,7 +25,7 @@ public class Paragraph {
     public Paragraph(String key, String sentence, byte[] sound) {
         this.key = key;
         this.sentence = sentence;
-        this.sound = sound;
+        this.sound =  Arrays.copyOf(sound, sound.length);
     }
 
     @Transient
@@ -38,14 +40,16 @@ public class Paragraph {
 
     @JsonProperty
     public byte[] getSound() {
-        return sound;
+        return Arrays.copyOf(sound, sound.length);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Paragraph paragraph = (Paragraph) o;
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {return false;}
+        Paragraph paragraph = (Paragraph) other;
         return java.util.Objects.equals(key, paragraph.key) &&
                 java.util.Objects.equals(sentence, paragraph.sentence);
     }

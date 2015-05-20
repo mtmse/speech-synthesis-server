@@ -9,14 +9,14 @@ import static org.hamcrest.core.Is.is;
 public class SpeechSynthesizerTest {
 
     @Test
-    public void synthezise_paragraph() throws Exception {
+    public void synthezise_paragraph() throws Exception { // NOPMD
         SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer();
         speechSynthesizer.start();
 
         String key = "17";
         Paragraph paragraph = new Paragraph(key, "A sentence to be synthesized");
 
-        boolean actualDeliveryResult = speechSynthesizer.addParagraph(paragraph);
+        boolean actualDelivery = speechSynthesizer.addParagraph(paragraph);
 
         while (speechSynthesizer.getParagraph(key) instanceof ParagraphNotReady) {
             Thread.sleep(1);
@@ -26,7 +26,7 @@ public class SpeechSynthesizerTest {
 
         speechSynthesizer.stop();
 
-        assertTrue("Expected to be able to deliver a paragraph for synthetization", actualDeliveryResult);
+        assertTrue("Expected to be able to deliver a paragraph for synthetization", actualDelivery);
         assertThat(actualParagraph, is(paragraph));
     }
 

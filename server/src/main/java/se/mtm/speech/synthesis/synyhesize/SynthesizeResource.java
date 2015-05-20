@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 public class SynthesizeResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
 
-    private SpeechSynthesizer synthesizer;
+    private final SpeechSynthesizer synthesizer;
 
     public SynthesizeResource(SpeechSynthesizer synthesizer) {
         this.synthesizer = synthesizer;
@@ -25,7 +25,9 @@ public class SynthesizeResource {
     @GET
     @Timed
     public Paragraph synthesize(@QueryParam("sentence") String sentance) {
-        LOGGER.info("Received: <" + sentance + ">");
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Received: <" + sentance + ">"); // NOPMD
+        }
 
         String key = "17";
         Paragraph paragraph = new Paragraph(key, sentance);

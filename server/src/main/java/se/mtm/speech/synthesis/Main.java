@@ -4,14 +4,14 @@ import io.dropwizard.Application;
 import io.dropwizard.jetty.ConnectorFactory;
 import io.dropwizard.jetty.HttpConnectorFactory;
 import io.dropwizard.server.DefaultServerFactory;
-import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.HealthCheck;
 import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
 
-public class Main extends Application<Configuration> {
+
+public class Main extends Application<Configuration> { // NOPMD
     private Configuration configuration;
 
     public static void main(String[] args) throws Exception {
@@ -25,8 +25,8 @@ public class Main extends Application<Configuration> {
         SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer();
         environment.lifecycle().manage(speechSynthesizer);
 
-        SynthesizeResource synthesizeResource = new SynthesizeResource(speechSynthesizer);
-        environment.jersey().register(synthesizeResource);
+        SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer);
+        environment.jersey().register(synthesizer);
 
         this.configuration = configuration;
     }
@@ -34,10 +34,6 @@ public class Main extends Application<Configuration> {
     @Override
     public String getName() {
         return "Speech synthesis";
-    }
-
-    @Override
-    public void initialize(Bootstrap<Configuration> bootstrap) {
     }
 
     public int getHttpPort() {

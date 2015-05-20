@@ -16,7 +16,7 @@ public class SynthesizeIntegrationTest {
     private int port;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         Main application = ApplicationRunner.runApplication();
         port = application.getHttpPort();
     }

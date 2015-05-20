@@ -16,10 +16,24 @@ subprojects {
 
     pmd {
         toolVersion = '5.1.3'
-        ignoreFailures = true
+        // ignoreFailures = true
         ruleSets = [
                 'java-basic',
-                'java-unusedcode'
+                'java-braces',
+                'java-clone',
+                'java-codesize',
+                'java-design',
+                'java-empty',
+                'java-finalizers',
+                'java-imports',
+                'java-logging-jakarta-commons',
+                'java-logging-java',
+                'java-migrating',
+                'java-naming',
+                'java-strings',
+                'java-sunsecure',
+                'java-unnecessary',
+                'java-unusedcode',
         ]
     }
 }

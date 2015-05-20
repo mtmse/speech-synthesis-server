@@ -11,16 +11,16 @@ import static org.mockito.Mockito.when;
 
 public class SynthesizeResourceTest {
     @Test
-    public void synthesize_a_sentence() {
+    public void synthesize_a_sentence() { // NOPMD
         String paragraph = "The brown fox jumped over the lazy dog";
         byte[] sound = paragraph.getBytes(Charset.forName("UTF-8"));
         String key = "17";
         Paragraph expected = new Paragraph(key, paragraph, sound);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
         when(synthesizer.getParagraph(key)).thenReturn(expected);
-        SynthesizeResource synthesizeResource = new SynthesizeResource(synthesizer);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer);
 
-        Paragraph actual = synthesizeResource.synthesize(paragraph);
+        Paragraph actual = synthesizeRest.synthesize(paragraph);
 
         assertThat(actual, is(expected));
     }

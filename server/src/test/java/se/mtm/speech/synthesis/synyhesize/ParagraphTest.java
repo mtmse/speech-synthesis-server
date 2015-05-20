@@ -7,40 +7,40 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class ParagraphTest {
-    private String key = "42";
-    private String sentence = "A brown fox";
+    private final static String KEY = "42";
+    private final static String SENTENCE = "A brown fox";
 
     @Test
-    public void set_key_and_sentence() {
-        Paragraph paragraph = new Paragraph(key, sentence);
+    public void set_key_and_sentence() { // NOPMD
+        Paragraph paragraph = new Paragraph(KEY, SENTENCE);
 
-        assertThat(paragraph.getKey(), is(key));
-        assertThat(paragraph.getSentence(), is(sentence));
+        assertThat(paragraph.getKey(), is(KEY));
+        assertThat(paragraph.getSentence(), is(SENTENCE));
     }
 
     @Test
-    public void set_key_sentence_and_sound() {
-        byte[] sound = sentence.getBytes();
+    public void set_key_sentence_and_sound() { // NOPMD
+        byte[] sound = SENTENCE.getBytes();
 
-        Paragraph paragraph = new Paragraph(key, sentence, sound);
+        Paragraph paragraph = new Paragraph(KEY, SENTENCE, sound);
 
-        assertThat(paragraph.getKey(), is(key));
-        assertThat(paragraph.getSentence(), is(sentence));
+        assertThat(paragraph.getKey(), is(KEY));
+        assertThat(paragraph.getSentence(), is(SENTENCE));
         assertThat(paragraph.getSound(), is(sound));
     }
 
     @Test
-    public void equal_object_are_equal() {
-        Paragraph first = new Paragraph(key, sentence);
-        Paragraph second = new Paragraph(key, sentence);
+    public void equal_object_are_equal() { // NOPMD
+        Paragraph first = new Paragraph(KEY, SENTENCE);
+        Paragraph second = new Paragraph(KEY, SENTENCE);
 
         assertTrue("Similar object should be equal", first.equals(second));
     }
 
     @Test
-    public void same_hash_for_equal_paragraphs() {
-        Paragraph first = new Paragraph(key, sentence);
-        Paragraph second = new Paragraph(key, sentence);
+    public void same_hash_for_equal_paragraphs() { // NOPMD
+        Paragraph first = new Paragraph(KEY, SENTENCE);
+        Paragraph second = new Paragraph(KEY, SENTENCE);
 
         assertThat(first.hashCode(), is(second.hashCode()));
     }
