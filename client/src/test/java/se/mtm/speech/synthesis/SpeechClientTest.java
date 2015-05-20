@@ -1,6 +1,5 @@
 package se.mtm.speech.synthesis;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.client.Client;
