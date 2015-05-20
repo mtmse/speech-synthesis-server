@@ -29,6 +29,7 @@ public class SynthesizeResource {
             LOGGER.info("Received: <" + sentance + ">"); // NOPMD
         }
 
+        // todo implement a proper key
         String key = "17";
         Paragraph paragraph = new Paragraph(key, sentance);
 
@@ -38,7 +39,12 @@ public class SynthesizeResource {
             pause();
         }
 
-        return synthesizer.getParagraph(key);
+        Paragraph result = synthesizer.getParagraph(key);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Returned: <" + result + ">"); // NOPMD
+        }
+
+        return result;
     }
 
     private void pause() {
