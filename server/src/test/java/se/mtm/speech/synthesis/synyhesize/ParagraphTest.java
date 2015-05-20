@@ -2,7 +2,7 @@ package se.mtm.speech.synthesis.synyhesize;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -34,7 +34,7 @@ public class ParagraphTest {
         Paragraph first = new Paragraph(KEY, SENTENCE);
         Paragraph second = new Paragraph(KEY, SENTENCE);
 
-        assertTrue("Similar object should be equal", first.equals(second));
+        assertEquals("Similar object should be equal", first, second);
     }
 
     @Test
