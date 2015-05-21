@@ -56,7 +56,7 @@ public class SpeechSynthesizerTest {
     public void return_paragraph_not_ready_when_it_cant_be_found_in_out() { // NOPMD
         Paragraph actual = speechSynthesizer.isParagraphReady("");
 
-        assertTrue(actual instanceof ParagraphNotReady);
+        assertTrue("Expected not ready", actual instanceof ParagraphNotReady);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class SpeechSynthesizerTest {
 
         Paragraph actual = speechSynthesizer.isParagraphReady(key);
 
-        assertTrue(actual instanceof ParagraphReady);
+        assertTrue("Expected ready",actual instanceof ParagraphReady);
     }
 
     @Test
