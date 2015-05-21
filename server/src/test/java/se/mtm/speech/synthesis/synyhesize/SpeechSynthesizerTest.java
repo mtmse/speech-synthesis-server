@@ -35,7 +35,7 @@ public class SpeechSynthesizerTest {
             Thread.sleep(1);
         }
 
-        ParagraphInterface actual = speechSynthesizer.popParagraph(key);
+        ParagraphReady actual = speechSynthesizer.popParagraph(key);
 
         assertTrue("Expected to be able to deliver a paragraphReady for synthetization", actualDelivery);
         assertThat(actual, is(paragraphReady));
@@ -54,7 +54,7 @@ public class SpeechSynthesizerTest {
 
     @Test
     public void return_paragraph_not_ready_when_it_cant_be_found_in_out() { // NOPMD
-        ParagraphInterface actual = speechSynthesizer.isParagraphReady("");
+        Paragraph actual = speechSynthesizer.isParagraphReady("");
 
         assertTrue(actual instanceof ParagraphNotReady);
     }
@@ -66,7 +66,7 @@ public class SpeechSynthesizerTest {
         ParagraphReady paragraph = new ParagraphReady(key, sentence);
         speechSynthesizer.addSynthesizedParagraph(paragraph);
 
-        ParagraphInterface actual = speechSynthesizer.isParagraphReady(key);
+        Paragraph actual = speechSynthesizer.isParagraphReady(key);
 
         assertTrue(actual instanceof ParagraphReady);
     }

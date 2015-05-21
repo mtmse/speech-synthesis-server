@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.beans.Transient;
 import java.util.Arrays;
 
-public class ParagraphReady implements ParagraphInterface {
+public class ParagraphReady implements Paragraph {
     @JsonIgnore
     private String key;
 

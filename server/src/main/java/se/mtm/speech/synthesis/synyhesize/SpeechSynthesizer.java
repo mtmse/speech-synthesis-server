@@ -51,7 +51,7 @@ public class SpeechSynthesizer implements Managed {
         out.put(paragraphReady.getKey(), paragraphReady);
     }
 
-    public ParagraphInterface isParagraphReady(String key) {
+    public Paragraph isParagraphReady(String key) {
         ParagraphReady candidate = out.get(key);
         if (candidate == null) {
             return new ParagraphNotReady();

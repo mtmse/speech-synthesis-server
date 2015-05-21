@@ -36,7 +36,7 @@ public class SynthesizeResourceTest {
 
         SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 17);
 
-        ParagraphInterface actual = synthesizeRest.synthesize(sentence);
+        Paragraph actual = synthesizeRest.synthesize(sentence);
 
         assertTrue("The synthesise should have timed out", actual instanceof ParagraphTimedOut);
     }

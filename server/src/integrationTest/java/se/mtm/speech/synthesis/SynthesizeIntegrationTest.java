@@ -17,7 +17,6 @@ public class SynthesizeIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void synthesize_a_sentence() throws Exception {
         SpeechClient client = new SpeechClient("localhost", port);
 

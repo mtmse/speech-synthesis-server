@@ -21,13 +21,13 @@ public class SynthesizeResource {
 
     public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout) {
         this.synthesizer = synthesizer;
-        this.defaultTimeout = defaultTimeout;
+        this.defaultTimeout = defaultTimeout * 1000;
     }
 
     @GET
     @Timed
-    // todo add an optional parameter, ttl for the paragraph
-    public ParagraphInterface synthesize(@QueryParam("sentence") String sentance) {
+    public Paragraph synthesize(@QueryParam("sentence") String sentance) {
+        // todo add an optional parameter, ttl for the paragraph
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Received: <" + sentance + ">"); // NOPMD
         }
@@ -47,7 +47,7 @@ public class SynthesizeResource {
             pause();
         }
 
-        ParagraphInterface result = synthesizer.popParagraph(key);
+        Paragraph result = synthesizer.popParagraph(key);
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Returned: <" + result + ">"); // NOPMD
