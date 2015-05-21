@@ -12,13 +12,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
-    private static final int CAPACITY = 17;
 
     private final Queue<Paragraph> inQue;
     private final Map<String, Paragraph> out;
 
-    public SpeechSynthesizer() {
-        inQue = new LinkedBlockingQueue<>(CAPACITY);
+    public SpeechSynthesizer(int capacity) {
+        inQue = new LinkedBlockingQueue<>(capacity);
         out = new ConcurrentHashMap<>();
     }
 
@@ -34,8 +33,14 @@ public class SpeechSynthesizer implements Managed {
         // todo shutdown the Filibuster pool
     }
 
+    /**
+     * Add a paragraph for synthesising
+     *
+     * @param paragraph a paragraph to be synthesised
+     * @return true if the paragraph was added, false if it couldn't be added
+     */
     public boolean addParagraph(Paragraph paragraph) {
-        return inQue.add(paragraph);
+        return inQue.offer(paragraph);
     }
 
     private Paragraph getNext() {
