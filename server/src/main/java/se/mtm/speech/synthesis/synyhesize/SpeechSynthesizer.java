@@ -13,8 +13,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
 
-    private final Queue<Paragraph> inQue;
-    private final Map<String, Paragraph> out;
+    private final Queue<ParagraphReady> inQue;
+    private final Map<String, ParagraphReady> out;
 
     public SpeechSynthesizer(int capacity) {
         inQue = new LinkedBlockingQueue<>(capacity);
@@ -34,25 +34,25 @@ public class SpeechSynthesizer implements Managed {
     }
 
     /**
-     * Add a paragraph for synthesising
+     * Add a paragraphReady for synthesising
      *
-     * @param paragraph a paragraph to be synthesised
-     * @return true if the paragraph was added, false if it couldn't be added
+     * @param paragraphReady a paragraphReady to be synthesised
+     * @return true if the paragraphReady was added, false if it couldn't be added
      */
-    public boolean addParagraph(Paragraph paragraph) {
-        return inQue.offer(paragraph);
+    public boolean addParagraph(ParagraphReady paragraphReady) {
+        return inQue.offer(paragraphReady);
     }
 
-    private Paragraph getNext() {
+    private ParagraphReady getNext() {
         return inQue.poll();
     }
 
-    private void addSynthesizedParagraph(Paragraph paragraph) {
-        out.put(paragraph.getKey(), paragraph);
+    void addSynthesizedParagraph(ParagraphReady paragraphReady) {
+        out.put(paragraphReady.getKey(), paragraphReady);
     }
 
-    public Paragraph getParagraph(String key) {
-        Paragraph candidate = out.get(key);
+    public ParagraphInterface isParagraphReady(String key) {
+        ParagraphReady candidate = out.get(key);
         if (candidate == null) {
             return new ParagraphNotReady();
         }
@@ -60,27 +60,38 @@ public class SpeechSynthesizer implements Managed {
         return candidate;
     }
 
+    public ParagraphReady popParagraph(String key) {
+        ParagraphReady paragraph = (ParagraphReady) isParagraphReady(key);
+        out.remove(key);
+
+        return paragraph;
+    }
+
+    int outSize(){
+        return out.size();
+    }
+
     private class Filibuster implements Runnable {
         @Override
         public void run() {
-            Paragraph paragraph;
-            while ((paragraph = getNext()) == null) {
+            ParagraphReady paragraphReady;
+            while ((paragraphReady = getNext()) == null) {
                 pause(1);
             }
 
-            Paragraph synthesized = synthesize(paragraph);
+            ParagraphReady synthesized = synthesize(paragraphReady);
 
             simulateSlowExecution();
 
             addSynthesizedParagraph(synthesized);
         }
 
-        private Paragraph synthesize(Paragraph paragraph) {
-            String key = paragraph.getKey();
-            String sentence = paragraph.getSentence();
+        private ParagraphReady synthesize(ParagraphReady paragraphReady) {
+            String key = paragraphReady.getKey();
+            String sentence = paragraphReady.getSentence();
             byte[] sound = sentence.getBytes();
 
-            return new Paragraph(key, sentence, sound);
+            return new ParagraphReady(key, sentence, sound);
         }
 
         private void pause(int time) {

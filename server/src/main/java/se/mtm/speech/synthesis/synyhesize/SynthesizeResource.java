@@ -17,28 +17,38 @@ public class SynthesizeResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
 
     private final SpeechSynthesizer synthesizer;
+    private final long defaultTimeout;
 
-    public SynthesizeResource(SpeechSynthesizer synthesizer) {
+    public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout) {
         this.synthesizer = synthesizer;
+        this.defaultTimeout = defaultTimeout;
     }
 
     @GET
     @Timed
-    public Paragraph synthesize(@QueryParam("sentence") String sentance) {
+    // todo add an optional parameter, ttl for the paragraph
+    public ParagraphInterface synthesize(@QueryParam("sentence") String sentance) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Received: <" + sentance + ">"); // NOPMD
         }
 
         String key = "synthesize-" + Thread.currentThread().getId();
-        Paragraph paragraph = new Paragraph(key, sentance);
+        ParagraphReady paragraphReady = new ParagraphReady(key, sentance);
 
-        synthesizer.addParagraph(paragraph);
+        long timeout = System.currentTimeMillis() + defaultTimeout;
 
-        while (synthesizer.getParagraph(key) instanceof ParagraphNotReady) {
+        synthesizer.addParagraph(paragraphReady);
+
+        while (synthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
+            if (System.currentTimeMillis() > timeout) {
+                return new ParagraphTimedout();
+            }
+
             pause();
         }
 
-        Paragraph result = synthesizer.getParagraph(key);
+        ParagraphInterface result = synthesizer.popParagraph(key);
+
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Returned: <" + result + ">"); // NOPMD
         }

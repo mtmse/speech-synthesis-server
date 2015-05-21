@@ -23,10 +23,11 @@ public class Main extends Application<Configuration> { // NOPMD
         environment.healthChecks().register("HealthCheck", new HealthCheck());
 
         int capacity = configuration.getCapacity();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity );
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity);
         environment.lifecycle().manage(speechSynthesizer);
 
-        SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer);
+        long defaultTimeout = configuration.getTimeout();
+        SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer, defaultTimeout);
         environment.jersey().register(synthesizer);
 
         this.configuration = configuration;

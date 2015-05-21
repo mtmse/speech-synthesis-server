@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -16,7 +17,8 @@ public class SynthesizeIntegrationTest {
     }
 
     @Test
-    public void synthesize3() throws Exception {
+    @Ignore
+    public void synthesize_a_sentence() throws Exception {
         SpeechClient client = new SpeechClient("localhost", port);
 
         Paragraph actual = client.synthesise("Hello Filibuster!");

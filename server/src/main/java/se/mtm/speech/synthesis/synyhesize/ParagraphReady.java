@@ -6,28 +6,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.beans.Transient;
 import java.util.Arrays;
 
-public class Paragraph {
+public class ParagraphReady implements ParagraphInterface {
     @JsonIgnore
     private String key;
+
+    @JsonIgnore
+    private final long timeToLive = -1; // todo should be possible to set from the client, how can I get that to work
 
     private String sentence;
     private byte[] sound;
 
-    public Paragraph() {
+    public ParagraphReady() {
         // is this enough for pmd?
     }
 
-    public Paragraph(String key, String sentence) {
+    public ParagraphReady(String key, String sentence) {
         this.key = key;
         this.sentence = sentence;
     }
 
-    public Paragraph(String sentence, byte[] sound) {
+    public ParagraphReady(String sentence, byte[] sound) {
         this.sentence = sentence;
         this.sound =  Arrays.copyOf(sound, sound.length);
     }
 
-    public Paragraph(String key, String sentence, byte[] sound) {
+    public ParagraphReady(String key, String sentence, byte[] sound) {
         this.key = key;
         this.sentence = sentence;
         this.sound =  Arrays.copyOf(sound, sound.length);
@@ -36,6 +39,10 @@ public class Paragraph {
     @Transient
     public String getKey() {
         return key;
+    }
+
+    public long getTimeToLive() {
+        return timeToLive;
     }
 
     @JsonProperty
@@ -54,9 +61,9 @@ public class Paragraph {
             return true;
         }
         if (other == null || getClass() != other.getClass()) {return false;}
-        Paragraph paragraph = (Paragraph) other;
-        return java.util.Objects.equals(key, paragraph.key) &&
-                java.util.Objects.equals(sentence, paragraph.sentence);
+        ParagraphReady paragraphReady = (ParagraphReady) other;
+        return java.util.Objects.equals(key, paragraphReady.key) &&
+                java.util.Objects.equals(sentence, paragraphReady.sentence);
     }
 
     @Override
@@ -66,7 +73,7 @@ public class Paragraph {
 
     @Override
     public String toString() {
-        return "Paragraph{" +
+        return "ParagraphReady{" +
                 "key='" + key + '\'' +
                 ", sentence='" + sentence + '\'' +
                 '}';

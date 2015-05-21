@@ -1,4 +1,4 @@
 package se.mtm.speech.synthesis.synyhesize;
 
-public class ParagraphNotReady extends Paragraph {
+public class ParagraphNotReady implements ParagraphInterface {
 }

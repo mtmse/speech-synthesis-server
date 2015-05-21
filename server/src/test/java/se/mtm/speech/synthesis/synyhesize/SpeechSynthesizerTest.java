@@ -14,7 +14,8 @@ public class SpeechSynthesizerTest {
 
     @Before
     public void setUp() throws Exception {
-        speechSynthesizer = new SpeechSynthesizer(1);
+        int capacity = 1;
+        speechSynthesizer = new SpeechSynthesizer(capacity);
         speechSynthesizer.start();
     }
 
@@ -26,32 +27,64 @@ public class SpeechSynthesizerTest {
     @Test
     public void synthezise_paragraph() throws Exception { // NOPMD
         String key = "17";
-        Paragraph paragraph = new Paragraph(key, "A sentence to be synthesized");
+        ParagraphReady paragraphReady = new ParagraphReady(key, "A sentence to be synthesized");
 
-        boolean actualDelivery = speechSynthesizer.addParagraph(paragraph);
+        boolean actualDelivery = speechSynthesizer.addParagraph(paragraphReady);
 
-        while (speechSynthesizer.getParagraph(key) instanceof ParagraphNotReady) {
+        while (speechSynthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
             Thread.sleep(1);
         }
 
-        Paragraph actualParagraph = speechSynthesizer.getParagraph(key);
+        ParagraphInterface actual = speechSynthesizer.popParagraph(key);
 
-        assertTrue("Expected to be able to deliver a paragraph for synthetization", actualDelivery);
-        assertThat(actualParagraph, is(paragraph));
+        assertTrue("Expected to be able to deliver a paragraphReady for synthetization", actualDelivery);
+        assertThat(actual, is(paragraphReady));
     }
 
     @Test
-    public void add_too_many_sentences_and_verify_that_que_is_full() {
-        Paragraph paragraph = new Paragraph("17", "A sentence to be synthesized");
+    public void add_too_many_sentences_and_verify_that_que_is_full() { // NOPMD
+        ParagraphReady paragraphReady = new ParagraphReady("17", "A sentence to be synthesized");
 
-        boolean firstDelivery = speechSynthesizer.addParagraph(paragraph);
-        boolean secondDelivery = speechSynthesizer.addParagraph(paragraph);
+        boolean firstDelivery = speechSynthesizer.addParagraph(paragraphReady);
+        boolean secondDelivery = speechSynthesizer.addParagraph(paragraphReady);
 
         assertTrue("The que can accept one item", firstDelivery);
         assertFalse("The que can accept one item", secondDelivery);
     }
 
+    @Test
+    public void return_paragraph_not_ready_when_it_cant_be_found_in_out() { // NOPMD
+        ParagraphInterface actual = speechSynthesizer.isParagraphReady("");
 
-    // todo add a paragraph that isn't returned in time. A timeout should not be handled by returning null. Return a "timeout pargraph" instead
+        assertTrue(actual instanceof ParagraphNotReady);
+    }
+
+    @Test
+    public void return_paragraph_ready_when_it_can_be_found_in_out() { // NOPMD
+        String key = "42";
+        String sentence = "The brown fox...";
+        ParagraphReady paragraph = new ParagraphReady(key, sentence);
+        speechSynthesizer.addSynthesizedParagraph(paragraph);
+
+        ParagraphInterface actual = speechSynthesizer.isParagraphReady(key);
+
+        assertTrue(actual instanceof ParagraphReady);
+    }
+
+    @Test
+    public void remove_paragraph_when_it_is_popped() { // NOPMD
+        String key = "42";
+        String sentence = "The brown fox...";
+        ParagraphReady paragraph = new ParagraphReady(key, sentence);
+
+        assertThat(speechSynthesizer.outSize(), is(0));
+
+        speechSynthesizer.addSynthesizedParagraph(paragraph);
+        assertThat(speechSynthesizer.outSize(), is(1));
+
+        speechSynthesizer.popParagraph(key);
+        assertThat(speechSynthesizer.outSize(), is(0));
+    }
+
     // todo add many paragraphs and verify the are consumed after a while
 }
