@@ -38,6 +38,7 @@ check {
 }
 
 shadowJar {
+    dependsOn 'build'
     mergeServiceFiles()
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
