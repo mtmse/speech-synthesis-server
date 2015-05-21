@@ -29,8 +29,7 @@ public class SynthesizeResource {
             LOGGER.info("Received: <" + sentance + ">"); // NOPMD
         }
 
-        // todo implement a proper key
-        String key = "17";
+        String key = "synthesize-" + Thread.currentThread().getId();
         Paragraph paragraph = new Paragraph(key, sentance);
 
         synthesizer.addParagraph(paragraph);
