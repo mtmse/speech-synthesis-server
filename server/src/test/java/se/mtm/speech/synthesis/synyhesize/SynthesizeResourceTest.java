@@ -28,7 +28,7 @@ public class SynthesizeResourceTest {
     }
 
     @Test
-    public void synthesise_a_sentence_and_fail_with_a_timeout() throws Exception {
+    public void synthesise_a_sentence_and_fail_with_a_timeout() throws Exception { // NOPMD
         String sentence = "The brown fox jumped over the lazy dog";
 
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);

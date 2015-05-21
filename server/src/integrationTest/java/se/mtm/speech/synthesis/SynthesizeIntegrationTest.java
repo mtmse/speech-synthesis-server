@@ -17,7 +17,7 @@ public class SynthesizeIntegrationTest {
     }
 
     @Test
-    public void synthesize_a_sentence() throws Exception {
+    public void synthesize_a_sentence() throws Exception { // NOPMD
         SpeechClient client = new SpeechClient("localhost", port);
 
         Paragraph actual = client.synthesise("Hello Filibuster!");
