@@ -41,7 +41,7 @@ public class SynthesizeResource {
 
         while (synthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
             if (System.currentTimeMillis() > timeout) {
-                return new ParagraphTimedout();
+                return new ParagraphTimedOutSpelling();
             }
 
             pause();

@@ -38,6 +38,6 @@ public class SynthesizeResourceTest {
 
         ParagraphInterface actual = synthesizeRest.synthesize(sentence);
 
-        assertTrue("The synthesise should have timed out", actual instanceof ParagraphTimedout);
+        assertTrue("The synthesise should have timed out", actual instanceof ParagraphTimedOutSpelling);
     }
 }
