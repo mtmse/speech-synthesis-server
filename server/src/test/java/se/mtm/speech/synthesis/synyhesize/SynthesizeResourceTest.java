@@ -34,7 +34,7 @@ public class SynthesizeResourceTest {
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
         when(synthesizer.isParagraphReady(anyString())).thenReturn(new ParagraphNotReady());
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 17);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0);
 
         Paragraph actual = synthesizeRest.synthesize(sentence);
 
