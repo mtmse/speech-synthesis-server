@@ -23,7 +23,9 @@ public class Main extends Application<Configuration> { // NOPMD
         environment.healthChecks().register("HealthCheck", new HealthCheck());
 
         int capacity = configuration.getCapacity();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity);
+        int filibusters = configuration.getFilibusters();
+        int idleTime = configuration.getIdleTime();
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, filibusters, idleTime, true);
         environment.lifecycle().manage(speechSynthesizer);
 
         long defaultTimeout = configuration.getTimeout();

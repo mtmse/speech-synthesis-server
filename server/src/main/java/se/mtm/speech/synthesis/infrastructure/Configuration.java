@@ -11,4 +11,14 @@ public class Configuration extends io.dropwizard.Configuration {
         // todo get from the config file
         return 17;
     }
+
+    public int getFilibusters() {
+        // todo get from the config file
+        return 10;
+    }
+
+    public int getIdleTime() {
+        // todo get from the config file
+        return 100;
+    }
 }

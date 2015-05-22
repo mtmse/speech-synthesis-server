@@ -6,31 +6,54 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
-
+    private final Dispatcher dispatcher;
     private final Queue<ParagraphReady> inQue;
     private final Map<String, ParagraphReady> out;
+    private final int filibusters;
 
-    public SpeechSynthesizer(int capacity) {
-        inQue = new LinkedBlockingQueue<>(capacity);
+    public SpeechSynthesizer(int inCapacity, int filibusters, long idleTime, boolean slow) {
+        this.filibusters = filibusters;
+
+        FilibusterPool pool = new FilibusterPool(this, filibusters, slow);
+
+        dispatcher = new Dispatcher(pool, this, idleTime);
+        inQue = new LinkedBlockingQueue<>(inCapacity);
         out = new ConcurrentHashMap<>();
     }
 
     @Override
     public void start() throws Exception {
-        Filibuster filibuster = new Filibuster();
-        Thread thread = new Thread(filibuster);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Starting speech synthesis server with " + filibusters + " Filibusters"); // NOPMD
+        }
+
+        Thread thread = new Thread(dispatcher);
         thread.start();
+
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Started speech synthesis server"); // NOPMD
+        }
     }
 
     @Override
     public void stop() throws Exception {
-        // todo shutdown the Filibuster pool
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Shutting down speech synthesis server"); // NOPMD
+        }
+
+        dispatcher.shutDown();
+        while (dispatcher.isRunning()) {
+            pause();
+        }
+
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Speech synthesiser shut down"); // NOPMD
+        }
     }
 
     /**
@@ -43,7 +66,11 @@ public class SpeechSynthesizer implements Managed {
         return inQue.offer(paragraphReady);
     }
 
-    private ParagraphReady getNext() {
+    boolean peekNext() {
+        return inQue.peek() != null;
+    }
+
+    ParagraphReady getNext() {
         return inQue.poll();
     }
 
@@ -51,7 +78,7 @@ public class SpeechSynthesizer implements Managed {
         out.put(paragraphReady.getKey(), paragraphReady);
     }
 
-    public Paragraph isParagraphReady(String key) {
+    Paragraph isParagraphReady(String key) {
         ParagraphReady candidate = out.get(key);
         if (candidate == null) {
             return new ParagraphNotReady();
@@ -60,56 +87,26 @@ public class SpeechSynthesizer implements Managed {
         return candidate;
     }
 
-    public ParagraphReady popParagraph(String key) {
+    ParagraphReady popParagraph(String key) {
         ParagraphReady paragraph = (ParagraphReady) isParagraphReady(key);
         out.remove(key);
 
         return paragraph;
     }
 
-    int outSize(){
+    int outSize() {
         return out.size();
     }
 
-    private class Filibuster implements Runnable {
-        @Override
-        public void run() {
-            ParagraphReady paragraphReady;
-            while ((paragraphReady = getNext()) == null) {
-                pause(1);
-            }
+    public int inQueSize() {
+        return inQue.size();
+    }
 
-            ParagraphReady synthesized = synthesize(paragraphReady);
-
-            simulateSlowExecution();
-
-            addSynthesizedParagraph(synthesized);
-        }
-
-        private ParagraphReady synthesize(ParagraphReady paragraphReady) {
-            String key = paragraphReady.getKey();
-            String sentence = paragraphReady.getSentence();
-            byte[] sound = sentence.getBytes();
-
-            return new ParagraphReady(key, sentence, sound);
-        }
-
-        private void pause(int time) {
-            try {
-                Thread.sleep(time);
-            } catch (InterruptedException e) {
-                LOGGER.warn(e.getMessage());
-            }
-        }
-
-        private void simulateSlowExecution() {
-            int min = 10;
-            int max = 200;
-
-            Random random = new Random();
-            int sleepTime = random.nextInt(max) + min;
-
-            pause(sleepTime);
+    private void pause() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            LOGGER.warn(e.getMessage());
         }
     }
 }

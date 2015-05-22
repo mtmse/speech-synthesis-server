@@ -15,7 +15,9 @@ public class SpeechSynthesizerTest {
     @Before
     public void setUp() throws Exception {
         int capacity = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity);
+        int poolSize = 1;
+        int idleTime = 1;
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, idleTime, false);
         speechSynthesizer.start();
     }
 
@@ -68,7 +70,7 @@ public class SpeechSynthesizerTest {
 
         Paragraph actual = speechSynthesizer.isParagraphReady(key);
 
-        assertTrue("Expected ready",actual instanceof ParagraphReady);
+        assertTrue("Expected ready", actual instanceof ParagraphReady);
     }
 
     @Test
@@ -86,5 +88,45 @@ public class SpeechSynthesizerTest {
         assertThat(speechSynthesizer.outSize(), is(0));
     }
 
-    // todo add many paragraphs and verify the are consumed after a while
+    @Test
+    public void add_many_paragraphs_and_verify_that_they_are_synthesised_withinh_the_timeout_period() throws Exception { // NOPMD
+        int inCapacity = 17;
+        int poolSize = 5;
+        int idleTime = 1;
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, idleTime, false);
+        speechSynthesizer.start();
+        int expectedSize = 42;
+
+        int timeout = 5000;
+        long stopTime = System.currentTimeMillis() + timeout;
+
+        addParagraphsForSynthetisation(timeout, stopTime, expectedSize);
+        waitForParagraphsToBeSynthesised(timeout, stopTime, expectedSize);
+
+        assertThat(speechSynthesizer.outSize(), is(expectedSize));
+        assertThat(speechSynthesizer.inQueSize(), is(0));
+    }
+
+    private void addParagraphsForSynthetisation(int timeout, long stopTime, int expectedSize) throws InterruptedException {
+        for (int counter = 0; counter < expectedSize; counter++) {
+            String key = "" + counter;
+            String sentence = "The brown fox... " + counter;
+            ParagraphReady paragraph = new ParagraphReady(key, sentence);
+            while (!speechSynthesizer.addParagraph(paragraph)) {
+                assertTrue("The paragraphs should have been added withing " + timeout + "ms", System.currentTimeMillis() < stopTime);
+                pause();
+            }
+        }
+    }
+
+    private void waitForParagraphsToBeSynthesised(int timeout, long stopTime, int expectedSize) throws InterruptedException {
+        while (speechSynthesizer.outSize() != expectedSize) {
+            assertTrue("The paragraphs should have been consumed withing " + timeout + "ms", System.currentTimeMillis() < stopTime);
+            pause();
+        }
+    }
+
+    private void pause() throws InterruptedException {
+        Thread.sleep(5);
+    }
 }
