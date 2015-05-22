@@ -12,27 +12,27 @@ public class ConfigurationTest {
     public void get_capacity() { // NOPMD
         int expected = 17;
         int actual = configuration.getCapacity();
-        assertThat(actual, is(expected));
+        assertThat(actual, is(expected)); // NOPMD
     }
 
     @Test
     public void get_filibusters() { // NOPMD
         int expected = 6;
         int actual = configuration.getFilibusters();
-        assertThat(actual, is(expected));
+        assertThat(actual, is(expected)); // NOPMD
     }
 
     @Test
     public void get_idle_time() { // NOPMD
         int expected = 100;
         int actual = configuration.getIdleTime();
-        assertThat(actual, is(expected));
+        assertThat(actual, is(expected)); // NOPMD
     }
 
     @Test
     public void get_timeout() { // NOPMD
         int expected = 30;
         int actual = configuration.getTimeout();
-        assertThat(actual, is(expected));
+        assertThat(actual, is(expected)); // NOPMD
     }
 }

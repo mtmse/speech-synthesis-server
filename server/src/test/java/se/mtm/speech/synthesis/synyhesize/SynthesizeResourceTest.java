@@ -24,7 +24,7 @@ public class SynthesizeResourceTest {
 
         ParagraphReady actual = (ParagraphReady) synthesizeRest.synthesize(sentence);
 
-        assertThat(actual, is(expected));
+        assertThat(actual, is(expected)); // NOPMD
     }
 
     @Test

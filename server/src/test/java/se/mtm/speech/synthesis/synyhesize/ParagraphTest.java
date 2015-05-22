@@ -14,8 +14,8 @@ public class ParagraphTest {
     public void set_key_and_sentence() { // NOPMD
         ParagraphReady paragraphReady = new ParagraphReady(KEY, SENTENCE);
 
-        assertThat(paragraphReady.getKey(), is(KEY));
-        assertThat(paragraphReady.getSentence(), is(SENTENCE));
+        assertThat(paragraphReady.getKey(), is(KEY)); // NOPMD
+        assertThat(paragraphReady.getSentence(), is(SENTENCE)); // NOPMD
     }
 
     @Test
@@ -24,9 +24,9 @@ public class ParagraphTest {
 
         ParagraphReady paragraphReady = new ParagraphReady(KEY, SENTENCE, sound);
 
-        assertThat(paragraphReady.getKey(), is(KEY));
-        assertThat(paragraphReady.getSentence(), is(SENTENCE));
-        assertThat(paragraphReady.getSound(), is(sound));
+        assertThat(paragraphReady.getKey(), is(KEY)); // NOPMD
+        assertThat(paragraphReady.getSentence(), is(SENTENCE)); // NOPMD
+        assertThat(paragraphReady.getSound(), is(sound)); // NOPMD
     }
 
     @Test
@@ -42,6 +42,6 @@ public class ParagraphTest {
         ParagraphReady first = new ParagraphReady(KEY, SENTENCE);
         ParagraphReady second = new ParagraphReady(KEY, SENTENCE);
 
-        assertThat(first.hashCode(), is(second.hashCode()));
+        assertThat(first.hashCode(), is(second.hashCode())); // NOPMD
     }
 }

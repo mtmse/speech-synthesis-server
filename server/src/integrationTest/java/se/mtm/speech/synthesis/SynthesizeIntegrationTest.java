@@ -21,6 +21,6 @@ public class SynthesizeIntegrationTest {
 
         Paragraph actual = client.synthesise("Hello Filibuster!");
 
-        assertThat(actual.getSentence(), is("Hello Filibuster!"));
+        assertThat(actual.getSentence(), is("Hello Filibuster!")); // NOPMD
     }
 }

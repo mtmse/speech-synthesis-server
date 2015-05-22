@@ -40,7 +40,7 @@ public class SpeechSynthesizerTest {
         ParagraphReady actual = speechSynthesizer.popParagraph(key);
 
         assertTrue("Expected to be able to deliver a paragraphReady for synthetization", actualDelivery);
-        assertThat(actual, is(paragraphReady));
+        assertThat(actual, is(paragraphReady)); // NOPMD
     }
 
     @Test
@@ -79,13 +79,13 @@ public class SpeechSynthesizerTest {
         String sentence = "The brown fox...";
         ParagraphReady paragraph = new ParagraphReady(key, sentence);
 
-        assertThat(speechSynthesizer.outSize(), is(0));
+        assertThat(speechSynthesizer.outSize(), is(0)); // NOPMD
 
         speechSynthesizer.addSynthesizedParagraph(paragraph);
-        assertThat(speechSynthesizer.outSize(), is(1));
+        assertThat(speechSynthesizer.outSize(), is(1)); // NOPMD
 
         speechSynthesizer.popParagraph(key);
-        assertThat(speechSynthesizer.outSize(), is(0));
+        assertThat(speechSynthesizer.outSize(), is(0)); // NOPMD
     }
 
     @Test
@@ -103,8 +103,8 @@ public class SpeechSynthesizerTest {
         addParagraphsForSynthetisation(timeout, stopTime, expectedSize);
         waitForParagraphsToBeSynthesised(timeout, stopTime, expectedSize);
 
-        assertThat(speechSynthesizer.outSize(), is(expectedSize));
-        assertThat(speechSynthesizer.inQueSize(), is(0));
+        assertThat(speechSynthesizer.outSize(), is(expectedSize)); // NOPMD
+        assertThat(speechSynthesizer.inQueSize(), is(0)); // NOPMD
     }
 
     private void addParagraphsForSynthetisation(int timeout, long stopTime, int expectedSize) throws InterruptedException {

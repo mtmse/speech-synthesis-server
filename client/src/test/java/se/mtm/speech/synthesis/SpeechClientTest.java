@@ -36,8 +36,8 @@ public class SpeechClientTest {
 
         Paragraph actual = client.synthesise(expectedSentence);
 
-        assertThat(actual.getSentence(), is(expectedSentence));
-        assertThat(actual.getSound(), is(expectedSentence.getBytes()));
+        assertThat(actual.getSentence(), is(expectedSentence)); // NOPMD
+        assertThat(actual.getSound(), is(expectedSentence.getBytes()));  // NOPMD
 
         verify(httpClient).target("http://localhost:80");
         verify(webTarget).path("synthesize");
