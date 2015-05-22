@@ -8,7 +8,7 @@ import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
 
 public class Main extends Application<Configuration> {
-    public static void main(String[] args) throws Exception {
+    public static void main(String... args) throws Exception {
         new Main().run(args);
     }
 

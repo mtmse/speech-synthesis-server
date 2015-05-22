@@ -8,10 +8,10 @@ import java.util.Arrays;
 
 public class ParagraphReady implements Paragraph {
     @JsonIgnore
-    private String key;
+    private String key; // NOPMD
 
     @JsonIgnore
-    private final long timeToLive = -1; // todo should be possible to set from the client, how can I get that to work
+    private final long timeToLive = -1; // NOPMD // todo should be possible to set from the client, how can I get that to work
 
     private String sentence;
     private byte[] sound;
@@ -25,7 +25,7 @@ public class ParagraphReady implements Paragraph {
         this.sentence = sentence;
     }
 
-    public ParagraphReady(String sentence, byte[] sound) {
+    public ParagraphReady(String sentence, byte... sound) {
         this.sentence = sentence;
         this.sound =  Arrays.copyOf(sound, sound.length);
     }
