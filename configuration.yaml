@@ -1,3 +1,8 @@
+capacity: 10
+filibusters: 6
+idleTime: 100 # milli seconds
+timeout: 30 # seconds
+
 server:
   applicationConnectors:
     - type: http

@@ -1,24 +1,34 @@
 package se.mtm.speech.synthesis.infrastructure;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Configuration extends io.dropwizard.Configuration {
 
+    @JsonProperty
+    private int capacity = 17; // NOPMD
+
+    @JsonProperty
+    private int timeout = 30; // NOPMD
+
+    @JsonProperty
+    private int filibusters = 6; // NOPMD
+
+    @JsonProperty
+    private int idleTime = 100; // NOPMD
+
     public int getTimeout() {
-        // todo get from the config file
-        return 30;
+        return timeout;
     }
 
     public int getCapacity() {
-        // todo get from the config file
-        return 17;
+        return capacity;
     }
 
     public int getFilibusters() {
-        // todo get from the config file
-        return 10;
+        return filibusters;
     }
 
     public int getIdleTime() {
-        // todo get from the config file
-        return 100;
+        return idleTime;
     }
 }
