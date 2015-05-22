@@ -9,7 +9,7 @@ import se.mtm.speech.synthesis.Main;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class ConfigurationTest {
+public class ConfigurationIntegrationTest {
 
     @ClassRule
     public static final DropwizardAppRule<Configuration> APPLICATION =
