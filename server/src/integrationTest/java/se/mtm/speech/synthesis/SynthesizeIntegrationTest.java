@@ -1,7 +1,6 @@
 package se.mtm.speech.synthesis;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
