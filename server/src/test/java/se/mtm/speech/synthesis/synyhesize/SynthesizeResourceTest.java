@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 
 public class SynthesizeResourceTest {
     @Test
-    public void synthesize_a_sentence() { // NOPMD
+    public void synthesize_a_sentence() {
         String sentence = "The brown fox jumped over the lazy dog";
         byte[] sound = sentence.getBytes(Charset.forName("UTF-8"));
         ParagraphReady expected = new ParagraphReady(sentence, sound);
@@ -24,11 +24,11 @@ public class SynthesizeResourceTest {
 
         ParagraphReady actual = (ParagraphReady) synthesizeRest.synthesize(sentence);
 
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void synthesise_a_sentence_and_fail_with_a_timeout() throws Exception { // NOPMD
+    public void synthesise_a_sentence_and_fail_with_a_timeout() throws Exception {
         String sentence = "The brown fox jumped over the lazy dog";
 
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);

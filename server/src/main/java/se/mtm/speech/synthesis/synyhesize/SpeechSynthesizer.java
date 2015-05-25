@@ -28,24 +28,25 @@ public class SpeechSynthesizer implements Managed {
 
     @Override
     public void start() throws Exception {
-        LOGGER.info("Starting speech synthesis server with " + filibusters + " Filibusters"); // NOPMD
+        String msg = "Starting speech synthesis server with " + filibusters + " Filibusters";
+        LOGGER.info(msg);
 
         Thread thread = new Thread(dispatcher);
         thread.start();
 
-        LOGGER.info("Started speech synthesis server"); // NOPMD
+        LOGGER.info("Started speech synthesis server");
     }
 
     @Override
     public void stop() throws Exception {
-        LOGGER.info("Shutting down speech synthesis server"); // NOPMD
+        LOGGER.info("Shutting down speech synthesis server");
 
         dispatcher.shutDown();
         while (dispatcher.isRunning()) {
             pause();
         }
 
-        LOGGER.info("Speech synthesiser shut down"); // NOPMD
+        LOGGER.info("Speech synthesiser shut down");
     }
 
     /**

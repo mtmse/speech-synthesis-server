@@ -9,30 +9,30 @@ public class ConfigurationTest {
     private final Configuration configuration = new Configuration();
 
     @Test
-    public void get_capacity() { // NOPMD
+    public void get_capacity() {
         int expected = 17;
         int actual = configuration.getCapacity();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_filibusters() { // NOPMD
+    public void get_filibusters() {
         int expected = 6;
         int actual = configuration.getFilibusters();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_idle_time() { // NOPMD
+    public void get_idle_time() {
         int expected = 100;
         int actual = configuration.getIdleTime();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_timeout() { // NOPMD
+    public void get_timeout() {
         int expected = 30;
         int actual = configuration.getTimeout();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 }

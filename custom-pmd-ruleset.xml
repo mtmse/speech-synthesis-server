@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="ExampleRuleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+    <description>This ruleset should turn off some things</description>
+
+
+    <rule ref="rulesets/java/design.xml">
+        <exclude name="UncommentedEmptyConstructor"/>
+        <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
+    </rule>
+
+    <rule ref="rulesets/java/imports.xml">
+    </rule>
+
+    <rule ref="rulesets/java/imports.xml/TooManyStaticImports">
+        <properties>
+            <property name="maximumStaticImports" value="7"/>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/java/junit.xml">
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+    </rule>
+
+    <rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts">
+        <properties>
+            <property name="maximumAsserts" value="3"/>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/java/logging-java.xml">
+        <exclude name="GuardLogStatementJavaUtil"/>
+    </rule>
+
+    <rule ref="rulesets/java/naming.xml">
+        <exclude name="ShortClassName"/>
+        <exclude name="MethodNamingConventions"/>
+    </rule>
+
+</ruleset>

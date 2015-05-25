@@ -28,7 +28,8 @@ public class SynthesizeResource {
     @Timed
     public Paragraph synthesize(@QueryParam("sentence") String sentance) {
         // todo add an optional parameter, ttl for the paragraph
-        LOGGER.info("Received: <" + sentance + ">"); // NOPMD
+        String message = "Received: <" + sentance + ">";
+        LOGGER.info(message);
 
         String key = "synthesize-" + Thread.currentThread().getId();
         ParagraphReady paragraphReady = new ParagraphReady(key, sentance);
@@ -47,7 +48,8 @@ public class SynthesizeResource {
 
         Paragraph result = synthesizer.popParagraph(key);
 
-        LOGGER.info("Returned: <" + result + ">"); // NOPMD
+        message = "Returned: <" + result + ">";
+        LOGGER.info(message);
 
         return result;
     }

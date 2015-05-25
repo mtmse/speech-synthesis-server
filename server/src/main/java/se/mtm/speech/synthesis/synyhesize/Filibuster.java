@@ -10,13 +10,13 @@ public class Filibuster implements Runnable {
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
-    private final boolean simulateSlowPerformance; // NOPMD
+    private final boolean slowPerformance;
     private ParagraphReady paragraph;
 
     public Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, boolean slow) {
         this.pool = pool;
         this.synthesizer = synthesizer;
-        this.simulateSlowPerformance = slow;
+        this.slowPerformance = slow;
     }
 
     void setParagraph(ParagraphReady paragraph) {
@@ -41,7 +41,7 @@ public class Filibuster implements Runnable {
     }
 
     private void simulateSlowExecution() {
-        if (simulateSlowPerformance) {
+        if (slowPerformance) {
             int min = 10;
             int max = 200;
 

@@ -16,30 +16,30 @@ public class ConfigurationIntegrationTest {
             new DropwizardAppRule<>(Main.class, ResourceHelpers.resourceFilePath("test-configuration.yaml"));
 
     @Test
-    public void get_capacity() { // NOPMD
+    public void get_capacity() {
         int expected = 17;
         int actual = APPLICATION.getConfiguration().getCapacity();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_filibusters() { // NOPMD
+    public void get_filibusters() {
         int expected = 18;
         int actual = APPLICATION.getConfiguration().getFilibusters();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_idle_time() { // NOPMD
+    public void get_idle_time() {
         int expected = 19;
         int actual = APPLICATION.getConfiguration().getIdleTime();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void get_timeout() { // NOPMD
+    public void get_timeout() {
         int expected = 20;
         int actual = APPLICATION.getConfiguration().getTimeout();
-        assertThat(actual, is(expected)); // NOPMD
+        assertThat(actual, is(expected));
     }
 }

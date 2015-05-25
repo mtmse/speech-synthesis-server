@@ -11,7 +11,7 @@ public class Paragraph {
     }
 
     public byte[] getSound() {
-         return sound; // NOPMD
+        return Arrays.copyOf(sound, sound.length);
     }
 
     @Override

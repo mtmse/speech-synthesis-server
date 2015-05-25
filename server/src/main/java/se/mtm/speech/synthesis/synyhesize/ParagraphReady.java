@@ -8,16 +8,15 @@ import java.util.Arrays;
 
 public class ParagraphReady implements Paragraph {
     @JsonIgnore
-    private String key; // NOPMD
+    private String key;
 
     @JsonIgnore
-    private final long timeToLive = -1; // NOPMD // todo should be possible to set from the client, how can I get that to work
+    private final long timeToLive = -1;  // todo should be possible to set from the client, how can I get that to work?
 
     private String sentence;
     private byte[] sound;
 
     public ParagraphReady() {
-        // is this enough for pmd?
     }
 
     public ParagraphReady(String key, String sentence) {

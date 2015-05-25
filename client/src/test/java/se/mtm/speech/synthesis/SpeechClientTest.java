@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class SpeechClientTest {
     @Test
-    public void call_server() throws IOException { // NOPMD
+    public void call_server() throws IOException {
         String expectedSentence = "Hello Filibuster!";
 
         Client httpClient = mock(Client.class);
@@ -36,8 +36,8 @@ public class SpeechClientTest {
 
         Paragraph actual = client.synthesise(expectedSentence);
 
-        assertThat(actual.getSentence(), is(expectedSentence)); // NOPMD
-        assertThat(actual.getSound(), is(expectedSentence.getBytes()));  // NOPMD
+        assertThat(actual.getSentence(), is(expectedSentence));
+        assertThat(actual.getSound(), is(expectedSentence.getBytes()));
 
         verify(httpClient).target("http://localhost:80");
         verify(webTarget).path("synthesize");

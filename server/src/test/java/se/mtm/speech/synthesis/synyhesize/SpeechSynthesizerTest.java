@@ -27,7 +27,7 @@ public class SpeechSynthesizerTest {
     }
 
     @Test
-    public void synthezise_paragraph() throws Exception { // NOPMD
+    public void synthezise_paragraph() throws Exception {
         String key = "17";
         ParagraphReady paragraphReady = new ParagraphReady(key, "A sentence to be synthesized");
 
@@ -40,11 +40,11 @@ public class SpeechSynthesizerTest {
         ParagraphReady actual = speechSynthesizer.popParagraph(key);
 
         assertTrue("Expected to be able to deliver a paragraphReady for synthetization", actualDelivery);
-        assertThat(actual, is(paragraphReady)); // NOPMD
+        assertThat(actual, is(paragraphReady));
     }
 
     @Test
-    public void add_too_many_sentences_and_verify_that_que_is_full() { // NOPMD
+    public void add_too_many_sentences_and_verify_that_que_is_full() {
         ParagraphReady paragraphReady = new ParagraphReady("17", "A sentence to be synthesized");
 
         boolean firstDelivery = speechSynthesizer.addParagraph(paragraphReady);
@@ -55,14 +55,14 @@ public class SpeechSynthesizerTest {
     }
 
     @Test
-    public void return_paragraph_not_ready_when_it_cant_be_found_in_out() { // NOPMD
+    public void return_paragraph_not_ready_when_it_cant_be_found_in_out() {
         Paragraph actual = speechSynthesizer.isParagraphReady("");
 
         assertTrue("Expected not ready", actual instanceof ParagraphNotReady);
     }
 
     @Test
-    public void return_paragraph_ready_when_it_can_be_found_in_out() { // NOPMD
+    public void return_paragraph_ready_when_it_can_be_found_in_out() {
         String key = "42";
         String sentence = "The brown fox...";
         ParagraphReady paragraph = new ParagraphReady(key, sentence);
@@ -74,22 +74,22 @@ public class SpeechSynthesizerTest {
     }
 
     @Test
-    public void remove_paragraph_when_it_is_popped() { // NOPMD
+    public void remove_paragraph_when_it_is_popped() {
         String key = "42";
         String sentence = "The brown fox...";
         ParagraphReady paragraph = new ParagraphReady(key, sentence);
 
-        assertThat(speechSynthesizer.outSize(), is(0)); // NOPMD
+        assertThat(speechSynthesizer.outSize(), is(0));
 
         speechSynthesizer.addSynthesizedParagraph(paragraph);
-        assertThat(speechSynthesizer.outSize(), is(1)); // NOPMD
+        assertThat(speechSynthesizer.outSize(), is(1));
 
         speechSynthesizer.popParagraph(key);
-        assertThat(speechSynthesizer.outSize(), is(0)); // NOPMD
+        assertThat(speechSynthesizer.outSize(), is(0));
     }
 
     @Test
-    public void add_many_paragraphs_and_verify_that_they_are_synthesised_withinh_the_timeout_period() throws Exception { // NOPMD
+    public void add_many_paragraphs_and_verify_that_they_are_synthesised_withinh_the_timeout_period() throws Exception {
         int inCapacity = 17;
         int poolSize = 5;
         int idleTime = 1;
@@ -103,8 +103,8 @@ public class SpeechSynthesizerTest {
         addParagraphsForSynthetisation(timeout, stopTime, expectedSize);
         waitForParagraphsToBeSynthesised(timeout, stopTime, expectedSize);
 
-        assertThat(speechSynthesizer.outSize(), is(expectedSize)); // NOPMD
-        assertThat(speechSynthesizer.inQueSize(), is(0)); // NOPMD
+        assertThat(speechSynthesizer.outSize(), is(expectedSize));
+        assertThat(speechSynthesizer.inQueSize(), is(0));
     }
 
     private void addParagraphsForSynthetisation(int timeout, long stopTime, int expectedSize) throws InterruptedException {

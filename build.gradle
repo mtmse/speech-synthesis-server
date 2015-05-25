@@ -22,20 +22,16 @@ subprojects {
                 'java-braces',
                 'java-clone',
                 'java-codesize',
-                'java-design',
                 'java-empty',
                 'java-finalizers',
-                'java-imports',
-                'java-junit',
                 'java-logging-jakarta-commons',
-                'java-logging-java',
                 'java-migrating',
-                'java-naming',
                 'java-strings',
                 'java-sunsecure',
                 'java-unnecessary',
                 'java-unusedcode',
         ]
+        ruleSetFiles = files("$rootProject.projectDir/custom-pmd-ruleset.xml")
     }
 }
 

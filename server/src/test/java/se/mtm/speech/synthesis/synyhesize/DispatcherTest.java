@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 public class DispatcherTest {
 
     @Test
-    public void start_and_shut_down() throws Exception { // NOPMD
+    public void start_and_shut_down() throws Exception {
         SpeechSynthesizer speechSynthesizer = mock(SpeechSynthesizer.class);
         when(speechSynthesizer.peekNext()).thenReturn(false);
         int idleTime = 1;

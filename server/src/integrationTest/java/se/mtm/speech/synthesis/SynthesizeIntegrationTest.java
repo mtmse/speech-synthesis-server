@@ -15,12 +15,12 @@ public class SynthesizeIntegrationTest {
             new DropwizardAppRule<>(Main.class, ResourceHelpers.resourceFilePath("test-configuration.yaml"));
 
     @Test
-    public void synthesize_a_sentence() throws Exception { // NOPMD
+    public void synthesize_a_sentence() throws Exception {
         int port = application.getLocalPort();
         SpeechClient client = new SpeechClient("localhost", port);
 
         Paragraph actual = client.synthesise("Hello Filibuster!");
 
-        assertThat(actual.getSentence(), is("Hello Filibuster!")); // NOPMD
+        assertThat(actual.getSentence(), is("Hello Filibuster!"));
     }
 }
