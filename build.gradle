@@ -67,6 +67,29 @@ subprojects {
     }
 }
 
+artifactory {
+    contextUrl = 'http://codestore.mtm.se:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-snapshot-local'
+            username = "${mavenCredentialUsr}"
+            password = "${mavenCredentialPwd}"
+        }
+        defaults {
+            publishConfigs('archives', 'published')
+            publishIvy = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-both'
+            username = "${mavenCredentialUsr}"
+            password = "${mavenCredentialPwd}"
+            maven = true
+        }
+    }
+}
+
 buildscript {
     repositories {
         jcenter()
