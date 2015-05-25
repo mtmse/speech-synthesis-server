@@ -1,10 +1,19 @@
+allprojects {
+    apply plugin: 'com.jfrog.artifactory-upload'
+    version = "${version}"
+
+    configurations {
+        published
+    }
+}
+
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven'
     apply plugin: 'jacoco'
     apply plugin: 'pmd'
 
     group = 'se.mtm.production.speech.synthesis'
-    version = '1.0.0'
 
     dependencies {
         testCompile "junit:junit:4.12"
@@ -12,6 +21,29 @@ subprojects {
 
     repositories {
         jcenter()
+    }
+
+    manifest {
+        attributes 'provider': 'gradle'
+    }
+
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifactoryPublish {
+        dependsOn sourceJar, javadocJar
+    }
+
+    artifacts {
+        published sourceJar
+        published javadocJar
     }
 
     pmd {
@@ -32,6 +64,15 @@ subprojects {
                 'java-unusedcode',
         ]
         ruleSetFiles = files("$rootProject.projectDir/custom-pmd-ruleset.xml")
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        dependencies {
+            classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.1.0')
+        }
     }
 }
 
