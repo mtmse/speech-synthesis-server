@@ -2,6 +2,12 @@ allprojects {
     apply plugin: 'com.jfrog.artifactory-upload'
     version = "${version}"
 
+    repositories {
+        maven {
+            url "http://artifactory.mtm.se:8081/artifactory/repo"
+        }
+        jcenter()    }
+
     configurations {
         published
     }
@@ -17,10 +23,6 @@ subprojects {
 
     dependencies {
         testCompile "junit:junit:4.12"
-    }
-
-    repositories {
-        jcenter()
     }
 
     manifest {
@@ -93,9 +95,14 @@ artifactory {
 
 buildscript {
     repositories {
+        maven {
+            url "http://artifactory.mtm.se:8081/artifactory/repo"
+        }
         jcenter()
         dependencies {
-            classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.1.0')
+            classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.0'
+            classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.6'
+            classpath 'se.mtm.gradle:gradle-artifactory-rpm-plugin:1.0.11'
         }
     }
 }

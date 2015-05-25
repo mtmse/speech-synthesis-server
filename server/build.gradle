@@ -1,9 +1,12 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '1.2.1'
 }
+apply plugin: 'os-package'
+apply plugin: 'se.mtm.artifactory-rpm'
 
 project.ext {
     dropwizardVersion = '0.8.1'
+    rpmVersion = version - '-SNAPSHOT'
 }
 
 dependencies {
@@ -46,4 +49,38 @@ shadowJar {
         attributes 'Main-Class': 'se.mtm.speech.synthesis.Main',
                 'Implementation-Version': version
     }
+}
+
+ospackage {
+    packageName = 'speech-synthesis-server'
+    version = rpmVersion
+    release = (System.getenv().BUILD_NUMBER != null) ? System.getenv().BUILD_NUMBER : "0";
+    os = LINUX
+    user = "root"
+
+    installUtils file('rpm/utils.sh')
+    preInstall file('rpm/preInstall.sh')
+    postInstall file('rpm/postInstall.sh')
+    postUninstall file('rpm/postUninstall.sh')
+
+    into '/opt/speech-synthesis-server'
+
+    from('./build/libs') {
+        fileMode = 0555
+    }
+
+    from('./src/scripts') {
+        into('bin')
+        fileMode = 0644
+    }
+
+    link('/etc/init.d/speech-synthesis-server', '/opt/speech-synthesis-server/bin/speech-synthesis-server.sh')
+}
+
+buildRpm {
+    it.dependsOn shadowJar
+}
+
+deployRpm {
+    it.dependsOn buildRpm
 }
