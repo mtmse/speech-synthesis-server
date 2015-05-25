@@ -76,7 +76,7 @@ artifactory {
             password = "${mavenCredentialPwd}"
         }
         defaults {
-            publishConfigs('archives', 'published')
+            publishConfigs('published')
             publishPom = false
             publishIvy = false
         }
