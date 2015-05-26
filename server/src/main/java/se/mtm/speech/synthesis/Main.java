@@ -17,9 +17,10 @@ public class Main extends Application<Configuration> {
         environment.healthChecks().register("HealthCheck", new HealthCheck());
 
         int capacity = configuration.getCapacity();
-        int filibusters = configuration.getFilibusters();
+        int maxFilibusters = configuration.getMaxFilibusters();
+        int timeToLive = configuration.getTimeToLive();
         int idleTime = configuration.getIdleTime();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, filibusters, idleTime, true);
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, timeToLive, idleTime, true);
         environment.lifecycle().manage(speechSynthesizer);
 
         long defaultTimeout = configuration.getTimeout();

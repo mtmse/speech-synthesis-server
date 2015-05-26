@@ -16,10 +16,12 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, ParagraphReady> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int filibusters, long idleTime, boolean slow) {
-        this.filibusters = filibusters;
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, long timeToLive, long idleTime, boolean slow) {
+        this.filibusters = maxFilibusters;
 
-        FilibusterPool pool = new FilibusterPool(this, filibusters, slow);
+        int minute = 60 * 1000;
+        long ttl = timeToLive * minute;
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, ttl, slow);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);
@@ -59,6 +61,11 @@ public class SpeechSynthesizer implements Managed {
         return inQue.offer(paragraphReady);
     }
 
+    /**
+     * Is there a job ready to be handled?
+     *
+     * @return true if there is a job waiting
+     */
     boolean peekNext() {
         return inQue.peek() != null;
     }

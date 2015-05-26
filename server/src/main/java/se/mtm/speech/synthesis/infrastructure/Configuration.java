@@ -11,7 +11,10 @@ public class Configuration extends io.dropwizard.Configuration {
     private int timeout = 30; // NOPMD set by reflection
 
     @JsonProperty
-    private int filibusters = 6; // NOPMD set by reflection
+    private int maxFilibusters = 6; // NOPMD set by reflection
+
+    @JsonProperty
+    private int timeToLive = 25; // NOPMD set by reflection
 
     @JsonProperty
     private int idleTime = 100; // NOPMD set by reflection
@@ -24,11 +27,15 @@ public class Configuration extends io.dropwizard.Configuration {
         return capacity;
     }
 
-    public int getFilibusters() {
-        return filibusters;
+    public int getMaxFilibusters() {
+        return maxFilibusters;
     }
 
     public int getIdleTime() {
         return idleTime;
+    }
+
+    public int getTimeToLive() {
+        return timeToLive;
     }
 }

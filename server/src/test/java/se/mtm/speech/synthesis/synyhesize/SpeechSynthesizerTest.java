@@ -16,8 +16,9 @@ public class SpeechSynthesizerTest {
     public void setUp() throws Exception {
         int capacity = 1;
         int poolSize = 1;
+        int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, idleTime, false);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, timeToLive, idleTime, false);
         speechSynthesizer.start();
     }
 
@@ -92,8 +93,9 @@ public class SpeechSynthesizerTest {
     public void add_many_paragraphs_and_verify_that_they_are_synthesised_withinh_the_timeout_period() throws Exception {
         int inCapacity = 17;
         int poolSize = 5;
+        int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, idleTime, false);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, timeToLive, idleTime, false);
         speechSynthesizer.start();
         int expectedSize = 42;
 

@@ -1,5 +1,6 @@
 capacity: 10
-filibusters: 6
+maxFilibusters: 6
+timeToLive: 30 # minutes
 idleTime: 100 # milli seconds
 timeout: 30 # seconds
 

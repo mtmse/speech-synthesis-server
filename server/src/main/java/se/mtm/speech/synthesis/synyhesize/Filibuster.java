@@ -10,12 +10,18 @@ public class Filibuster implements Runnable {
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
+    private final long timeToDie;
     private final boolean slowPerformance;
     private ParagraphReady paragraph;
 
-    public Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, boolean slow) {
+    public Filibuster(FilibusterPool pool, long timeToLive) {
+        this(pool, null, timeToLive, true);
+    }
+
+    public Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, long timeToLive, boolean slow) {
         this.pool = pool;
         this.synthesizer = synthesizer;
+        this.timeToDie = System.currentTimeMillis() + timeToLive;
         this.slowPerformance = slow;
     }
 
@@ -28,6 +34,10 @@ public class Filibuster implements Runnable {
         ParagraphReady synthesised = synthesize();
         synthesizer.addSynthesizedParagraph(synthesised);
         pool.returnFilibuster(this);
+    }
+
+    public boolean isTooOld() {
+        return System.currentTimeMillis() > timeToDie;
     }
 
     private ParagraphReady synthesize() {
