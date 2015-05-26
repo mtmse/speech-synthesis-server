@@ -20,14 +20,14 @@ public class SpeechUnit {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object rhs) {
+        if (this == rhs) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (rhs == null || getClass() != rhs.getClass()) {
             return false;
         }
-        SpeechUnit that = (SpeechUnit) o;
+        SpeechUnit that = (SpeechUnit) rhs;
         return Objects.equals(key, that.key) &&
                 Objects.equals(text, that.text);
     }

@@ -17,7 +17,7 @@ public class SynthesizeResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
 
     private final SpeechSynthesizer synthesizer;
-    private long idleTime;
+    private final long idleTime;
     private final long defaultTimeout;
 
     public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout, long idleTime) {
