@@ -1,0 +1,58 @@
+# Add an optional timeout
+The client should be able to increase the timeout for a synthesis job.
+If a specific speech unit is large, the client should be allowed to let 
+the server work on it for a longer period of time than specified for 
+the server.
+The client will have to deal with http time out etc.
+
+# Check resources when creating a new Filibuster
+Do some environment check before creating a new Filibuster.
+How much memory is available?
+
+# Add Filibuster until the pool maxsize
+Add Filibusters until the resources in the host are used 
+or the max size of the Filibuster pool is reached
+
+# Invalidate all Filibusters
+Create a resource that invalidates all Filibusters in the pool and doesn't 
+add any of the Filibusters being used. Any job that currently is executed 
+should not be affected.
+
+# Status page
+Create a status page that 
+
+* Shows
+  * Status
+  * How many Filibusters are currently being used
+  * How old is the oldest
+  * How old is the youngest
+* Has a button that does a post to the invalidate resource.
+  Return to the status page with a text stating that an invalidation 
+  was done at a certain point in time
+* Has a link to the release notes
+* Shows the build date, the deploy date and the version number
+
+# Health check
+Create a health check that checks the Filibuster pool and all living 
+Filibusters and verifies that that they are ok
+
+# Priority
+Investigate how three different priorities can be implemented.
+
+* Low
+* Medium
+* High
+
+How should the priorities be consumed? Always the highest priority and then 
+the others if there is more capacity available?
+
+The priority should be set by the client in the request.
+
+
+# Do a presentation
+* Show the application flow
+* Shows the status page
+* What can be set from the setting
+* How do you run it from a command line
+* How do you do an installation
+* Limitations
