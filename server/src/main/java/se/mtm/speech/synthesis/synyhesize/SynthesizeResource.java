@@ -27,6 +27,7 @@ public class SynthesizeResource {
     @GET
     @Timed
     public Paragraph synthesize(@QueryParam("sentence") String sentance) {
+        // todo return a SynthesizedSound with a timeout parameter if the call timed out
         // todo add an optional parameter, ttl for the paragraph
         String message = "Received: <" + sentance + ">";
         LOGGER.info(message);
