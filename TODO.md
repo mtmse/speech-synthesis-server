@@ -50,9 +50,9 @@ The priority should be set by the client in the request.
 
 
 # Do a presentation
-* Show the application flow
-* Shows the status page
-* What can be set from the setting
-* How do you run it from a command line
+* The application flow
+* The status page
+* Settings - what can be set from the setting
+* Running from a command line
 * How do you do an installation
-* Limitations
+* Known limitations
