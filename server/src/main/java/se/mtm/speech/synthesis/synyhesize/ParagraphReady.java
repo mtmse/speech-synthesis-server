@@ -7,7 +7,7 @@ import java.beans.Transient;
 import java.util.Arrays;
 
 @Deprecated
-public class ParagraphReady implements Paragraph {
+public class ParagraphReady {
     @JsonIgnore
     private String key;
 
