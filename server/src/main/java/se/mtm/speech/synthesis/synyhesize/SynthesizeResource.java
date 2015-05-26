@@ -17,28 +17,30 @@ public class SynthesizeResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
 
     private final SpeechSynthesizer synthesizer;
+    private long idleTime;
     private final long defaultTimeout;
 
-    public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout) {
+    public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout, long idleTime) {
         this.synthesizer = synthesizer;
+        this.idleTime = idleTime;
         this.defaultTimeout = defaultTimeout * 1000;
     }
 
     @GET
     @Timed
-    public SynthesizedSound synthesize(@QueryParam("sentence") String sentance) {
+    public SynthesizedSound synthesize(@QueryParam("sentence") String sentence) {
         // todo add an optional parameter, ttl for the paragraph
-        String message = "Received: <" + sentance + ">";
+        String message = "Received: <" + sentence + ">";
         LOGGER.info(message);
 
         String key = "synthesize-" + Thread.currentThread().getId();
-        ParagraphReady paragraphReady = new ParagraphReady(key, sentance);
+        SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
         long timeout = System.currentTimeMillis() + defaultTimeout;
 
-        synthesizer.addParagraph(paragraphReady);
+        synthesizer.addSpeechUnit(speechUnit);
 
-        while (synthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
+        while (!synthesizer.isSpeechUnitReady(key)) {
             if (System.currentTimeMillis() > timeout) {
                 return new SynthesizedSound();
             }
@@ -46,19 +48,17 @@ public class SynthesizeResource {
             pause();
         }
 
-        ParagraphReady result = synthesizer.popParagraph(key);
+        SynthesizedSound result = synthesizer.getSynthesizedSound(key);
 
-        SynthesizedSound res = new SynthesizedSound(result.getSound());
-
-        message = "Returned: <" + res + ">";
+        message = "Returned: <" + result + ">";
         LOGGER.info(message);
 
-        return res;
+        return result;
     }
 
     private void pause() {
         try {
-            Thread.sleep(100);
+            Thread.sleep(idleTime);
         } catch (InterruptedException e) {
             LOGGER.warn(e.getMessage());
         }

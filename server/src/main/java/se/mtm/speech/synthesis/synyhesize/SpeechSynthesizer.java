@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
     private final Dispatcher dispatcher;
-    private final Queue<ParagraphReady> inQue;
+    private final Queue<SpeechUnit> inQue;
     private final Map<String, ParagraphReady> out;
     private final int filibusters;
 
@@ -52,13 +52,13 @@ public class SpeechSynthesizer implements Managed {
     }
 
     /**
-     * Add a paragraphReady for synthesising
+     * Add a speech unit for synthesising
      *
-     * @param paragraphReady a paragraphReady to be synthesised
+     * @param speechUnit a speech unit to be synthesised
      * @return true if the paragraphReady was added, false if it couldn't be added
      */
-    public boolean addParagraph(ParagraphReady paragraphReady) {
-        return inQue.offer(paragraphReady);
+    public boolean addSpeechUnit(SpeechUnit speechUnit) {
+        return inQue.offer(speechUnit);
     }
 
     /**
@@ -71,27 +71,25 @@ public class SpeechSynthesizer implements Managed {
     }
 
     ParagraphReady getNext() {
-        return inQue.poll();
+        SpeechUnit speechUnit = inQue.poll();
+        ParagraphReady next = new ParagraphReady(speechUnit.getKey(), speechUnit.getText());
+
+        return next;
     }
 
     void addSynthesizedParagraph(ParagraphReady paragraphReady) {
         out.put(paragraphReady.getKey(), paragraphReady);
     }
 
-    Paragraph isParagraphReady(String key) {
-        ParagraphReady candidate = out.get(key);
-        if (candidate == null) {
-            return new ParagraphNotReady();
-        }
-
-        return candidate;
+    boolean isSpeechUnitReady(String key) {
+        return out.get(key) != null;
     }
 
-    ParagraphReady popParagraph(String key) {
-        ParagraphReady paragraph = (ParagraphReady) isParagraphReady(key);
+    SynthesizedSound getSynthesizedSound(String key) {
+        ParagraphReady paragraph = out.get(key);
         out.remove(key);
 
-        return paragraph;
+        return new SynthesizedSound(paragraph.getSound());
     }
 
     int outSize() {

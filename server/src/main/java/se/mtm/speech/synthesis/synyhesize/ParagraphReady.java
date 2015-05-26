@@ -52,6 +52,10 @@ public class ParagraphReady implements Paragraph {
 
     @JsonProperty
     public byte[] getSound() {
+        if (sound == null) {
+            return new byte[0];
+        }
+
         return Arrays.copyOf(sound, sound.length);
     }
 

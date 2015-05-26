@@ -30,15 +30,17 @@ public class SpeechSynthesizerTest {
     @Test
     public void synthezise_paragraph() throws Exception {
         String key = "17";
-        ParagraphReady paragraphReady = new ParagraphReady(key, "A sentence to be synthesized");
+        String sentence = "A sentence to be synthesized";
+        SynthesizedSound paragraphReady = new SynthesizedSound(sentence.getBytes());
+        SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
-        boolean actualDelivery = speechSynthesizer.addParagraph(paragraphReady);
+        boolean actualDelivery = speechSynthesizer.addSpeechUnit(speechUnit);
 
-        while (speechSynthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
+        while (!speechSynthesizer.isSpeechUnitReady(key)) {
             Thread.sleep(1);
         }
 
-        ParagraphReady actual = speechSynthesizer.popParagraph(key);
+        SynthesizedSound actual = speechSynthesizer.getSynthesizedSound(key);
 
         assertTrue("Expected to be able to deliver a paragraphReady for synthetization", actualDelivery);
         assertThat(actual, is(paragraphReady));
@@ -46,20 +48,18 @@ public class SpeechSynthesizerTest {
 
     @Test
     public void add_too_many_sentences_and_verify_that_que_is_full() {
-        ParagraphReady paragraphReady = new ParagraphReady("17", "A sentence to be synthesized");
+        SpeechUnit speechUnit = new SpeechUnit("17", "A sentence to be synthesized");
 
-        boolean firstDelivery = speechSynthesizer.addParagraph(paragraphReady);
-        boolean secondDelivery = speechSynthesizer.addParagraph(paragraphReady);
+        boolean firstDelivery = speechSynthesizer.addSpeechUnit(speechUnit);
+        boolean secondDelivery = speechSynthesizer.addSpeechUnit(speechUnit);
 
         assertTrue("The que can accept one item", firstDelivery);
         assertFalse("The que can accept one item", secondDelivery);
     }
 
     @Test
-    public void return_paragraph_not_ready_when_it_cant_be_found_in_out() {
-        Paragraph actual = speechSynthesizer.isParagraphReady("");
-
-        assertTrue("Expected not ready", actual instanceof ParagraphNotReady);
+    public void return_false_not_ready_when_it_cant_be_found_in_out() {
+        assertFalse("Expected not ready", speechSynthesizer.isSpeechUnitReady(""));
     }
 
     @Test
@@ -69,9 +69,7 @@ public class SpeechSynthesizerTest {
         ParagraphReady paragraph = new ParagraphReady(key, sentence);
         speechSynthesizer.addSynthesizedParagraph(paragraph);
 
-        Paragraph actual = speechSynthesizer.isParagraphReady(key);
-
-        assertTrue("Expected ready", actual instanceof ParagraphReady);
+        assertTrue("Expected ready", speechSynthesizer.isSpeechUnitReady(key));
     }
 
     @Test
@@ -85,7 +83,7 @@ public class SpeechSynthesizerTest {
         speechSynthesizer.addSynthesizedParagraph(paragraph);
         assertThat(speechSynthesizer.outSize(), is(1));
 
-        speechSynthesizer.popParagraph(key);
+        speechSynthesizer.getSynthesizedSound(key);
         assertThat(speechSynthesizer.outSize(), is(0));
     }
 
@@ -113,8 +111,8 @@ public class SpeechSynthesizerTest {
         for (int counter = 0; counter < expectedSize; counter++) {
             String key = "" + counter;
             String sentence = "The brown fox... " + counter;
-            ParagraphReady paragraph = new ParagraphReady(key, sentence);
-            while (!speechSynthesizer.addParagraph(paragraph)) {
+            SpeechUnit speechUnit = new SpeechUnit(key, sentence);
+            while (!speechSynthesizer.addSpeechUnit(speechUnit)) {
                 assertTrue("The paragraphs should have been added withing " + timeout + "ms", System.currentTimeMillis() < stopTime);
                 pause();
             }

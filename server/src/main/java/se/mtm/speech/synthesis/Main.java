@@ -24,7 +24,7 @@ public class Main extends Application<Configuration> {
         environment.lifecycle().manage(speechSynthesizer);
 
         long defaultTimeout = configuration.getTimeout();
-        SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer, defaultTimeout);
+        SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer, defaultTimeout, idleTime);
         environment.jersey().register(synthesizer);
     }
 

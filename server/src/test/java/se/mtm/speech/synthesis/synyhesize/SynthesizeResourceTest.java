@@ -19,9 +19,11 @@ public class SynthesizeResourceTest {
         byte[] sound = sentence.getBytes(Charset.forName("UTF-8"));
         SynthesizedSound expected = new SynthesizedSound(sound);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        when(synthesizer.popParagraph(anyString())).thenReturn(new ParagraphReady(sentence, sound));
+        when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(true);
+        when(synthesizer.getSynthesizedSound(anyString())).thenReturn(new SynthesizedSound(sound));
         long timeout = 100;
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, timeout);
+        long idleTime = 90;
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, timeout, idleTime);
 
         SynthesizedSound actual = synthesizeRest.synthesize(sentence);
 
@@ -35,9 +37,9 @@ public class SynthesizeResourceTest {
         String sentence = "The brown fox jumped over the lazy dog";
 
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        when(synthesizer.isParagraphReady(anyString())).thenReturn(new ParagraphNotReady());
+        when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(false);
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0, 0);
 
         SynthesizedSound actual = synthesizeRest.synthesize(sentence);
 
