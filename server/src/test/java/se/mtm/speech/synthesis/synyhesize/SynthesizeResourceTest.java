@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.nio.charset.Charset;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -16,13 +17,15 @@ public class SynthesizeResourceTest {
     public void synthesize_a_sentence() {
         String sentence = "The brown fox jumped over the lazy dog";
         byte[] sound = sentence.getBytes(Charset.forName("UTF-8"));
-        ParagraphReady expected = new ParagraphReady(sentence, sound);
+        SynthesizedSound expected = new SynthesizedSound(sound);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        when(synthesizer.popParagraph(anyString())).thenReturn(expected);
+        when(synthesizer.popParagraph(anyString())).thenReturn(new ParagraphReady(sentence, sound));
         long timeout = 100;
         SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, timeout);
 
-        ParagraphReady actual = (ParagraphReady) synthesizeRest.synthesize(sentence);
+        SynthesizedSound actual = synthesizeRest.synthesize(sentence);
+
+        assertEquals(actual, expected);
 
         assertThat(actual, is(expected));
     }
@@ -36,8 +39,8 @@ public class SynthesizeResourceTest {
 
         SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0);
 
-        Paragraph actual = synthesizeRest.synthesize(sentence);
+        SynthesizedSound actual = synthesizeRest.synthesize(sentence);
 
-        assertTrue("The synthesise should have timed out", actual instanceof ParagraphTimedOut);
+        assertTrue("The synthesise should have timed out", actual.isTimeout());
     }
 }

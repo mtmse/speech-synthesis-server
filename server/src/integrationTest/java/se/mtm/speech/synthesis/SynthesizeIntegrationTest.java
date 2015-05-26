@@ -6,6 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -19,8 +20,12 @@ public class SynthesizeIntegrationTest {
         int port = application.getLocalPort();
         SpeechClient client = new SpeechClient("localhost", port);
 
-        Paragraph actual = client.synthesise("Hello Filibuster!");
+        String sentence = "Hello Filibuster!";
+        byte[] expectedSound = sentence.getBytes();
 
-        assertThat(actual.getSentence(), is("Hello Filibuster!"));
+        Paragraph actual = client.synthesise(sentence);
+
+        assertFalse("The call should not have timed out", actual.isTimeout());
+        assertThat(actual.getSound(), is(expectedSound));
     }
 }

@@ -5,7 +5,9 @@ import java.util.Arrays;
 public class Paragraph {
     private String sentence;
     private byte[] sound;
+    private boolean timeout;
 
+    @Deprecated
     public String getSentence() {
         return sentence;
     }
@@ -14,11 +16,15 @@ public class Paragraph {
         return Arrays.copyOf(sound, sound.length);
     }
 
+    public boolean isTimeout() {
+        return timeout;
+    }
+
     @Override
     public String toString() {
-        return "se.mtm.speech.synthesis.Paragraph{" +
-                "sentence='" + sentence + '\'' +
-                ", sound=" + Arrays.toString(sound) +
+        return "Paragraph{" +
+                "sound=" + Arrays.toString(sound) +
+                ", timeout=" + timeout +
                 '}';
     }
 }

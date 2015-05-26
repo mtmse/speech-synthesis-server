@@ -36,9 +36,9 @@ public class SynthesizedSound {
         if (rhs == null || getClass() != rhs.getClass()) {
             return false;
         }
-        SynthesizedSound synthesizedSound1 = (SynthesizedSound) rhs;
-        return Objects.equals(timeout, synthesizedSound1.timeout) &&
-                Objects.equals(sound, synthesizedSound1.sound);
+        SynthesizedSound other = (SynthesizedSound) rhs;
+        return timeout == other.timeout &&
+                Arrays.equals(sound, other.sound);
     }
 
     @Override

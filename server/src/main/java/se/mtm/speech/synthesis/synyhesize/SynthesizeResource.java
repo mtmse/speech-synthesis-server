@@ -26,8 +26,7 @@ public class SynthesizeResource {
 
     @GET
     @Timed
-    public Paragraph synthesize(@QueryParam("sentence") String sentance) {
-        // todo return a SynthesizedSound with a timeout parameter if the call timed out
+    public SynthesizedSound synthesize(@QueryParam("sentence") String sentance) {
         // todo add an optional parameter, ttl for the paragraph
         String message = "Received: <" + sentance + ">";
         LOGGER.info(message);
@@ -41,18 +40,20 @@ public class SynthesizeResource {
 
         while (synthesizer.isParagraphReady(key) instanceof ParagraphNotReady) {
             if (System.currentTimeMillis() > timeout) {
-                return new ParagraphTimedOut();
+                return new SynthesizedSound();
             }
 
             pause();
         }
 
-        Paragraph result = synthesizer.popParagraph(key);
+        ParagraphReady result = synthesizer.popParagraph(key);
 
-        message = "Returned: <" + result + ">";
+        SynthesizedSound res = new SynthesizedSound(result.getSound());
+
+        message = "Returned: <" + res + ">";
         LOGGER.info(message);
 
-        return result;
+        return res;
     }
 
     private void pause() {
