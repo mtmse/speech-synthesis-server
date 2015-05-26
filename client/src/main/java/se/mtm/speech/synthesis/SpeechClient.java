@@ -23,7 +23,7 @@ public class SpeechClient {
         this.port = port;
     }
 
-    public Paragraph synthesise(String sentence) {
+    public SynthesizedSound synthesise(String sentence) {
         String json = client.target("http://" + host + ":" + port)
                 .path("synthesize")
                 .queryParam("sentence", sentence)
@@ -31,7 +31,7 @@ public class SpeechClient {
                 .get(String.class);
 
         try {
-            return mapper.readValue(json, Paragraph.class);
+            return mapper.readValue(json, SynthesizedSound.class);
         } catch (IOException e) {
             throw new SpeechSynthesisClientException(e.getMessage(), e);
         }

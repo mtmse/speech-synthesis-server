@@ -22,7 +22,7 @@ public class SpeechClientTest {
         Client httpClient = mock(Client.class);
         WebTarget webTarget = mock(WebTarget.class);
         Invocation.Builder builder = mock(Invocation.Builder.class);
-        String json = "{\"sentence\":\"Hello Filibuster!\",\"sound\":\"SGVsbG8gRmlsaWJ1c3RlciE=\"}";
+        String json = "{\"sound\":\"SGVsbG8gRmlsaWJ1c3RlciE=\"}";
 
         when(httpClient.target(anyString())).thenReturn(webTarget);
         when(webTarget.path(anyString())).thenReturn(webTarget);
@@ -34,7 +34,7 @@ public class SpeechClientTest {
         int port = 80;
         SpeechClient client = new SpeechClient(httpClient, host, port);
 
-        Paragraph actual = client.synthesise(expectedSentence);
+        SynthesizedSound actual = client.synthesise(expectedSentence);
 
         assertThat(actual.getSound(), is(expectedSentence.getBytes()));
 

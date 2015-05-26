@@ -2,15 +2,9 @@ package se.mtm.speech.synthesis;
 
 import java.util.Arrays;
 
-public class Paragraph {
-    private String sentence;
+public class SynthesizedSound {
     private byte[] sound;
     private boolean timeout;
-
-    @Deprecated
-    public String getSentence() {
-        return sentence;
-    }
 
     public byte[] getSound() {
         return Arrays.copyOf(sound, sound.length);

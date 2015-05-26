@@ -23,7 +23,7 @@ public class SynthesizeIntegrationTest {
         String sentence = "Hello Filibuster!";
         byte[] expectedSound = sentence.getBytes();
 
-        Paragraph actual = client.synthesise(sentence);
+        SynthesizedSound actual = client.synthesise(sentence);
 
         assertFalse("The call should not have timed out", actual.isTimeout());
         assertThat(actual.getSound(), is(expectedSound));
