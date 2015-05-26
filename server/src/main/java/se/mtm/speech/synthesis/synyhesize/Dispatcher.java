@@ -31,10 +31,10 @@ public class Dispatcher implements Runnable {
         running = true;
         while (work) {
             if (speechSynthesizer.peekNext() && pool.peekFilibuster()) {
-                ParagraphReady paragraph = speechSynthesizer.getNext();
+                SpeechUnit speechUnit = speechSynthesizer.getNext();
                 Filibuster filibuster = pool.getFilibuster();
                 if (filibuster != null) {
-                    filibuster.setParagraph(paragraph);
+                    filibuster.setSpeechUnit(speechUnit);
                     Thread thread = new Thread(filibuster);
                     thread.start();
                 }

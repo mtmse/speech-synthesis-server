@@ -12,7 +12,7 @@ public class Filibuster implements Runnable {
     private final SpeechSynthesizer synthesizer;
     private final long timeToDie;
     private final boolean slowPerformance;
-    private ParagraphReady paragraph;
+    private SpeechUnit speechUnit;
 
     public Filibuster(FilibusterPool pool, long timeToLive) {
         this(pool, null, timeToLive, true);
@@ -25,13 +25,13 @@ public class Filibuster implements Runnable {
         this.slowPerformance = slow;
     }
 
-    void setParagraph(ParagraphReady paragraph) {
-        this.paragraph = paragraph;
+    void setSpeechUnit(SpeechUnit speechUnit) {
+        this.speechUnit = speechUnit;
     }
 
     @Override
     public void run() {
-        ParagraphReady synthesised = synthesize();
+        SynthesizedSound synthesised = synthesize();
         synthesizer.addSynthesizedParagraph(synthesised);
         pool.returnFilibuster(this);
     }
@@ -40,14 +40,14 @@ public class Filibuster implements Runnable {
         return System.currentTimeMillis() > timeToDie;
     }
 
-    private ParagraphReady synthesize() {
+    private SynthesizedSound synthesize() {
         simulateSlowExecution();
 
-        String key = paragraph.getKey();
-        String sentence = paragraph.getSentence();
+        String key = speechUnit.getKey();
+        String sentence = speechUnit.getText();
         byte[] sound = sentence.getBytes();
 
-        return new ParagraphReady(key, sentence, sound);
+        return new SynthesizedSound(key, sound);
     }
 
     private void simulateSlowExecution() {

@@ -13,7 +13,7 @@ public class SpeechSynthesizer implements Managed {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
     private final Dispatcher dispatcher;
     private final Queue<SpeechUnit> inQue;
-    private final Map<String, ParagraphReady> out;
+    private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
     public SpeechSynthesizer(int inCapacity, int maxFilibusters, long timeToLive, long idleTime, boolean slow) {
@@ -70,15 +70,12 @@ public class SpeechSynthesizer implements Managed {
         return inQue.peek() != null;
     }
 
-    ParagraphReady getNext() {
-        SpeechUnit speechUnit = inQue.poll();
-        ParagraphReady next = new ParagraphReady(speechUnit.getKey(), speechUnit.getText());
-
-        return next;
+    SpeechUnit getNext() {
+        return inQue.poll();
     }
 
-    void addSynthesizedParagraph(ParagraphReady paragraphReady) {
-        out.put(paragraphReady.getKey(), paragraphReady);
+    void addSynthesizedParagraph(SynthesizedSound sound) {
+        out.put(sound.getKey(), sound);
     }
 
     boolean isSpeechUnitReady(String key) {
@@ -86,10 +83,10 @@ public class SpeechSynthesizer implements Managed {
     }
 
     SynthesizedSound getSynthesizedSound(String key) {
-        ParagraphReady paragraph = out.get(key);
+        SynthesizedSound sound = out.get(key);
         out.remove(key);
 
-        return new SynthesizedSound(paragraph.getSound());
+        return sound;
     }
 
     int outSize() {

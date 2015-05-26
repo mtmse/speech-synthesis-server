@@ -1,23 +1,32 @@
 package se.mtm.speech.synthesis.synyhesize;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Arrays;
 import java.util.Objects;
 
 public class SynthesizedSound {
+    @JsonIgnore
+    private String key;
     private byte[] sound;
     private boolean timeout;
 
     public SynthesizedSound() {
-        this(new byte[0], true);
+        this("", new byte[0], true);
     }
 
-    public SynthesizedSound(byte[] sound) {
-        this(sound, false);
+    public SynthesizedSound(String key, byte[] sound) {
+        this(key, sound, false);
     }
 
-    private SynthesizedSound(byte[] sound, boolean timeout) {
+    private SynthesizedSound(String key, byte[] sound, boolean timeout) {
+        this.key = key;
         this.sound = Arrays.copyOf(sound, sound.length);
         this.timeout = timeout;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     public byte[] getSound() {
@@ -37,18 +46,21 @@ public class SynthesizedSound {
             return false;
         }
         SynthesizedSound other = (SynthesizedSound) rhs;
-        return timeout == other.timeout &&
+        return key.equals(other.key) &&
+                timeout == other.timeout &&
                 Arrays.equals(sound, other.sound);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sound, timeout);
+        String soundAsString = new String(sound);
+        return Objects.hash(key, soundAsString, timeout);
     }
 
     @Override
     public String toString() {
         return "SynthesizedSound{" +
+                "key=" + key +
                 "sound=" + Arrays.toString(sound) +
                 ", timeout=" + timeout +
                 '}';

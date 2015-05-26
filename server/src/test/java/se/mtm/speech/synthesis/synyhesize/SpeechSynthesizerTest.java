@@ -31,7 +31,8 @@ public class SpeechSynthesizerTest {
     public void synthezise_paragraph() throws Exception {
         String key = "17";
         String sentence = "A sentence to be synthesized";
-        SynthesizedSound paragraphReady = new SynthesizedSound(sentence.getBytes());
+        byte[] sound = sentence.getBytes();
+        SynthesizedSound paragraphReady = new SynthesizedSound(key, sound);
         SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
         boolean actualDelivery = speechSynthesizer.addSpeechUnit(speechUnit);
@@ -66,8 +67,9 @@ public class SpeechSynthesizerTest {
     public void return_paragraph_ready_when_it_can_be_found_in_out() {
         String key = "42";
         String sentence = "The brown fox...";
-        ParagraphReady paragraph = new ParagraphReady(key, sentence);
-        speechSynthesizer.addSynthesizedParagraph(paragraph);
+        byte[] sound = sentence.getBytes();
+        SynthesizedSound synthesizedSound = new SynthesizedSound(key, sound);
+        speechSynthesizer.addSynthesizedParagraph(synthesizedSound);
 
         assertTrue("Expected ready", speechSynthesizer.isSpeechUnitReady(key));
     }
@@ -76,11 +78,12 @@ public class SpeechSynthesizerTest {
     public void remove_paragraph_when_it_is_popped() {
         String key = "42";
         String sentence = "The brown fox...";
-        ParagraphReady paragraph = new ParagraphReady(key, sentence);
+        byte[] sound = sentence.getBytes();
+        SynthesizedSound synthesizedSound = new SynthesizedSound(key, sound);
 
         assertThat(speechSynthesizer.outSize(), is(0));
 
-        speechSynthesizer.addSynthesizedParagraph(paragraph);
+        speechSynthesizer.addSynthesizedParagraph(synthesizedSound);
         assertThat(speechSynthesizer.outSize(), is(1));
 
         speechSynthesizer.getSynthesizedSound(key);
