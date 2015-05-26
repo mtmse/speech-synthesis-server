@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.beans.Transient;
 import java.util.Arrays;
 
+@Deprecated
 public class ParagraphReady implements Paragraph {
     @JsonIgnore
     private String key;
