@@ -1,9 +1,9 @@
 # Add an optional timeout
 The client should be able to increase the timeout for a synthesis job.
 If a specific speech unit is large, the client should be allowed to let 
-the server work on it for a longer period of time than specified for 
+the server work on it for a longer period of time than the default for 
 the server.
-The client will have to deal with http time out etc.
+The client will have to deal with http timeout etc.
 
 # Check resources when creating a new Filibuster
 Do some environment check before creating a new Filibuster.
@@ -33,8 +33,8 @@ Create a status page that
 * Shows the build date, the deploy date and the version number
 
 # Health check
-Create a health check that checks the Filibuster pool and all living 
-Filibusters and verifies that that they are ok
+Create a health check that checks the Filibuster pool, all living 
+Filibusters and verifies that that they are ok.
 
 # Priority
 Investigate how three different priorities can be implemented.
@@ -52,7 +52,7 @@ The priority should be set by the client in the request.
 # Do a presentation
 * The application flow
 * The status page
-* Settings - what can be set from the setting
+* Settings - what can be set from the settings
 * Running from a command line
 * How do you do an installation
 * Known limitations
