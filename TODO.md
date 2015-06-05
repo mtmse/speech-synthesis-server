@@ -1,3 +1,22 @@
+# Status page
+Create a status page that 
+
+* Shows
+  * Status
+  * How many Filibusters are currently being used
+  * How old is the oldest
+  * How old is the youngest
+* Has a button that does a post to the invalidate resource.
+  Return to the status page with a text stating that an invalidation 
+  was done at a certain point in time
+* Has a link to the release notes
+* Shows the build date, the deploy date and the version number
+
+# Invalidate all Filibusters
+Create a resource that invalidates all Filibusters in the pool and doesn't 
+add any of the Filibusters being used. Any job that currently is executed 
+should not be affected.
+
 # Add an optional timeout
 The client should be able to increase the timeout for a synthesis job.
 If a specific speech unit is large, the client should be allowed to let 
@@ -12,25 +31,6 @@ How much memory is available?
 # Add Filibuster until the pool maxsize
 Add Filibusters until the resources in the host are used 
 or the max size of the Filibuster pool is reached
-
-# Invalidate all Filibusters
-Create a resource that invalidates all Filibusters in the pool and doesn't 
-add any of the Filibusters being used. Any job that currently is executed 
-should not be affected.
-
-# Status page
-Create a status page that 
-
-* Shows
-  * Status
-  * How many Filibusters are currently being used
-  * How old is the oldest
-  * How old is the youngest
-* Has a button that does a post to the invalidate resource.
-  Return to the status page with a text stating that an invalidation 
-  was done at a certain point in time
-* Has a link to the release notes
-* Shows the build date, the deploy date and the version number
 
 # Health check
 Create a health check that checks the Filibuster pool, all living 
@@ -47,12 +47,3 @@ How should the priorities be consumed? Always the highest priority and then
 the others if there is more capacity available?
 
 The priority should be set by the client in the request.
-
-
-# Do a presentation
-* The application flow
-* The status page
-* Settings - what can be set from the settings
-* Running from a command line
-* How do you do an installation
-* Known limitations
