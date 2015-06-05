@@ -13,16 +13,28 @@ public final class FilibusterPool {
     public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, long timeToLive, boolean slow) {
         filibusters = new LinkedBlockingQueue<>();
         for (int i = 0; i < maxPoolSize; i++) {
+            addFilibuster(speechSynthesizer, timeToLive, slow);
+        }
+    }
+
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, long timeToLive, boolean slow) {
+        if (enoughResources()) {
             Filibuster filibuster = new Filibuster(this, speechSynthesizer, timeToLive, slow);
             filibusters.add(filibuster);
         }
+    }
+
+    private boolean enoughResources() {
+        // todo check the available resources
+
+        return true;
     }
 
     /**
      * Is there a Filibuster available for handling a synthesis?
      *
      * @return true if there is a Filibuster ready to synthesise,
-     * false if no Filibuster is ready.
+     * false if no Filibuster is available.
      */
     boolean peekFilibuster() {
         return filibusters.peek() != null;
