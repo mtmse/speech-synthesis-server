@@ -17,7 +17,7 @@ dependencies {
 
     testCompile project(':client')
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion
-    testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
+    testCompile 'org.seleniumhq.selenium:selenium-java:2.46.0'
 }
 
 sourceSets {

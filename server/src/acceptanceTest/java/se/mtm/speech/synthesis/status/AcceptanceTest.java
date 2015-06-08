@@ -40,7 +40,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    public void watch_status_page() {
+    public void watch_status_page() throws Exception {
         Date oldestAcceptable = getDate(-1);
         Date newestAcceptable = getDate(1);
 
