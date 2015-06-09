@@ -1,9 +1,12 @@
-package se.mtm.speech.synthesis;
+package se.mtm.speech.synthesis.synyhesize;
 
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.Rule;
 import org.junit.Test;
+import se.mtm.speech.synthesis.Main;
+import se.mtm.speech.synthesis.SpeechClient;
+import se.mtm.speech.synthesis.SynthesizedSound;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 
 import static junit.framework.TestCase.assertFalse;

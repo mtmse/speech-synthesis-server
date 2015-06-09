@@ -53,4 +53,8 @@ public class Dispatcher implements Runnable {
             LOGGER.warn(e.getMessage());
         }
     }
+
+    public void invalidate() {
+        pool.invalidate();
+    }
 }

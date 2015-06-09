@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.HealthCheck;
+import se.mtm.speech.synthesis.status.InvalidateFilibusterResource;
 import se.mtm.speech.synthesis.status.StatusResource;
 import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
@@ -30,6 +31,9 @@ public class Main extends Application<Configuration> {
         long defaultTimeout = configuration.getTimeout();
         SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer, defaultTimeout, idleTime);
         environment.jersey().register(synthesizer);
+
+        InvalidateFilibusterResource invalidator = new InvalidateFilibusterResource(speechSynthesizer);
+        environment.jersey().register(invalidator);
 
         StatusResource status = new StatusResource();
         environment.jersey().register(status);

@@ -104,4 +104,8 @@ public class SpeechSynthesizer implements Managed {
             LOGGER.warn(e.getMessage());
         }
     }
+
+    public void invalidate() {
+        dispatcher.invalidate();
+    }
 }

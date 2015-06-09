@@ -5,6 +5,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DispatcherTest {
@@ -31,6 +32,16 @@ public class DispatcherTest {
         pause();
 
         assertFalse("Dispatcher should not be running", dispatcher.isRunning());
+    }
+
+    @Test
+    public void invalidate_filibusters(){
+        FilibusterPool pool = mock(FilibusterPool.class);
+        Dispatcher dispatcher = new Dispatcher(pool, null, 0);
+
+        dispatcher.invalidate();
+
+        verify(pool).invalidate();
     }
 
     private void pause() throws InterruptedException {

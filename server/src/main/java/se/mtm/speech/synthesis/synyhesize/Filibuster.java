@@ -10,11 +10,11 @@ public class Filibuster implements Runnable {
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
-    private final long timeToDie;
     private final boolean slowPerformance;
+    private long timeToDie;
     private SpeechUnit speechUnit;
 
-    public Filibuster(FilibusterPool pool, long timeToLive) {
+    Filibuster(FilibusterPool pool, long timeToLive) {
         this(pool, null, timeToLive, true);
     }
 
@@ -38,6 +38,10 @@ public class Filibuster implements Runnable {
 
     public boolean isTooOld() {
         return System.currentTimeMillis() > timeToDie;
+    }
+
+    public void setTimeToDie(long timeToDie) {
+        this.timeToDie = timeToDie;
     }
 
     private SynthesizedSound synthesize() {

@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/synthesize")
 @Produces(MediaType.APPLICATION_JSON)
 public class SynthesizeResource {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpeechSynthesizer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SynthesizeResource.class);
 
     private final SpeechSynthesizer synthesizer;
     private final long idleTime;
@@ -38,6 +38,7 @@ public class SynthesizeResource {
 
         long timeout = System.currentTimeMillis() + defaultTimeout;
 
+        // todo return that the que is full if the speech unit wasn't added
         synthesizer.addSpeechUnit(speechUnit);
 
         while (!synthesizer.isSpeechUnitReady(key)) {
