@@ -27,7 +27,7 @@
 
     <rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts">
         <properties>
-            <property name="maximumAsserts" value="3"/>
+            <property name="maximumAsserts" value="4"/>
         </properties>
     </rule>
 

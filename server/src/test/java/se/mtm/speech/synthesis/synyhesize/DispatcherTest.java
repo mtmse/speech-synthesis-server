@@ -35,7 +35,7 @@ public class DispatcherTest {
     }
 
     @Test
-    public void invalidate_filibusters(){
+    public void invalidate_filibusters(){ // NOPMD
         FilibusterPool pool = mock(FilibusterPool.class);
         Dispatcher dispatcher = new Dispatcher(pool, null, 0);
 

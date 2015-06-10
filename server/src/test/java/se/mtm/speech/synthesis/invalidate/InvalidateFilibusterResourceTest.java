@@ -10,11 +10,11 @@ import static org.mockito.Mockito.verify;
 public class InvalidateFilibusterResourceTest {
 
     @Test
-    public void invalidate_filibusters() {
+    public void invalidate_filibusters() { // NOPMD
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
 
-        InvalidateFilibusterResource invalidateFilibuster = new InvalidateFilibusterResource(synthesizer);
-        invalidateFilibuster.invalidate();
+        InvalidateFilibusterResource resource = new InvalidateFilibusterResource(synthesizer);
+        resource.invalidate();
 
         verify(synthesizer).invalidate();
     }
