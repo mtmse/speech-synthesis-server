@@ -12,11 +12,11 @@ import java.util.List;
 class Filibuster implements Synthesizer, Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Filibuster.class);
     private final FilibusterPool pool;
-    private FilibusterProcess process;
     private final SpeechSynthesizer synthesizer;
+    private final long timeout;
+    private FilibusterProcess process;
     private long timeToDie;
     private SpeechUnit speechUnit;
-    private final long timeout;
 
     Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, long timeout, long timeToLive) {
         this.process = process;
@@ -97,7 +97,7 @@ class Filibuster implements Synthesizer, Runnable {
     }
 
     private void testSynthesize() {
-        SpeechUnit speechUnit = new SpeechUnit("Den bruna räven hoppade över den lata junden.");
+        SpeechUnit speechUnit = new SpeechUnit("Den bruna rÃ¤ven hoppade Ã¶ver den lata junden.");
         setSpeechUnit(speechUnit);
         synthesize();
     }
