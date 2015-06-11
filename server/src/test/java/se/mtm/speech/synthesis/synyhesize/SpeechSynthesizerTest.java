@@ -16,9 +16,10 @@ public class SpeechSynthesizerTest {
     public void setUp() throws Exception {
         int capacity = 1;
         int poolSize = 1;
+        int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, timeToLive, idleTime, false);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
     }
 
@@ -91,20 +92,21 @@ public class SpeechSynthesizerTest {
     }
 
     @Test
-    public void add_many_paragraphs_and_verify_that_they_are_synthesised_withinh_the_timeout_period() throws Exception {
+    public void add_many_paragraphs_and_verify_that_they_are_synthesised_within_the_timeout_period() throws Exception {
         int inCapacity = 17;
         int poolSize = 5;
+        int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, timeToLive, idleTime, false);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
         int expectedSize = 42;
 
-        int timeout = 5000;
-        long stopTime = System.currentTimeMillis() + timeout;
+        int testTimeout = 5000;
+        long stopTime = System.currentTimeMillis() + testTimeout;
 
-        addParagraphsForSynthetisation(timeout, stopTime, expectedSize);
-        waitForParagraphsToBeSynthesised(timeout, stopTime, expectedSize);
+        addParagraphsForSynthetisation(testTimeout, stopTime, expectedSize);
+        waitForParagraphsToBeSynthesised(testTimeout, stopTime, expectedSize);
 
         assertThat(speechSynthesizer.outSize(), is(expectedSize));
         assertThat(speechSynthesizer.inQueSize(), is(0));

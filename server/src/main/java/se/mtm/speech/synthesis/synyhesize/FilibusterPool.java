@@ -1,36 +1,43 @@
 package se.mtm.speech.synthesis.synyhesize;
 
-import java.util.LinkedList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class FilibusterPool {
+class FilibusterPool {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterPool.class);
+
     private SpeechSynthesizer speechSynthesizer;
     private int maxPoolSize;
+    private long timeout;
     private long timeToLive;
-    private boolean slow;
-    private Queue<Filibuster> waiting;
-    private List<Filibuster> all;
+    private boolean fake;
+    private Queue<Synthesizer> waiting;
+    private Queue<Synthesizer> all;
 
-    FilibusterPool(Queue<Filibuster> waiting, List<Filibuster> all, int maxPoolSize) {
+    FilibusterPool(int maxPoolSize, long timeToLive) {
+        this(null, maxPoolSize, 30000, timeToLive, true);
+    }
+
+    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
         this.waiting = waiting;
         this.all = all;
         this.maxPoolSize = maxPoolSize;
+        this.fake = true;
     }
 
-    FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, timeToLive, false);
-    }
-
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, long timeToLive, boolean slow) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, long timeout, long timeToLive, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
+        this.timeout = timeout;
         this.timeToLive = timeToLive;
-        this.slow = slow;
+        this.fake = fake;
 
         waiting = new LinkedBlockingQueue<>();
-        all = new LinkedList<>(); // todo thread safe!
+        all = new LinkedBlockingDeque<>();
 
         topUpFilibuster();
     }
@@ -43,33 +50,41 @@ public class FilibusterPool {
 
     private void replaceWaitingFilibusters() {
         while (!waiting.isEmpty()) {
-            Filibuster filibuster = waiting.poll();
+            Synthesizer filibuster = waiting.poll();
             all.remove(filibuster);
         }
     }
 
     private void prepareFilibusterToDie() {
-        for (Filibuster filibuster : all) {
+        for (Synthesizer filibuster : all) {
             filibuster.setTimeToDie(0);
         }
     }
 
     private void topUpFilibuster() {
+        LOGGER.info("Topping up with Synthesizers");
         while (all.size() < maxPoolSize) {
-            addFilibuster(speechSynthesizer, timeToLive, slow);
+            addFilibuster(speechSynthesizer, timeout, timeToLive, fake);
         }
     }
 
-    private void addFilibuster(SpeechSynthesizer speechSynthesizer, long timeToLive, boolean slow) {
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, long timeout, long timeToLive, boolean fake) {
         if (enoughResources()) {
-            Filibuster filibuster = new Filibuster(this, speechSynthesizer, timeToLive, slow);
-            waiting.add(filibuster);
-            all.add(filibuster);
+            Synthesizer synthesizer;
+
+            if (fake) {
+                synthesizer = new FakeFilibuster(this, speechSynthesizer);
+            } else {
+                synthesizer = new Filibuster(this, speechSynthesizer, timeout, timeToLive);
+            }
+            waiting.add(synthesizer);
+            all.add(synthesizer);
         }
     }
 
     private boolean enoughResources() {
-        // todo check the available resources
+        // todo wmic OS get FreePhysicalMemory /Value
+        // todo cat /proc/meminfo | grep MemFree | awk '{print $2}'
 
         return true;
     }
@@ -84,15 +99,15 @@ public class FilibusterPool {
         return waiting.peek() != null;
     }
 
-    Filibuster getFilibuster() {
+    Synthesizer getSynthesizer() {
         return waiting.poll();
     }
 
-    void returnFilibuster(Filibuster filibuster) {
-        if (filibuster.isTooOld()) {
-            all.remove(filibuster);
+    void returnFilibuster(Synthesizer synthesizer) {
+        if (synthesizer.isTooOld()) {
+            all.remove(synthesizer);
         } else {
-            waiting.offer(filibuster);
+            waiting.offer(synthesizer);
         }
         topUpFilibuster();
     }

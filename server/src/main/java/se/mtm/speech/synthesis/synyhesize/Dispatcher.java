@@ -3,7 +3,7 @@ package se.mtm.speech.synthesis.synyhesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Dispatcher implements Runnable {
+class Dispatcher implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class);
 
     private final FilibusterPool pool;
@@ -12,17 +12,17 @@ public class Dispatcher implements Runnable {
     private boolean work = true;
     private boolean running;
 
-    public Dispatcher(FilibusterPool pool, SpeechSynthesizer speechSynthesizer, long idleTime) {
+    Dispatcher(FilibusterPool pool, SpeechSynthesizer speechSynthesizer, long idleTime) {
         this.pool = pool;
         this.speechSynthesizer = speechSynthesizer;
         this.idleTime = idleTime;
     }
 
-    public void shutDown() {
+    void shutDown() {
         this.work = false;
     }
 
-    public boolean isRunning() {
+    boolean isRunning() {
         return running;
     }
 
@@ -32,10 +32,10 @@ public class Dispatcher implements Runnable {
         while (work) {
             if (speechSynthesizer.peekNext() && pool.peekFilibuster()) {
                 SpeechUnit speechUnit = speechSynthesizer.getNext();
-                Filibuster filibuster = pool.getFilibuster();
+                Synthesizer filibuster = pool.getSynthesizer();
                 if (filibuster != null) {
                     filibuster.setSpeechUnit(speechUnit);
-                    Thread thread = new Thread(filibuster);
+                    Thread thread = new Thread((Runnable) filibuster);
                     thread.start();
                 }
             } else {
@@ -54,7 +54,7 @@ public class Dispatcher implements Runnable {
         }
     }
 
-    public void invalidate() {
+    void invalidate() {
         pool.invalidate();
     }
 }

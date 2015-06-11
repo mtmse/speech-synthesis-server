@@ -29,7 +29,7 @@ public class SynthesizeResource {
     @GET
     @Timed
     public SynthesizedSound synthesize(@QueryParam("sentence") String sentence) {
-        // todo add an optional parameter, ttl for the paragraph
+        // todo add an optional parameter, timeout for the synthesis
         String message = "Received: <" + sentence + ">";
         LOGGER.info(message);
 

@@ -42,4 +42,10 @@ public class ConfigurationTest {
         int actual = configuration.getTimeout();
         assertThat(actual, is(expected));
     }
+
+    @Test
+    public void ensure_default_value_for_fake_is_false() throws Exception {
+        boolean actual = configuration.isFakeSynthesize();
+        assertThat(actual, is(false));
+    }
 }

@@ -19,6 +19,9 @@ public class Configuration extends io.dropwizard.Configuration {
     @JsonProperty
     private int idleTime = 100; // NOPMD set by reflection
 
+    @JsonProperty
+    private boolean fake = false; // NOPMD set by reflection
+
     public int getTimeout() {
         return timeout;
     }
@@ -37,5 +40,9 @@ public class Configuration extends io.dropwizard.Configuration {
 
     public int getTimeToLive() {
         return timeToLive;
+    }
+
+    public boolean isFakeSynthesize() {
+        return fake;
     }
 }

@@ -1,19 +1,23 @@
 package se.mtm.speech.synthesis.synyhesize;
 
-public class SpeechUnit {
-    private final String key;
+class SpeechUnit {
     private final String text;
+    private String key;
 
-    public SpeechUnit(String key, String text) {
+    SpeechUnit(String text) {
+        this.text = text;
+    }
+
+    SpeechUnit(String key, String text) {
         this.key = key;
         this.text = text;
     }
 
-    public String getKey() {
+    String getKey() {
         return key;
     }
 
-    public String getText() {
+    String getText() {
         return text;
     }
 }
