@@ -1,6 +1,6 @@
 capacity: 17
-maxFilibusters: 18
-minimumMemory: 2
+maxFilibusters: 3
+minimumMemory: 1
 timeToLive: 21 # minutes
 idleTime: 19 # milli seconds
 timeout: 20 # seconds
