@@ -11,6 +11,7 @@ import java.util.List;
 
 class Filibuster implements Synthesizer, Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Filibuster.class);
+
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
     private final long timeout;
