@@ -67,23 +67,21 @@ class FilibusterPool {
 
     private void topUpFilibuster() {
         LOGGER.info("Topping up with Synthesizers");
-        while (all.size() < maxPoolSize) {
+        while (all.size() < maxPoolSize && enoughResources()) {
             addFilibuster(speechSynthesizer, timeout, timeToLive, fake);
         }
     }
 
     private void addFilibuster(SpeechSynthesizer speechSynthesizer, long timeout, long timeToLive, boolean fake) {
-        if (enoughResources()) {
-            Synthesizer synthesizer;
+        Synthesizer synthesizer;
 
-            if (fake) {
-                synthesizer = new FakeFilibuster(this, speechSynthesizer);
-            } else {
-                synthesizer = new Filibuster(this, speechSynthesizer, timeout, timeToLive);
-            }
-            waiting.add(synthesizer);
-            all.add(synthesizer);
+        if (fake) {
+            synthesizer = new FakeFilibuster(this, speechSynthesizer);
+        } else {
+            synthesizer = new Filibuster(this, speechSynthesizer, timeout, timeToLive);
         }
+        waiting.add(synthesizer);
+        all.add(synthesizer);
     }
 
     private boolean enoughResources() {
