@@ -2,6 +2,7 @@ package se.mtm.speech.synthesis.synyhesize;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.Resources;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -17,9 +18,11 @@ class FilibusterPool {
     private boolean fake;
     private Queue<Synthesizer> waiting;
     private Queue<Synthesizer> all;
+    private Resources resources;
+    private int minimumMemory;
 
     FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 30000, timeToLive, true);
+        this(null, maxPoolSize, 2, 30000, timeToLive, true);
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
@@ -29,9 +32,10 @@ class FilibusterPool {
         this.fake = true;
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, long timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, long timeout, long timeToLive, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
+        this.minimumMemory = minimumMemory;
         this.timeout = timeout;
         this.timeToLive = timeToLive;
         this.fake = fake;
@@ -83,10 +87,15 @@ class FilibusterPool {
     }
 
     private boolean enoughResources() {
-        // todo wmic OS get FreePhysicalMemory /Value
-        // todo cat /proc/meminfo | grep MemFree | awk '{print $2}'
+        if (resources == null) {
+            resources = new Resources();
+        }
 
-        return true;
+        int availableMemory = resources.getAvailableMemory();
+        String message = "Have " + availableMemory + " Gb memory free";
+        LOGGER.info(message);
+
+        return availableMemory > minimumMemory;
     }
 
     /**

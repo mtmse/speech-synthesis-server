@@ -13,7 +13,11 @@ dependencies {
     compile 'io.dropwizard:dropwizard-core:' + dropwizardVersion
     compile 'io.dropwizard:dropwizard-assets:' + dropwizardVersion
     compile 'io.dropwizard:dropwizard-views-mustache:' + dropwizardVersion
-    compile 'io.dropwizard:dropwizard-client:' + dropwizardVersion
+    compile ('io.dropwizard:dropwizard-client:' + dropwizardVersion) {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.fusesource:sigar:1.6.4'
 
     testCompile project(':client')
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion

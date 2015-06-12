@@ -14,6 +14,9 @@ public class Configuration extends io.dropwizard.Configuration {
     private int maxFilibusters = 6; // NOPMD set by reflection
 
     @JsonProperty
+    private int minimumMemory = 2; // NOPMD set by reflection
+
+    @JsonProperty
     private int timeToLive = 25; // NOPMD set by reflection
 
     @JsonProperty
@@ -32,6 +35,10 @@ public class Configuration extends io.dropwizard.Configuration {
 
     public int getMaxFilibusters() {
         return maxFilibusters;
+    }
+
+    public int getMinimumMemory() {
+        return minimumMemory;
     }
 
     public int getIdleTime() {

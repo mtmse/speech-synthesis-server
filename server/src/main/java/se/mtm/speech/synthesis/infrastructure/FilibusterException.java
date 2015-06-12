@@ -1,6 +1,6 @@
-package se.mtm.speech.synthesis.synyhesize;
+package se.mtm.speech.synthesis.infrastructure;
 
-class FilibusterException extends RuntimeException {
+public class FilibusterException extends RuntimeException {
     public FilibusterException(String message) {
         super(message);
     }

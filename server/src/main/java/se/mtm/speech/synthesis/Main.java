@@ -23,11 +23,12 @@ public class Main extends Application<Configuration> {
 
         int capacity = configuration.getCapacity();
         int maxFilibusters = configuration.getMaxFilibusters();
+       int minimumMemory = configuration.getMinimumMemory();
         int timeout = configuration.getTimeout();
         int timeToLive = configuration.getTimeToLive();
         int idleTime = configuration.getIdleTime();
         boolean fakeSynthesize = configuration.isFakeSynthesize();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, timeout, timeToLive, idleTime, fakeSynthesize);
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, timeout, timeToLive, idleTime, fakeSynthesize);
         environment.lifecycle().manage(speechSynthesizer);
 
         long defaultTimeout = configuration.getTimeout();

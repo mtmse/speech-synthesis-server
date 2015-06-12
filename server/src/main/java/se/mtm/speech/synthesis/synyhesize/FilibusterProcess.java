@@ -1,5 +1,7 @@
 package se.mtm.speech.synthesis.synyhesize;
 
+import se.mtm.speech.synthesis.infrastructure.FilibusterException;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

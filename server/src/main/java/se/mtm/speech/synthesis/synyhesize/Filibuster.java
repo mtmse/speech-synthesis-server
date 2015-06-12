@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synyhesize;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 
 import java.io.IOException;
 import java.io.InputStream;
