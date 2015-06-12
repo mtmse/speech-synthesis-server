@@ -5,14 +5,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
-class FakeFilibuster implements Synthesizer, Runnable {
+class FakeFilibuster extends Synthesizer implements  Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(FakeFilibuster.class);
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
-    private long timeToDie;
-    private SpeechUnit speechUnit;
 
     FakeFilibuster(FilibusterPool pool, SpeechSynthesizer synthesizer) {
+        super(0);
         this.pool = pool;
         this.synthesizer = synthesizer;
     }
@@ -27,26 +26,11 @@ class FakeFilibuster implements Synthesizer, Runnable {
     private SynthesizedSound synthesize() {
         simulateSlowExecution();
 
-        String key = speechUnit.getKey();
-        String sentence = speechUnit.getText();
+        String key = getSpeechUnitKey();
+        String sentence = getSpeechUnitText();
         byte[] sound = sentence.getBytes();
 
         return new SynthesizedSound(key, sound);
-    }
-
-    @Override
-    public void setSpeechUnit(SpeechUnit speechUnit) {
-        this.speechUnit = speechUnit;
-    }
-
-    @Override
-    public boolean isTooOld() {
-        return System.currentTimeMillis() > timeToDie;
-    }
-
-    @Override
-    public void setTimeToDie(long timeToDie) {
-        this.timeToDie = timeToDie;
     }
 
     private void simulateSlowExecution() {

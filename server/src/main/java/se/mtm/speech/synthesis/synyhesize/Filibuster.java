@@ -9,29 +9,27 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-class Filibuster implements Synthesizer, Runnable {
+class Filibuster extends Synthesizer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Filibuster.class);
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
     private final long timeout;
     private FilibusterProcess process;
-    private long timeToDie;
-    private SpeechUnit speechUnit;
 
     Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, long timeout, long timeToLive) {
+        super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
         this.synthesizer = synthesizer;
         this.timeout = timeout;
-        this.timeToDie = System.currentTimeMillis() + timeToLive;
     }
 
     Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, long timeout, long timeToLive) {
+        super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;
         this.timeout = timeout;
-        this.timeToDie = System.currentTimeMillis() + timeToLive;
 
         createFilibusterProcess();
     }
@@ -41,21 +39,6 @@ class Filibuster implements Synthesizer, Runnable {
         SynthesizedSound synthesised = synthesize();
         synthesizer.addSynthesizedParagraph(synthesised);
         pool.returnFilibuster(this);
-    }
-
-    @Override
-    public void setSpeechUnit(SpeechUnit speechUnit) {
-        this.speechUnit = speechUnit;
-    }
-
-    @Override
-    public boolean isTooOld() {
-        return System.currentTimeMillis() > timeToDie;
-    }
-
-    @Override
-    public void setTimeToDie(long timeToDie) {
-        this.timeToDie = timeToDie;
     }
 
     private void createFilibusterProcess() {
@@ -75,8 +58,8 @@ class Filibuster implements Synthesizer, Runnable {
     }
 
     private SynthesizedSound synthesize() {
-        String key = speechUnit.getKey();
-        process.write(speechUnit.getText());
+        String key = getSpeechUnitKey();
+        process.write(getSpeechUnitText());
         byte[] sound = process.getSound();
 
         return new SynthesizedSound(key, sound);
@@ -108,7 +91,7 @@ class Filibuster implements Synthesizer, Runnable {
         String filibusterScript = "E:\\git\\filibuster\\Synthesis\\SynthesisCore\\filibuster.tcl";
         String logFile = "E:\\git\\daisypipeline\\dmfc\\testa.log";
 
-        List<String> cmd = new LinkedList<String>();
+        List<String> cmd = new LinkedList<>();
 
         if (SystemUtils.IS_OS_WINDOWS) {
             cmd.add("cmd");
