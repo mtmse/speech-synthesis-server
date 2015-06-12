@@ -12,8 +12,6 @@ import static org.mockito.Mockito.when;
 
 public class ResourcesTest {
 
-
-
     @Test
     public void get_available_memory() throws Exception {
         Resources.prepareNativeLibs("tmp");
@@ -30,5 +28,4 @@ public class ResourcesTest {
 
         assertThat(actual, is(expectedGigabyte));
     }
-
 }

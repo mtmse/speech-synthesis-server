@@ -1,15 +1,14 @@
 package se.mtm.speech.synthesis.infrastructure;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Resources {
@@ -38,20 +37,42 @@ public class Resources {
     }
 
     private static void copyLibrariesToDisk(String directory) throws IOException {
-        ClassLoader classLoader = Resources.class.getClassLoader();
-        InputStream resourceAsStream = classLoader.getResourceAsStream("sigar");
-        List<String> files = IOUtils.readLines(resourceAsStream, Charsets.UTF_8);
+        List<String> libraries = new LinkedList<>();
 
-        File targetDir = new File(directory);
-        //noinspection ResultOfMethodCallIgnored
-        targetDir.mkdirs();
+        libraries.add(".sigar_shellrc");
+        libraries.add("libsigar-amd64-freebsd-6.so");
+        libraries.add("libsigar-amd64-linux.so");
+        libraries.add("libsigar-amd64-solaris.so");
+        libraries.add("libsigar-ia64-hpux-11.sl");
+        libraries.add("libsigar-ia64-linux.so");
+        libraries.add("libsigar-pa-hpux-11.sl");
+        libraries.add("libsigar-ppc-aix-5.so");
+        libraries.add("libsigar-ppc-linux.so");
+        libraries.add("libsigar-ppc64-aix-5.so");
+        libraries.add("libsigar-ppc64-linux.so");
+        libraries.add("libsigar-s390x-linux.so");
+        libraries.add("libsigar-sparc-solaris.so");
+        libraries.add("libsigar-sparc64-solaris.so");
+        libraries.add("libsigar-universal-macosx.dylib");
+        libraries.add("libsigar-universal64-macosx.dylib");
+        libraries.add("libsigar-x86-freebsd-5.so");
+        libraries.add("libsigar-x86-freebsd-6.so");
+        libraries.add("libsigar-x86-linux.so");
+        libraries.add("libsigar-x86-solaris.so");
+        libraries.add("sigar-amd64-winnt.dll");
+        libraries.add("sigar-x86-winnt.dll");
+        libraries.add("sigar-x86-winnt.lib");
 
-        for (String fileName : files) {
-            InputStream fileStream = classLoader.getResourceAsStream("sigar/" + fileName);
-            File targetFile = new File(directory + "/" + fileName);
-            if (!targetFile.exists()) {
-                FileUtils.copyInputStreamToFile(fileStream, targetFile);
-            }
+        for (String library : libraries) {
+            copyLibrary(library, directory);
+        }
+    }
+
+    private static void copyLibrary(String library, String directory) throws IOException {
+        URL inputUrl = Resources.class.getResource("/sigar/" + library);
+        File dest = new File(directory + "/" + library);
+        if (!dest.exists()) {
+            FileUtils.copyURLToFile(inputUrl, dest);
         }
     }
 
