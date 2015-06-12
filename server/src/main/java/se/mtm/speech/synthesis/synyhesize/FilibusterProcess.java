@@ -44,7 +44,7 @@ class FilibusterProcess {
                 int endOfFile = -1;
                 if (currentByte == endOfFile) {
                     String msg = "Connection to the TTS was lost unexpectedly";
-                    throw new RuntimeException(msg);
+                    throw new FilibusterException(msg);
                 }
                 size += (char) currentByte;
                 waitFor(reader);
@@ -68,7 +68,7 @@ class FilibusterProcess {
                 int read = reader.read(audio, start, remaining);
                 remaining -= read;
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new FilibusterException(e);
             }
         }
 
@@ -86,14 +86,14 @@ class FilibusterProcess {
         }
 
         String msg = "Wait timed out. The timeout was set to " + timeout + "ms";
-        throw new RuntimeException(msg);
+        throw new FilibusterException(msg);
     }
 
     private boolean isStreamReady(InputStream inputStream) {
         try {
             return inputStream.available() > 0;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FilibusterException(e);
         }
     }
 
@@ -101,7 +101,7 @@ class FilibusterProcess {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new FilibusterException(e);
         }
     }
 }
