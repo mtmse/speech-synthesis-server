@@ -1,5 +1,6 @@
 capacity: 17
 maxFilibusters: 3
+filibusterHome: "/home/folke/filibuster/Synthesis/SynthesisCore"
 minimumMemory: 1
 timeToLive: 21 # minutes
 idleTime: 19 # milli seconds

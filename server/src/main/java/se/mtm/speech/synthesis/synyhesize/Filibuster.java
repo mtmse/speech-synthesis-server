@@ -18,18 +18,23 @@ class Filibuster extends Synthesizer implements Runnable {
     private final long timeout;
     private FilibusterProcess process;
 
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, long timeout, long timeToLive) {
+    private final String filibusterHome;
+
+    // used for testing
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, long timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
         this.synthesizer = synthesizer;
+        this.filibusterHome = filibusterHome;
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, long timeout, long timeToLive) {
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, long timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;
+        this.filibusterHome = filibusterHome;
         this.timeout = timeout;
 
         createFilibusterProcess();
@@ -88,9 +93,7 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     private String[] getCommand() {
-        // todo configuration
-        String filibusterScript = "E:\\git\\filibuster\\Synthesis\\SynthesisCore\\filibuster.tcl";
-        String logFile = "E:\\git\\daisypipeline\\dmfc\\testa.log";
+        String filibusterScript = filibusterHome + "filibuster.tcl";
 
         List<String> cmd = new LinkedList<>();
 
@@ -112,6 +115,10 @@ class Filibuster extends Synthesizer implements Runnable {
         cmd.add("-rate");
         cmd.add("22050");
         cmd.add("-log");
+
+        // todo Generate logfile name
+        String logFile = "E:\\git\\daisypipeline\\dmfc\\testa.log";
+
         cmd.add(logFile);
         cmd.add("-debug");
         cmd.add("1");

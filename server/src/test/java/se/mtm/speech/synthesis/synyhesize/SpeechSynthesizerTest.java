@@ -20,7 +20,7 @@ public class SpeechSynthesizerTest {
         int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, timeout, timeToLive, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, "not used", timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
     }
 
@@ -30,7 +30,7 @@ public class SpeechSynthesizerTest {
     }
 
     @Test
-    public void synthezise_paragraph() throws Exception {
+    public void synthesise_paragraph() throws Exception {
         String key = "17";
         String sentence = "A sentence to be synthesized";
         byte[] sound = sentence.getBytes();
@@ -100,21 +100,37 @@ public class SpeechSynthesizerTest {
         int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, timeout, timeToLive, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, "not used", timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
         int expectedSize = 42;
 
         int testTimeout = 5000;
         long stopTime = System.currentTimeMillis() + testTimeout;
 
-        addParagraphsForSynthetisation(testTimeout, stopTime, expectedSize);
-        waitForParagraphsToBeSynthesised(testTimeout, stopTime, expectedSize);
+        addParagraph(testTimeout, stopTime, expectedSize);
+        waitForParagraphs(testTimeout, stopTime, expectedSize);
 
         assertThat(speechSynthesizer.outSize(), is(expectedSize));
         assertThat(speechSynthesizer.inQueSize(), is(0));
     }
 
-    private void addParagraphsForSynthetisation(int timeout, long stopTime, int expectedSize) throws InterruptedException {
+    @Test
+    public void add_missing_trailing_slash() {
+        String expected = "missing_slash/";
+        String actual = SpeechSynthesizer.addTrailingSlash("missing_slash");
+
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void ignore_existing_slash() {
+        String expected = "has_slash/";
+        String actual = SpeechSynthesizer.addTrailingSlash("has_slash/");
+
+        assertThat(actual, is(expected));
+    }
+
+    private void addParagraph(int timeout, long stopTime, int expectedSize) throws InterruptedException {
         for (int counter = 0; counter < expectedSize; counter++) {
             String key = "" + counter;
             String sentence = "The brown fox... " + counter;
@@ -126,7 +142,7 @@ public class SpeechSynthesizerTest {
         }
     }
 
-    private void waitForParagraphsToBeSynthesised(int timeout, long stopTime, int expectedSize) throws InterruptedException {
+    private void waitForParagraphs(int timeout, long stopTime, int expectedSize) throws InterruptedException {
         while (speechSynthesizer.outSize() != expectedSize) {
             assertTrue("The paragraphs should have been consumed withing " + timeout + "ms", System.currentTimeMillis() < stopTime);
             pause();

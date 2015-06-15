@@ -16,14 +16,15 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, long timeout, long timeToLive, long idleTime, boolean fake) {
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, long timeout, long timeToLive, long idleTime, boolean fake) {
         this.filibusters = maxFilibusters;
 
         int second = 1000;
         int minute = 60 * second;
         long timeoutMillis = timeout * second;
         long ttl = timeToLive * minute;
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, timeoutMillis, ttl, fake);
+        String homeFilibuster = addTrailingSlash(filibusterHome);
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, homeFilibuster, timeoutMillis, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);
@@ -97,6 +98,14 @@ public class SpeechSynthesizer implements Managed {
 
     public int inQueSize() {
         return inQue.size();
+    }
+
+    static String addTrailingSlash(String filibusterHome) {
+        if (filibusterHome.endsWith("/")) {
+            return filibusterHome;
+        } else {
+            return filibusterHome + "/";
+        }
     }
 
     private void pause() {

@@ -26,6 +26,7 @@ public class MainTest {
         when(environment.healthChecks()).thenReturn(healthCheck);
         when(environment.jersey()).thenReturn(jersey);
         when(config.getCapacity()).thenReturn(1);
+        when(config.getFilibusterHome()).thenReturn("not important");
         when(config.isFakeSynthesize()).thenReturn(true);
 
         application.run(config, environment);
