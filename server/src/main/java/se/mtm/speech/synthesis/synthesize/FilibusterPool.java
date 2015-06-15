@@ -122,4 +122,13 @@ class FilibusterPool {
         }
         topUpFilibuster();
     }
+
+    public boolean isHealthy() {
+        for (Synthesizer synthesizer : all){
+            if (!synthesizer.isHealthy()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

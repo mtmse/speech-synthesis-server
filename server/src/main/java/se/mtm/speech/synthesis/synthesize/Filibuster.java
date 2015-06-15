@@ -132,4 +132,9 @@ class Filibuster extends Synthesizer implements Runnable {
 
         return cmd.toArray(new String[cmd.size()]);
     }
+
+    @Override
+    boolean isHealthy() {
+        return process.isHealthy();
+    }
 }

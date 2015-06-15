@@ -1,6 +1,6 @@
 package se.mtm.speech.synthesis.synthesize;
 
-class Synthesizer {
+abstract class Synthesizer {
     private SpeechUnit speechUnit;
     private long timeToDie;
 
@@ -27,4 +27,6 @@ class Synthesizer {
     void setTimeToDie(long timeToDie) {
         this.timeToDie = timeToDie;
     }
+
+    abstract boolean isHealthy();
 }

@@ -106,4 +106,8 @@ class FilibusterProcess {
             throw new FilibusterException(e);
         }
     }
+
+    public boolean isHealthy() {
+        return process.isAlive();
+    }
 }

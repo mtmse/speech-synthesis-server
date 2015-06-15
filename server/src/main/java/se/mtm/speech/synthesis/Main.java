@@ -6,7 +6,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
-import se.mtm.speech.synthesis.infrastructure.HealthCheck;
+import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
 import se.mtm.speech.synthesis.status.InvalidateFilibusterResource;
 import se.mtm.speech.synthesis.status.StatusResource;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
@@ -19,8 +19,6 @@ public class Main extends Application<Configuration> {
 
     @Override
     public void run(Configuration configuration, Environment environment) throws Exception {
-        environment.healthChecks().register("HealthCheck", new HealthCheck());
-
         int capacity = configuration.getCapacity();
         int maxFilibusters = configuration.getMaxFilibusters();
         String filibusterHome = configuration.getFilibusterHome();
@@ -32,6 +30,8 @@ public class Main extends Application<Configuration> {
         boolean fakeSynthesize = configuration.isFakeSynthesize();
         SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fakeSynthesize);
         environment.lifecycle().manage(speechSynthesizer);
+
+        environment.healthChecks().register("Filibuster health check", new FilibusterHealthCheck(speechSynthesizer));
 
         long defaultTimeout = configuration.getTimeout();
         SynthesizeResource synthesizer = new SynthesizeResource(speechSynthesizer, defaultTimeout, idleTime);

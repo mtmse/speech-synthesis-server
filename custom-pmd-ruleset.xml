@@ -46,6 +46,7 @@
     <rule ref="rulesets/java/naming.xml">
         <exclude name="ShortClassName"/>
         <exclude name="MethodNamingConventions"/>
+        <exclude name="AbstractNaming"/>
     </rule>
 
 </ruleset>

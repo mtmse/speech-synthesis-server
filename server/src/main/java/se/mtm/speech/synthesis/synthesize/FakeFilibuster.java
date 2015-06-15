@@ -50,4 +50,9 @@ class FakeFilibuster extends Synthesizer implements  Runnable {
             LOGGER.warn(e.getMessage());
         }
     }
+
+    @Override
+    boolean isHealthy() {
+        return true;
+    }
 }

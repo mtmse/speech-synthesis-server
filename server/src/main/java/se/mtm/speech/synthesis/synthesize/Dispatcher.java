@@ -57,4 +57,8 @@ class Dispatcher implements Runnable {
     void invalidate() {
         pool.invalidate();
     }
+
+    public boolean isHealthy() {
+       return pool.isHealthy();
+    }
 }

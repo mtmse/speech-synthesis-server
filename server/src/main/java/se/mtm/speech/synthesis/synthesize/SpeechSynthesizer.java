@@ -120,4 +120,8 @@ public class SpeechSynthesizer implements Managed {
     public void invalidate() {
         dispatcher.invalidate();
     }
+
+    public boolean isHealthy() {
+        return dispatcher.isHealthy();
+    }
 }
