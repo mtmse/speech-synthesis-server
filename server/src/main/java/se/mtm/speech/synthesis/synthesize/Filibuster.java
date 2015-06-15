@@ -4,6 +4,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
+import se.mtm.speech.synthesis.infrastructure.LogName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,8 +68,7 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     private String createLogFileName() {
-        // todo generate a good file name
-        return "logFileName.log";
+        return LogName.getLogFileName(logHome);
     }
 
     private SynthesizedSound synthesize() {
