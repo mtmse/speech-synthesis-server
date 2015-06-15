@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.synyhesize;
+package se.mtm.speech.synthesis.synthesize;
 
 class SpeechUnit {
     private final String text;

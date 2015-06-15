@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.synyhesize;
+package se.mtm.speech.synthesis.synthesize;
 
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 

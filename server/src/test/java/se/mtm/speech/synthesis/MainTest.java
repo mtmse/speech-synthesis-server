@@ -6,7 +6,7 @@ import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
-import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
+import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

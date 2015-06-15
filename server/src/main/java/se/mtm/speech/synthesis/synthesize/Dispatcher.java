@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.synyhesize;
+package se.mtm.speech.synthesis.synthesize;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

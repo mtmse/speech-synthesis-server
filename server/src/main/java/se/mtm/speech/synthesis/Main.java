@@ -9,8 +9,8 @@ import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.HealthCheck;
 import se.mtm.speech.synthesis.status.InvalidateFilibusterResource;
 import se.mtm.speech.synthesis.status.StatusResource;
-import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
-import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
+import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
+import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 
 public class Main extends Application<Configuration> {
     public static void main(String... args) throws Exception {

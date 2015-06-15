@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.synyhesize;
+package se.mtm.speech.synthesis.synthesize;
 
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
