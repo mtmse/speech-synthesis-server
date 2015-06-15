@@ -1,0 +1,28 @@
+capacity: 10                                                # The size of the in que on the server
+maxFilibusters: 6                                           # The maximum number of Filibusters the server should try to create
+filibusterHome: E:/git/filibuster/Synthesis/SynthesisCore   # The directory where filibuster.tcl is installed
+logHome: E:/git/daisypipeline/dmfc                          # The log directory
+minimumMemory: 2                                            # The minimum memory that should be available before allocating a new Filibuster
+timeToLive: 30                                              # The expected life time of a Filibuster in minutes
+idleTime: 100                                               # The idle time the server will wait before looking asking for a synthesized result in milli seconds
+timeout: 30                                                 # The time a job is allowed for synthesize before a timeout is returned to the caller in seconds
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: speech-synthesis.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: speech-synthesis-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
