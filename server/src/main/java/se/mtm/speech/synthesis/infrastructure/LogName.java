@@ -6,11 +6,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class LogName {
-    private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM");
+public final class LogName {
     private static String logExtension = "log";
 
+    private LogName() {
+        // Utility classes should be final and have a private constructor...
+    }
+
     public static String getLogFileName(String logHome) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM", Locale.ENGLISH);
         String today = sdf.format(new Date());
         String leading = "filibuster-" + today + "-";
 
@@ -60,8 +64,8 @@ public class LogName {
     }
 
     private static int getNextNumber(String leading, String lastLog) {
-        lastLog = lastLog.substring(leading.length());
-        String logNumber = lastLog.substring(0, logExtension.length() + 1);
+        String logName = lastLog.substring(leading.length());
+        String logNumber = logName.substring(0, logExtension.length() + 1);
 
         return Integer.parseInt(logNumber) + 1;
     }

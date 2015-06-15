@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -40,7 +41,7 @@ public class LogNameTest {
     }
 
     private String getToday() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM", Locale.ENGLISH);
         return sdf.format(new Date());
     }
 
