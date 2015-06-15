@@ -17,24 +17,26 @@ class Filibuster extends Synthesizer implements Runnable {
     private final SpeechSynthesizer synthesizer;
     private final long timeout;
     private FilibusterProcess process;
-
     private final String filibusterHome;
+    private final String logHome;
 
     // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, long timeout, long timeToLive) {
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, long timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
         this.synthesizer = synthesizer;
         this.filibusterHome = filibusterHome;
+        this.logHome = logHome;
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, long timeout, long timeToLive) {
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, long timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;
         this.filibusterHome = filibusterHome;
+        this.logHome = logHome;
         this.timeout = timeout;
 
         createFilibusterProcess();
@@ -48,7 +50,8 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     private void createFilibusterProcess() {
-        String[] command = getCommand();
+        String logFileName = createLogFileName();
+        String[] command = getCommand(logFileName);
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.redirectErrorStream(true);
@@ -61,6 +64,11 @@ class Filibuster extends Synthesizer implements Runnable {
         } catch (IOException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
+    }
+
+    private String createLogFileName() {
+        // todo generate a good file name
+        return "logFileName.log";
     }
 
     private SynthesizedSound synthesize() {
@@ -92,8 +100,9 @@ class Filibuster extends Synthesizer implements Runnable {
         synthesize();
     }
 
-    private String[] getCommand() {
+    private String[] getCommand(String logFileName) {
         String filibusterScript = filibusterHome + "filibuster.tcl";
+        String logFile = logHome + logFileName;
 
         List<String> cmd = new LinkedList<>();
 
@@ -115,10 +124,6 @@ class Filibuster extends Synthesizer implements Runnable {
         cmd.add("-rate");
         cmd.add("22050");
         cmd.add("-log");
-
-        // todo Generate logfile name
-        String logFile = "E:\\git\\daisypipeline\\dmfc\\testa.log";
-
         cmd.add(logFile);
         cmd.add("-debug");
         cmd.add("1");

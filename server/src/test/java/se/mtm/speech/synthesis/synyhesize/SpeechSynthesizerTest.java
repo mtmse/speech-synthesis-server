@@ -10,6 +10,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class SpeechSynthesizerTest {
+    private static final String FILIBUSTER_HOME = "filibusterHome";
+    private static final String LOG_HOME = "logHome";
     private SpeechSynthesizer speechSynthesizer;
 
     @Before
@@ -20,7 +22,7 @@ public class SpeechSynthesizerTest {
         int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, "not used", timeout, timeToLive, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME,  LOG_HOME, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
     }
 
@@ -100,7 +102,7 @@ public class SpeechSynthesizerTest {
         int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, "not used", timeout, timeToLive, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
         int expectedSize = 42;
 

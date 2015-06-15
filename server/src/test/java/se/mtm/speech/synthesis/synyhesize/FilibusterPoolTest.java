@@ -12,6 +12,7 @@ import static org.mockito.Mockito.mock;
 
 public class FilibusterPoolTest {
     private static final String FILIBUSTER_HOME = "not used";
+    private static final String LOG_HOME = "not used";
 
     @Test
     public void accept_young_filibusters() {
@@ -22,7 +23,7 @@ public class FilibusterPoolTest {
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
 
-        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, 0, 0);
+        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, LOG_HOME, 0, 0);
 
         pool.returnFilibuster(filibuster);
 
@@ -37,7 +38,7 @@ public class FilibusterPoolTest {
         FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
-        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, 0, timeToLive);
+        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, LOG_HOME, 0, timeToLive);
 
         pool.returnFilibuster(filibuster);
 
@@ -50,11 +51,11 @@ public class FilibusterPoolTest {
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
 
-        Synthesizer idle = new Filibuster(null, fakePool, null, FILIBUSTER_HOME, 0, Integer.MAX_VALUE);
+        Synthesizer idle = new Filibuster(null, fakePool, null, FILIBUSTER_HOME, LOG_HOME, 0, Integer.MAX_VALUE);
         waiting.offer(idle);
         all.add(idle);
 
-        Filibuster running = new Filibuster(null, fakePool, null, FILIBUSTER_HOME, 0, Integer.MAX_VALUE);
+        Filibuster running = new Filibuster(null, fakePool, null, FILIBUSTER_HOME, LOG_HOME, 0, Integer.MAX_VALUE);
         all.add(running);
 
         FilibusterPool pool = new FilibusterPool(waiting, all, 2);

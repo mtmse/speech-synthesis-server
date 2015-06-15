@@ -17,6 +17,9 @@ public class Configuration extends io.dropwizard.Configuration {
     private String filibusterHome = "undefined"; // NOPMD set by reflection
 
     @JsonProperty
+    private String logHome = "undefined"; // NOPMD set by reflection
+
+    @JsonProperty
     private int minimumMemory = 2; // NOPMD set by reflection
 
     @JsonProperty
@@ -58,5 +61,9 @@ public class Configuration extends io.dropwizard.Configuration {
 
     public String getFilibusterHome() {
         return filibusterHome;
+    }
+
+    public String getLogHome() {
+        return logHome;
     }
 }

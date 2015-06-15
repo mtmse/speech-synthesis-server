@@ -18,7 +18,7 @@ public class FilibusterTest {
         long timeout = 30000;
         long timeToLive = 17;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, "not used", timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, "not used", "not used", timeout, timeToLive);
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);

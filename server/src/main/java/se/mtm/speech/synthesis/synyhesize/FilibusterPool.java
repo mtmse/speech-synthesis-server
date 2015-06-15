@@ -13,6 +13,7 @@ class FilibusterPool {
 
     private SpeechSynthesizer speechSynthesizer;
     private int maxPoolSize;
+    private String logHome;
     private long timeout;
     private long timeToLive;
     private boolean fake;
@@ -23,7 +24,7 @@ class FilibusterPool {
     private String filibusterHome;
 
     FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 2, "not defined", 30000, timeToLive, true);
+        this(null, maxPoolSize, 2, "not defined", "not used", 30000, timeToLive, true);
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
@@ -33,11 +34,12 @@ class FilibusterPool {
         this.fake = true;
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, long timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
         this.filibusterHome = filibusterHome;
+        this.logHome = logHome;
         this.timeout = timeout;
         this.timeToLive = timeToLive;
         this.fake = fake;
@@ -70,17 +72,17 @@ class FilibusterPool {
     private void topUpFilibuster() {
         LOGGER.info("Topping up with Synthesizers");
         while (all.size() < maxPoolSize && enoughResources()) {
-            addFilibuster(speechSynthesizer, filibusterHome, timeout, timeToLive, fake);
+            addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
         }
     }
 
-    private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, long timeout, long timeToLive, boolean fake) {
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
         Synthesizer synthesizer;
 
         if (fake) {
             synthesizer = new FakeFilibuster(this, speechSynthesizer);
         } else {
-            synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, timeout, timeToLive);
+            synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, logHome, timeout, timeToLive);
         }
         waiting.add(synthesizer);
         all.add(synthesizer);

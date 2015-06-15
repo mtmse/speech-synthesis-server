@@ -24,7 +24,7 @@ public final class FilibusterProcessTest {
 
         FilibusterProcess filibusterProcess = new FilibusterProcess(process, timeout);
 
-        Filibuster filibuster = new Filibuster(null, null, null, 0, 0);
+        Filibuster filibuster = new Filibuster(null, null, null, null, 0, 0);
 
         filibuster.clearStartMessages(process);
 

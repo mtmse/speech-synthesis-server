@@ -16,7 +16,7 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, long timeout, long timeToLive, long idleTime, boolean fake) {
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, long idleTime, boolean fake) {
         this.filibusters = maxFilibusters;
 
         int second = 1000;
@@ -24,7 +24,8 @@ public class SpeechSynthesizer implements Managed {
         long timeoutMillis = timeout * second;
         long ttl = timeToLive * minute;
         String homeFilibuster = addTrailingSlash(filibusterHome);
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, homeFilibuster, timeoutMillis, ttl, fake);
+        String homeLog = addTrailingSlash(logHome);
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, homeFilibuster, homeLog, timeoutMillis, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);
