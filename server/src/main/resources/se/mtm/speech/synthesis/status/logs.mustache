@@ -1,0 +1,10 @@
+{{> header }}
+
+<div class="container">
+    <h2>Log files:</h2>
+    {{#logs}}
+        <a href="/showLog/{{.}}">{{.}}</a><br/>
+    {{/logs}}
+</div>
+
+{{> footer }}

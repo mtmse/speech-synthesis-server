@@ -35,4 +35,20 @@ public class MainTest {
         verify(jersey).register(isA(SynthesizeResource.class));
         assertThat(true, is(!false)); // pmd requires at least one assert...
     }
+
+    @Test
+    public void add_missing_trailing_slash() {
+        String expected = "missing_slash/";
+        String actual = Main.addTrailingSlash("missing_slash");
+
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void ignore_existing_slash() {
+        String expected = "has_slash/";
+        String actual = Main.addTrailingSlash("has_slash/");
+
+        assertThat(actual, is(expected));
+    }
 }

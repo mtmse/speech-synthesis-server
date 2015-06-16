@@ -24,7 +24,7 @@ public class StatusPage {
         String page = browser.getCurrentUrl();
         browser.get(page);
 
-        String expectedTitle = "Speech Synthesis Server Status";
+        String expectedTitle = "Speech Synthesis Server";
         String actualTitle = browser.getTitle();
 
         assertThat(actualTitle, is(expectedTitle));

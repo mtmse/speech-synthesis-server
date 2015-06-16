@@ -22,7 +22,7 @@ public class SpeechSynthesizerTest {
         int timeout = 30000;
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME,  LOG_HOME, timeout, timeToLive, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
     }
 
@@ -114,22 +114,6 @@ public class SpeechSynthesizerTest {
 
         assertThat(speechSynthesizer.outSize(), is(expectedSize));
         assertThat(speechSynthesizer.inQueSize(), is(0));
-    }
-
-    @Test
-    public void add_missing_trailing_slash() {
-        String expected = "missing_slash/";
-        String actual = SpeechSynthesizer.addTrailingSlash("missing_slash");
-
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void ignore_existing_slash() {
-        String expected = "has_slash/";
-        String actual = SpeechSynthesizer.addTrailingSlash("has_slash/");
-
-        assertThat(actual, is(expected));
     }
 
     private void addParagraph(int timeout, long stopTime, int expectedSize) throws InterruptedException {

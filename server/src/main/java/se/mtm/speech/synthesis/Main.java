@@ -7,8 +7,7 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
-import se.mtm.speech.synthesis.status.InvalidateFilibusterResource;
-import se.mtm.speech.synthesis.status.StatusResource;
+import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 
@@ -21,8 +20,13 @@ public class Main extends Application<Configuration> {
     public void run(Configuration configuration, Environment environment) throws Exception {
         int capacity = configuration.getCapacity();
         int maxFilibusters = configuration.getMaxFilibusters();
+
         String filibusterHome = configuration.getFilibusterHome();
+        filibusterHome = addTrailingSlash(filibusterHome);
+
         String logHome = configuration.getLogHome();
+        logHome = addTrailingSlash(logHome);
+
         int minimumMemory = configuration.getMinimumMemory();
         int timeout = configuration.getTimeout();
         int timeToLive = configuration.getTimeToLive();
@@ -42,6 +46,15 @@ public class Main extends Application<Configuration> {
 
         StatusResource status = new StatusResource();
         environment.jersey().register(status);
+
+        LogsResource logs = new LogsResource(logHome);
+        environment.jersey().register(logs);
+
+        ShowLogResource showLog = new ShowLogResource(logHome);
+        environment.jersey().register(showLog);
+
+        AboutResource about = new AboutResource();
+        environment.jersey().register(about);
     }
 
     @Override
@@ -53,5 +66,13 @@ public class Main extends Application<Configuration> {
     public void initialize(Bootstrap<Configuration> bootstrap) {
         bootstrap.addBundle(new ViewBundle());
         bootstrap.addBundle(new AssetsBundle());
+    }
+
+    static String addTrailingSlash(String filibusterHome) {
+        if (filibusterHome.endsWith("/")) {
+            return filibusterHome;
+        } else {
+            return filibusterHome + "/";
+        }
     }
 }

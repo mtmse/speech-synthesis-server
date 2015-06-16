@@ -23,9 +23,7 @@ public class SpeechSynthesizer implements Managed {
         int minute = 60 * second;
         long timeoutMillis = timeout * second;
         long ttl = timeToLive * minute;
-        String homeFilibuster = addTrailingSlash(filibusterHome);
-        String homeLog = addTrailingSlash(logHome);
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, homeFilibuster, homeLog, timeoutMillis, ttl, fake);
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeoutMillis, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);
@@ -99,14 +97,6 @@ public class SpeechSynthesizer implements Managed {
 
     public int inQueSize() {
         return inQue.size();
-    }
-
-    static String addTrailingSlash(String filibusterHome) {
-        if (filibusterHome.endsWith("/")) {
-            return filibusterHome;
-        } else {
-            return filibusterHome + "/";
-        }
     }
 
     private void pause() {

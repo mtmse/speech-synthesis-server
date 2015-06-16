@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'com.github.johnrengelman.shadow' version '1.2.1'
 }
@@ -13,11 +15,12 @@ dependencies {
     compile 'io.dropwizard:dropwizard-core:' + dropwizardVersion
     compile 'io.dropwizard:dropwizard-assets:' + dropwizardVersion
     compile 'io.dropwizard:dropwizard-views-mustache:' + dropwizardVersion
-    compile ('io.dropwizard:dropwizard-client:' + dropwizardVersion) {
+    compile('io.dropwizard:dropwizard-client:' + dropwizardVersion) {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     compile 'commons-io:commons-io:2.4'
     compile 'org.fusesource:sigar:1.6.4'
+    compile 'com.jcabi:jcabi-manifests:1.1'
 
     testCompile project(':client')
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion
@@ -72,7 +75,8 @@ shadowJar {
     exclude 'META-INF/*.RSA'
     manifest {
         attributes 'Main-Class': 'se.mtm.speech.synthesis.Main',
-                'Implementation-Version': version
+                'Version': version,
+                'Build-Date': new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
     }
 }
 
