@@ -91,11 +91,11 @@ ospackage {
     }
 
     from('./src/scripts') {
-        into('bin')
+        into('scripts')
         fileMode = 0644
     }
 
-    link('/etc/init.d/speech-synthesis-server', '/opt/speech-synthesis-server/bin/speech-synthesis-server.sh')
+    link('/etc/init.d/speech-synthesis-server', 'scripts/speech-synthesis-server.sh')
 }
 
 buildRpm {
