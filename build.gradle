@@ -55,7 +55,6 @@ subprojects {
                 'java-basic',
                 'java-braces',
                 'java-clone',
-                'java-codesize',
                 'java-empty',
                 'java-finalizers',
                 'java-logging-jakarta-commons',

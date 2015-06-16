@@ -2,7 +2,7 @@ package se.mtm.speech.synthesis.status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.mtm.speech.synthesis.synyhesize.SpeechSynthesizer;
+import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

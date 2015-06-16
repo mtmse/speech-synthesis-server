@@ -14,6 +14,15 @@ public class Configuration extends io.dropwizard.Configuration {
     private int maxFilibusters = 6; // NOPMD set by reflection
 
     @JsonProperty
+    private String filibusterHome = "undefined"; // NOPMD set by reflection
+
+    @JsonProperty
+    private String logHome = "undefined"; // NOPMD set by reflection
+
+    @JsonProperty
+    private int minimumMemory = 2; // NOPMD set by reflection
+
+    @JsonProperty
     private int timeToLive = 25; // NOPMD set by reflection
 
     @JsonProperty
@@ -34,6 +43,10 @@ public class Configuration extends io.dropwizard.Configuration {
         return maxFilibusters;
     }
 
+    public int getMinimumMemory() {
+        return minimumMemory;
+    }
+
     public int getIdleTime() {
         return idleTime;
     }
@@ -44,5 +57,13 @@ public class Configuration extends io.dropwizard.Configuration {
 
     public boolean isFakeSynthesize() {
         return fake;
+    }
+
+    public String getFilibusterHome() {
+        return filibusterHome;
+    }
+
+    public String getLogHome() {
+        return logHome;
     }
 }

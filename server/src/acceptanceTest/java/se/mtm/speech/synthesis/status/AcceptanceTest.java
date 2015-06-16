@@ -26,6 +26,7 @@ public class AcceptanceTest {
     @Before
     public void setUp() {
         browser = new HtmlUnitDriver();
+//        browser = new FirefoxDriver();
         String host = "localhost";
         int port = application.getLocalPort();
 

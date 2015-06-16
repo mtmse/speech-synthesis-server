@@ -6,7 +6,7 @@ import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
-import se.mtm.speech.synthesis.synyhesize.SynthesizeResource;
+import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -26,6 +26,8 @@ public class MainTest {
         when(environment.healthChecks()).thenReturn(healthCheck);
         when(environment.jersey()).thenReturn(jersey);
         when(config.getCapacity()).thenReturn(1);
+        when(config.getFilibusterHome()).thenReturn("not important");
+        when(config.getLogHome()).thenReturn("not important");
         when(config.isFakeSynthesize()).thenReturn(true);
 
         application.run(config, environment);
