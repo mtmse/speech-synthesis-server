@@ -6,4 +6,5 @@ build
 .gradle
 .project
 .classpath
+/.settings/
 tmp
