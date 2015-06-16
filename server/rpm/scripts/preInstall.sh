@@ -6,11 +6,12 @@ echo "Running preInstall"
 
 if [ "$1" = "1" ]; then # This is a new installation from scratch
 # Perform tasks to prepare for the initial installation
-	# If this machine has been uninstalled recently there may be a machine specific config file to reuse
-	if [ -f /var/tmp/somefile ]; then # There was an old saved version of the machine run configuration. Let us reuse it
-	fi
+# If this machine has been uninstalled recently there may be a machine specific config file to reuse
+#if [ -f /var/tmp/somefile ]; then # There was an old saved version of the machine run configuration. Let us reuse it
+#fi
+    echo "Eq 1, should not reach elif"
 
-elif [ "$1" = "2" ]; then # This is part of an upgrade
+elif [ "$1" = "2" ]; then # This is part of an upgrade hERE IT FAILS!
 # Perform whatever maintenance must occur before the upgrade begins
 	# Check if the service is running. Make sure error message (unrecognized service if not installed) is passed to grep as well
 	service speech-synthesis-server status 2>&1 |grep -q 'pid' -

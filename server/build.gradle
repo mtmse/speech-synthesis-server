@@ -87,25 +87,27 @@ ospackage {
     preInstall file('rpm/scripts/preInstall.sh')
     postInstall file('rpm/scripts/postInstall.sh')
     postUninstall file('rpm/scripts/postUninstall.sh')
+    
+    //requires('java-1.8.0-openjdk', '1.8')
 
     into '/opt/speech-synthesis-server'
 
-    from('./build/libs/(.+)-all.jar') {
-        rename '(.+)-(.+)', '$1.-all.jar'
+    from('./build/libs') {
+        into ('/opt/speech-synthesis-server/lib')
         fileMode = 0555
     }
 
     from('./rpm/conf') {
-       into('/etc/opt/speech-synthesis-server')
-       fileMode = 0555
+       into('/opt/speech-synthesis-server/conf')
+       fileMode = 0755
     }
 
     from('./src/scripts') {
-        into('scripts')
-        fileMode = 0644
+        into('/opt/speech-synthesis-server/scripts')
+        fileMode = 0755
     }
 
-    link('/etc/init.d/speech-synthesis-server', 'scripts/speech-synthesis-server.sh')
+    link('/etc/init.d/speech-synthesis-server', '/opt/speech-synthesis-server/scripts/speech-synthesis-server.sh')
 }
 
 buildRpm {
