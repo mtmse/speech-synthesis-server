@@ -4,6 +4,7 @@
 #echo "Running speech-synthesis-server"
 
 INSTALL_ROOT=/opt/speech-synthesis-server
+CONFIG_ROOT=/etc/opt/speech-synthesis-server
 RUN_AS_USER=tpbadmin
 
 daemon_pid() {
@@ -14,7 +15,7 @@ daemon_pid() {
 case "$1" in
     start)
         echo "Starting speech-synthesis-server..."
-        su -c "java -jar $INSTALL_ROOT/server-all.jar server $INSTALL_ROOT/configuration.yaml" $RUN_AS_USER
+        su -c "java -jar $INSTALL_ROOT/server-all.jar server $CONFIG_ROOT/configuration.yaml" $RUN_AS_USER
         done
         ;;
     

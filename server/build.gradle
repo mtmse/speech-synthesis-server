@@ -83,15 +83,21 @@ ospackage {
     os = LINUX
     user = "root"
 
-    installUtils file('rpm/utils.sh')
-    preInstall file('rpm/preInstall.sh')
-    postInstall file('rpm/postInstall.sh')
-    postUninstall file('rpm/postUninstall.sh')
+    installUtils file('rpm/scripts/utils.sh')
+    preInstall file('rpm/scripts/preInstall.sh')
+    postInstall file('rpm/scripts/postInstall.sh')
+    postUninstall file('rpm/scripts/postUninstall.sh')
 
     into '/opt/speech-synthesis-server'
 
-    from('./build/libs') {
+    from('./build/libs/(.+)-all.jar') {
+        rename '(.+)-(.+)', '$1.-all.jar'
         fileMode = 0555
+    }
+
+    from('./rpm/conf') {
+       into('/etc/opt/speech-synthesis-server')
+       fileMode = 0555
     }
 
     from('./src/scripts') {
