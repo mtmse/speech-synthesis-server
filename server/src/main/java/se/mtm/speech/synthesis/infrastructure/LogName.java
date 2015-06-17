@@ -44,9 +44,17 @@ public final class LogName {
     private static String getNextNumber(String leading, Collection<File> files) {
         String lastLogFile = getLastLogFile(leading, files);
 
+        if (noFilibusterLogFound(lastLogFile)) {
+            return padNumberString(1);
+        }
+
         int nextLog = getNextNumber(leading, lastLogFile);
 
         return padNumberString(nextLog);
+    }
+
+    private static boolean noFilibusterLogFound(String lastLogFile) {
+        return lastLogFile.isEmpty();
     }
 
     private static String getLastLogFile(String leading, Collection<File> files) {
@@ -59,6 +67,10 @@ public final class LogName {
             }
         }
         Collections.sort(logsToday);
+
+        if (logsToday.isEmpty()) {
+            return "";
+        }
 
         return logsToday.get(logsToday.size() - 1);
     }

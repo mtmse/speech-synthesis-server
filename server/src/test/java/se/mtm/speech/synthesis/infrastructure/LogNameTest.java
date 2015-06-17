@@ -40,6 +40,21 @@ public class LogNameTest {
         assertThat(actual, is(expected));
     }
 
+    @Test
+    public void return_first_filibuster_log_file_name() throws Exception {
+        String logHome = createLogDir();
+        String today = getToday();
+
+        File previousLog = new File(logHome + "/" + "speech-synthesis.log");
+        FileUtils.touch(previousLog);
+
+        String expected = "filibuster-" + today + "-0001.log";
+
+        String actual = LogName.getLogFileName(logHome);
+
+        assertThat(actual, is(expected));
+    }
+
     private String getToday() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM", Locale.ENGLISH);
         return sdf.format(new Date());
