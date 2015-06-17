@@ -13,12 +13,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class LogNameTest {
+    private static final String FILIBUSTER = "filibuster-";
+
     @Test
     public void return_first_log_file_name() throws Exception {
         String logHome = createLogDir();
         String today = getToday();
 
-        String expected = "filibuster-" + today + "-0001.log";
+        String expected = FILIBUSTER + today + "-0001.log";
 
         String actual = LogName.getLogFileName(logHome);
 
@@ -30,10 +32,10 @@ public class LogNameTest {
         String logHome = createLogDir();
         String today = getToday();
 
-        File previousLog = new File(logHome + "/" + "filibuster-" + today + "-0001.log");
+        File previousLog = new File(logHome + "/" + FILIBUSTER + today + "-0001.log");
         FileUtils.touch(previousLog);
 
-        String expected = "filibuster-" + today + "-0002.log";
+        String expected = FILIBUSTER + today + "-0002.log";
 
         String actual = LogName.getLogFileName(logHome);
 
@@ -48,7 +50,7 @@ public class LogNameTest {
         File previousLog = new File(logHome + "/" + "speech-synthesis.log");
         FileUtils.touch(previousLog);
 
-        String expected = "filibuster-" + today + "-0001.log";
+        String expected = FILIBUSTER + today + "-0001.log";
 
         String actual = LogName.getLogFileName(logHome);
 

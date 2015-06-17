@@ -53,6 +53,7 @@ class Filibuster extends Synthesizer implements Runnable {
     private void createFilibusterProcess() {
         String logFileName = createLogFileName();
         String[] command = getCommand(logFileName);
+        logStartCommand(command);
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.redirectErrorStream(true);
@@ -65,6 +66,15 @@ class Filibuster extends Synthesizer implements Runnable {
         } catch (IOException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
+    }
+
+    private void logStartCommand(String... command) {
+        String commandString = "";
+        for (String part : command) {
+            commandString += part + " ";
+        }
+        String message = "Starting a Filubuster with the command <" + commandString + ">";
+        LOGGER.info(message);
     }
 
     private String createLogFileName() {
@@ -95,7 +105,7 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     private void testSynthesize() {
-        SpeechUnit speechUnit = new SpeechUnit("Den bruna räven hoppade över den lata junden.");
+        SpeechUnit speechUnit = new SpeechUnit("Den bruna räven hoppade över den lata hunden.");
         setSpeechUnit(speechUnit);
         synthesize();
     }
