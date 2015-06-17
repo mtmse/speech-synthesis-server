@@ -27,8 +27,7 @@ case "$1" in
         	exit 0
        	fi
        	
-       	# TODO: Somehow kill it a little more gracefully, so running TTS are allowed to complete before termination.
-        kill -KILL $(daemon_pid)
+        kill $(daemon_pid)
         ;;
     
     restart)
