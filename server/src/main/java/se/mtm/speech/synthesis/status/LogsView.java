@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class LogsView extends CommonView {
             String name = logFile.getName();
             logFileNames.add(name);
         }
+
+        Collections.sort(logFileNames);
 
         return logFileNames;
     }
