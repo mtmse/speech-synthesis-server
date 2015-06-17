@@ -90,18 +90,23 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     void clearStartMessages(Process process) throws IOException {
-        LOGGER.info("Clear initial message in Filibuster");
+        LOGGER.info("Clear initial messages from Filibuster");
         InputStream stdIn = process.getInputStream();
 
-        int startMessages = 2;
-        for (int i = 0; i < startMessages; i++) {
+        boolean messagesLeft = true;
+        while (messagesLeft) {
             int character;
             String content = "";
             while ((character = stdIn.read()) != '\n') {
                 content += (char) character;
             }
             LOGGER.info(content);
+            if (content.startsWith("Sound patch level")) {
+                messagesLeft = false;
+            }
         }
+
+        LOGGER.info("Done clearing initial messages from Filibuster");
     }
 
     private void testSynthesize() {
@@ -148,3 +153,17 @@ class Filibuster extends Synthesizer implements Runnable {
         return process.isHealthy();
     }
 }
+
+
+
+
+/*
+
+/home/folke/filibuster/Synthesis/SynthesisCore/filibuster.tcl -lang sv -mode batch -textfile - -outdir - -rate 22050 -log /var/log/mtm/speech-synthesis-server/filibuster-17-Jun-0003.log -debug 1 -print_header FILESIZE
+
+
+
+*/
+
+
+
