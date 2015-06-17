@@ -51,7 +51,7 @@ public class SynthesizeResource {
 
         SynthesizedSound result = synthesizer.getSynthesizedSound(key);
 
-        message = "Returned: <" + result + ">";
+        message = "Returned the synthesised sound for <" + sentence + ">";
         LOGGER.info(message);
 
         return result;
