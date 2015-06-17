@@ -25,4 +25,4 @@ logging:
       archive: true
       archivedLogFilenamePattern: speech-synthesis-%d.log
       archivedFileCount: 5
-      timeZone: UTC
+      timeZone: CET
