@@ -13,7 +13,7 @@ RUN_AS_USER=tpbadmin
 if [ ! -f "$CONFIG_ROOT/configuration.yaml" ]; then
     echo "Wrote configuration.yaml from RPM"
     mkdir -p $CONFIG_ROOT
-	cp $INSTALL_ROOT/conf/* $CONFIG_ROOT/
+	cp $INSTALL_ROOT/conf/configuration-prod.yaml $CONFIG_ROOT/configuration.yaml
 fi
 
 
