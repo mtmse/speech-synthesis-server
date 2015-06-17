@@ -101,7 +101,7 @@ ospackage {
         fileMode = 0555
     }
 
-    from('../configuration-*.yaml') {
+    from('../configuration-prod.yaml') {
        into('/opt/speech-synthesis-server/conf')
        fileMode = 0755
     }
