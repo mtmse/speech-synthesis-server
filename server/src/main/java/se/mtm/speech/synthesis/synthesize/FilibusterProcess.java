@@ -1,13 +1,17 @@
 package se.mtm.speech.synthesis.synthesize;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 
 class FilibusterProcess {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterProcess.class);
     private final Process process;
     private final long timeout;
 
@@ -59,6 +63,9 @@ class FilibusterProcess {
     }
 
     private byte[] readSound(int length) {
+        String message = "Read " + length + " bytes from Filibuster";
+        LOGGER.info(message);
+
         InputStream reader = process.getInputStream();
         byte[] audio = new byte[length];
         int remaining = length;
@@ -73,6 +80,12 @@ class FilibusterProcess {
                 throw new FilibusterException(e);
             }
         }
+
+        message = "The length of the returned byte array with sound is " + audio.length;
+        LOGGER.info(message);
+
+        LOGGER.info("The content is:");
+        LOGGER.info(Arrays.toString(audio));
 
         return audio;
     }

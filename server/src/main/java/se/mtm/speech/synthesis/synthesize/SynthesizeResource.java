@@ -53,6 +53,7 @@ public class SynthesizeResource {
 
         message = "Returned the synthesised sound for <" + sentence + ">";
         LOGGER.info(message);
+        LOGGER.info(result.toString());
 
         return result;
     }
