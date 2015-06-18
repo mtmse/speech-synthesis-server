@@ -8,7 +8,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
 
 class FilibusterProcess {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterProcess.class);
