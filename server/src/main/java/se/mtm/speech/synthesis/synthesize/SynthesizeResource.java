@@ -33,6 +33,8 @@ public class SynthesizeResource {
         String message = "Received: <" + sentence + ">";
         LOGGER.info(message);
 
+        long start = System.currentTimeMillis();
+
         String key = "synthesize-" + Thread.currentThread().getId();
         SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
@@ -51,9 +53,10 @@ public class SynthesizeResource {
 
         SynthesizedSound result = synthesizer.getSynthesizedSound(key);
 
-        message = "Returned the synthesised sound for <" + sentence + ">";
+        long stop = System.currentTimeMillis();
+
+        message = "Returned the synthesised sound for <" + sentence + "> It took " + (stop - start) + "ms";
         LOGGER.info(message);
-        LOGGER.info(result.toString());
 
         return result;
     }

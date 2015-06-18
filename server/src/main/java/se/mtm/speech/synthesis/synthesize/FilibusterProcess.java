@@ -84,9 +84,6 @@ class FilibusterProcess {
         message = "The length of the returned byte array with sound is " + audio.length;
         LOGGER.info(message);
 
-        LOGGER.info("The content is:");
-        LOGGER.info(Arrays.toString(audio));
-
         return audio;
     }
 
