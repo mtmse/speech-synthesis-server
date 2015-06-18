@@ -70,10 +70,16 @@ class FilibusterPool {
     }
 
     private void topUpFilibuster() {
-        LOGGER.info("Topping up with Synthesizers");
-        while (all.size() < maxPoolSize && enoughResources()) {
-            addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+        if (topUp()) {
+            LOGGER.info("Topping up with Filibusters");
+            while (topUp()) {
+                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+            }
         }
+    }
+
+    private boolean topUp() {
+        return all.size() < maxPoolSize && enoughResources();
     }
 
     private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
@@ -124,7 +130,7 @@ class FilibusterPool {
     }
 
     public boolean isHealthy() {
-        for (Synthesizer synthesizer : all){
+        for (Synthesizer synthesizer : all) {
             if (!synthesizer.isHealthy()) {
                 return false;
             }
