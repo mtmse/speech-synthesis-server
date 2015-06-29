@@ -58,8 +58,8 @@ class FilibusterPool {
 
     private void replaceWaitingFilibusters() {
         while (!waiting.isEmpty()) {
-            Synthesizer filibuster = waiting.poll();
-            all.remove(filibuster);
+            Synthesizer synthesizer = waiting.poll();
+            killFilibuster(synthesizer);
         }
     }
 
@@ -122,12 +122,16 @@ class FilibusterPool {
 
     void returnFilibuster(Synthesizer synthesizer) {
         if (synthesizer.isTooOld()) {
-            synthesizer.kill();
-            all.remove(synthesizer);
+            killFilibuster(synthesizer);
         } else {
             waiting.offer(synthesizer);
         }
         topUpFilibuster();
+    }
+
+    private void killFilibuster(Synthesizer synthesizer) {
+        synthesizer.kill();
+        all.remove(synthesizer);
     }
 
     public boolean isHealthy() {

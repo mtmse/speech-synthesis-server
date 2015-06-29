@@ -121,6 +121,6 @@ class FilibusterProcess {
     }
 
     public void kill() {
-        process.destroy();
+        process.destroyForcibly();
     }
 }
