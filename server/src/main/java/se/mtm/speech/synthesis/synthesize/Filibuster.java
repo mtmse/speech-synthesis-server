@@ -152,6 +152,11 @@ class Filibuster extends Synthesizer implements Runnable {
     boolean isHealthy() {
         return process.isHealthy();
     }
+
+    @Override
+    void kill() {
+        process.kill();
+    }
 }
 
 

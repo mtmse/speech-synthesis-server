@@ -119,4 +119,8 @@ class FilibusterProcess {
     public boolean isHealthy() {
         return process.isAlive();
     }
+
+    public void kill() {
+        process.destroy();
+    }
 }

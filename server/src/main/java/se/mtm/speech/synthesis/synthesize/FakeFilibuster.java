@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
-class FakeFilibuster extends Synthesizer implements  Runnable {
+class FakeFilibuster extends Synthesizer implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(FakeFilibuster.class);
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
@@ -54,5 +54,10 @@ class FakeFilibuster extends Synthesizer implements  Runnable {
     @Override
     boolean isHealthy() {
         return true;
+    }
+
+    @Override
+    void kill() {
+        // no implementation needed
     }
 }

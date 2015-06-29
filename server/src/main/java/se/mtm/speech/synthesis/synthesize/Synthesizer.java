@@ -29,4 +29,6 @@ abstract class Synthesizer {
     }
 
     abstract boolean isHealthy();
+
+    abstract void kill();
 }
