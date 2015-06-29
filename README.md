@@ -1,6 +1,6 @@
 # Speech synthesis server
 
-A server that could act as a facade for speech synthesis
+A server that acts as a facade for speech synthesis.
 
 ## Build
 
