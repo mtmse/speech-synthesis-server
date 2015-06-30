@@ -16,14 +16,14 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, long minDistance, long idleTime, boolean fake) { // NOPMD
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, long idleTime, boolean fake) {
         this.filibusters = maxFilibusters;
 
         int second = 1000;
         int minute = 60 * second;
         long timeoutMillis = timeout * second;
         long ttl = timeToLive * minute;
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeoutMillis, ttl, minDistance, fake);
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeoutMillis, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);

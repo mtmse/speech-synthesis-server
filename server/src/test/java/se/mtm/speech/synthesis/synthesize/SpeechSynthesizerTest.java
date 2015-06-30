@@ -21,9 +21,8 @@ public class SpeechSynthesizerTest {
         int minimumMemory = 2;
         int timeout = 30000;
         int timeToLive = 1;
-        int minDistance = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, minDistance, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
     }
 
@@ -102,9 +101,8 @@ public class SpeechSynthesizerTest {
         int minimumMemory = 2;
         int timeout = 30000;
         int timeToLive = 1;
-        int minDistance = 0;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, minDistance, idleTime, true);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
         speechSynthesizer.start();
         int expectedSize = 42;
 

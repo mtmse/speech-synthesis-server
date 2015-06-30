@@ -18,9 +18,8 @@ public class FilibusterPoolTest {
     public void accept_young_filibusters() {
         int maxPoolSize = 0;
         int timeToLive = Integer.MAX_VALUE;
-        long minDistance = 0;
 
-        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive, minDistance);
+        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
 
@@ -35,9 +34,8 @@ public class FilibusterPoolTest {
     public void do_not_accept_too_old_filibusters() {
         int maxPoolSize = 0;
         int timeToLive = Integer.MIN_VALUE;
-        long minDistance = 0;
 
-        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive, minDistance);
+        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
         FilibusterProcess process = mock(FilibusterProcess.class);
