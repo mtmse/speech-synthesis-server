@@ -48,7 +48,7 @@ public class FilibusterPoolTest {
     }
 
     @Test
-    public void invalidate_all_filibusters() {
+    public void invalidate_all_filibusters() throws Exception {
         FilibusterPool fakePool = mock(FilibusterPool.class);
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
@@ -65,6 +65,8 @@ public class FilibusterPoolTest {
         FilibusterPool pool = new FilibusterPool(waiting, all, 2);
 
         pool.invalidate();
+
+        Thread.sleep(5000);
 
         assertThat(waiting.size(), is(1));
         assertThat(all.size(), is(2));
