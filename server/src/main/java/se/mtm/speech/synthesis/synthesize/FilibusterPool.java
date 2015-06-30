@@ -83,13 +83,12 @@ class FilibusterPool {
         boolean addMoreFilibusters = wantMorFilibusters && haveEnoughResources;
 
         String message = "Have " + all.size() + " filibusters. " +
-                "Max pool size is: " + maxPoolSize + ". " +
-                "Want more filibusters: " + wantMorFilibusters +
-                ". " +
-                "Have " + resources.getAvailableMemory() + " Gb memory free. " +
+                "Max pool is: " + maxPoolSize + ". " +
+                "Want more: " + wantMorFilibusters + ". " +
+                "Have " + resources.getAvailableMemory() + " Gb memory. " +
                 "Want minimum " + minimumMemory + "Gb memory. " +
-                "Have enough resources: " + haveEnoughResources + " " +
-                "Conclusion, add more filibusters: " + addMoreFilibusters;
+                "Have enough: " + haveEnoughResources + " " +
+                "Add more filibusters: " + addMoreFilibusters;
         LOGGER.info(message);
 
         return addMoreFilibusters;
