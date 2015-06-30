@@ -70,9 +70,11 @@ class FilibusterPool {
     }
 
     private void topUpFilibuster() {
-        while (shouldAddFilibuster()) {
-            LOGGER.info("Topping up with a new Filibuster");
-            addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+        synchronized (this) {
+            if (shouldAddFilibuster()) {
+                LOGGER.info("Topping up with a new Filibuster");
+                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+            }
         }
     }
 
@@ -82,11 +84,11 @@ class FilibusterPool {
 
         boolean addMore = wantMore && enoughResources;
 
-        String message = "Have " + all.size() + " filibusters. " +
-                "Max pool is: " + maxPoolSize + ". " +
+        String message = all.size() + " filibusters, " +
+                "max is: " + maxPoolSize + ", " +
                 "Want more: " + wantMore + ". " +
-                "Have " + resources.getAvailableMemory() + " Gb memory. " +
-                "Want minimum " + minimumMemory + "Gb memory. " +
+                "Have " + resources.getAvailableMemory() + " Gb, " +
+                "Want " + minimumMemory + "Gb, " +
                 "Have enough: " + enoughResources + " " +
                 "Add more filibusters: " + addMore;
 
