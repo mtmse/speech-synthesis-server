@@ -19,7 +19,7 @@ public class ResourcesTest {
         Mem mem = mock(Mem.class);
         when(sigar.getMem()).thenReturn(mem);
         long expected = 5881163776l;
-        when(mem.getActualFree()).thenReturn(expected);
+        when(mem.getFree()).thenReturn(expected);
 
         Resources resources = new Resources(sigar);
 
