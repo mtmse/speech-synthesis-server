@@ -32,13 +32,35 @@ public final class ClientTestMain {
         for (LoadClient client : clients) {
             client.work = false;
         }
+
+        for (LoadClient client : clients) {
+            while (client.isRunning) {
+                Thread.sleep(100);
+            }
+        }
+
+        int success = 0;
+        int timeout = 0;
+        for (LoadClient client : clients) {
+            success += client.success;
+            timeout += client.timeout;
+        }
+
+        System.out.println(""); // NOPMD
+        System.out.println("Summary: "); // NOPMD
+        System.out.println("Success: " + success); // NOPMD
+        System.out.println("Timeout: " + timeout); // NOPMD
     }
 
     static class LoadClient implements Runnable {
+        private int success = 0;
+        private int timeout = 0;
+        private boolean isRunning;
         private boolean work = true;
 
         @Override
         public void run() {
+            isRunning = true;
             SpeechClient client = getClient();
             while (work) {
                 try {
@@ -48,6 +70,7 @@ public final class ClientTestMain {
                     e.printStackTrace(); // NOPMD
                 }
             }
+            isRunning = false;
         }
 
         private void testSynthesiseSound(SpeechClient client) throws IOException {
@@ -57,8 +80,10 @@ public final class ClientTestMain {
 
             if (sound.isTimeout()) {
                 System.out.print("t"); // NOPMD
+                timeout++;
             } else {
                 System.out.print("."); // NOPMD
+                success++;
             }
         }
 
