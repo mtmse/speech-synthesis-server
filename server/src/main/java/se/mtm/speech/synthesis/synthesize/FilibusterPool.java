@@ -70,9 +70,11 @@ class FilibusterPool {
     }
 
     private void topUpFilibuster() {
-        if (shouldAddFilibuster()) {
-            LOGGER.info("Topping up with a new Filibuster");
-            addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+        synchronized (this) {
+            if (shouldAddFilibuster()) {
+                LOGGER.info("Topping up with a new Filibuster");
+                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+            }
         }
     }
 
