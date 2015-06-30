@@ -7,9 +7,10 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 public class FilibusterTest {
+
+    public static final String NOT_USED = "not used";
 
     @Test
     public void synthesize() {
@@ -20,7 +21,7 @@ public class FilibusterTest {
         long timeout = 0;
         long timeToLive = 0;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, "not used", "not used", timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, NOT_USED, NOT_USED, timeout, timeToLive);
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
@@ -44,7 +45,7 @@ public class FilibusterTest {
         long timeout = 0;
         long timeToLive = 0;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, "not used", "not used", timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, NOT_USED, NOT_USED, timeout, timeToLive);
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
