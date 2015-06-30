@@ -30,9 +30,10 @@ public class Main extends Application<Configuration> {
         int minimumMemory = configuration.getMinimumMemory();
         int timeout = configuration.getTimeout();
         int timeToLive = configuration.getTimeToLive();
+        int minDistance = 3000; // todo add as configuration parameter
         int idleTime = configuration.getIdleTime();
         boolean fakeSynthesize = configuration.isFakeSynthesize();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fakeSynthesize);
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, minDistance, idleTime, fakeSynthesize);
         environment.lifecycle().manage(speechSynthesizer);
 
         environment.healthChecks().register("Filibuster health check", new FilibusterHealthCheck(speechSynthesizer));

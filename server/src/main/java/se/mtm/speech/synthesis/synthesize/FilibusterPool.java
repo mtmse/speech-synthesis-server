@@ -16,15 +16,17 @@ class FilibusterPool {
     private String logHome;
     private long timeout;
     private long timeToLive;
+    private long minDistance;
     private boolean fake;
     private Queue<Synthesizer> waiting;
     private Queue<Synthesizer> all;
     private Resources resources;
     private int minimumMemory;
     private String filibusterHome;
+    private long lastTopUp = 0;
 
-    FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 2, "not defined", "not used", 30000, timeToLive, true);
+    FilibusterPool(int maxPoolSize, long timeToLive, long minDistance) {
+        this(null, maxPoolSize, 2, "not defined", "not used", 30000, timeToLive, minDistance, true);
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
@@ -34,7 +36,7 @@ class FilibusterPool {
         this.fake = true;
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, long minDistance, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -42,6 +44,7 @@ class FilibusterPool {
         this.logHome = logHome;
         this.timeout = timeout;
         this.timeToLive = timeToLive;
+        this.minDistance = minDistance;
         this.fake = fake;
 
         waiting = new LinkedBlockingQueue<>();
@@ -73,14 +76,16 @@ class FilibusterPool {
         if (shouldAddFilibuster()) {
             LOGGER.info("Topping up with a new Filibuster");
             addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+            lastTopUp = System.currentTimeMillis();
         }
     }
 
     private boolean shouldAddFilibuster() {
         boolean wantMore = all.size() < maxPoolSize;
         boolean enoughResources = enoughResources();
+        boolean enoughTime = System.currentTimeMillis() > (lastTopUp + minDistance);
 
-        boolean addMore = wantMore && enoughResources;
+        boolean addMore = wantMore && enoughResources && enoughTime;
 
         String message = "Have " + all.size() + " filibusters. " +
                 "Max pool is: " + maxPoolSize + ". " +
@@ -88,7 +93,13 @@ class FilibusterPool {
                 "Have " + resources.getAvailableMemory() + " Gb memory. " +
                 "Want minimum " + minimumMemory + "Gb memory. " +
                 "Have enough: " + enoughResources + " " +
+                "Last top up: " + lastTopUp + ", " +
+                "Min distance: " + minDistance + ", " +
+                "current time: " + System.currentTimeMillis() + " " +
+                "time difference: " + (System.currentTimeMillis() - lastTopUp) + "ms. " +
+                "enough time difference: " + enoughTime + ". " +
                 "Add more filibusters: " + addMore;
+
         LOGGER.info(message);
 
         return addMore;
