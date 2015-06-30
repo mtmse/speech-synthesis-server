@@ -4,8 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Resources {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Resources.class);
     private final Sigar sigar;
 
     public Resources() {
@@ -86,11 +83,9 @@ public class Resources {
         Mem mem;
         try {
             mem = sigar.getMem();
-            String msg = "mem.getFree(): " + (mem.getFree() / FileUtils.ONE_GB) + " Gb   mem.getActualFree(): " + (mem.getActualFree() / FileUtils.ONE_GB) + " Gb";
-            LOGGER.info(msg);
         } catch (SigarException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
-        return (int) (mem.getActualFree() / FileUtils.ONE_GB);
+        return (int) (mem.getFree() / FileUtils.ONE_GB);
     }
 }
