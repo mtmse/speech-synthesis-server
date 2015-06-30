@@ -77,21 +77,21 @@ class FilibusterPool {
     }
 
     private boolean shouldAddFilibuster() {
-        boolean wantMorFilibusters = all.size() < maxPoolSize;
-        boolean haveEnoughResources = enoughResources();
+        boolean wantMore = all.size() < maxPoolSize;
+        boolean enoughResources = enoughResources();
 
-        boolean addMoreFilibusters = wantMorFilibusters && haveEnoughResources;
+        boolean addMore = wantMore && enoughResources;
 
         String message = "Have " + all.size() + " filibusters. " +
                 "Max pool is: " + maxPoolSize + ". " +
-                "Want more: " + wantMorFilibusters + ". " +
+                "Want more: " + wantMore + ". " +
                 "Have " + resources.getAvailableMemory() + " Gb memory. " +
                 "Want minimum " + minimumMemory + "Gb memory. " +
-                "Have enough: " + haveEnoughResources + " " +
-                "Add more filibusters: " + addMoreFilibusters;
+                "Have enough: " + enoughResources + " " +
+                "Add more filibusters: " + addMore;
         LOGGER.info(message);
 
-        return addMoreFilibusters;
+        return addMore;
     }
 
     private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
