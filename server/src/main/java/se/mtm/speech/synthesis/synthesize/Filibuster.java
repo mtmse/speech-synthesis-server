@@ -45,9 +45,14 @@ class Filibuster extends Synthesizer implements Runnable {
 
     @Override
     public void run() {
-        SynthesizedSound synthesised = synthesize();
-        synthesizer.addSynthesizedParagraph(synthesised);
-        pool.returnFilibuster(this);
+        try {
+            SynthesizedSound synthesised = synthesize();
+            synthesizer.addSynthesizedParagraph(synthesised);
+            pool.returnFilibuster(this);
+        } catch (FilibusterException e) {
+            kill();
+            LOGGER.warn(e.getMessage());
+        }
     }
 
     private void createFilibusterProcess() {
