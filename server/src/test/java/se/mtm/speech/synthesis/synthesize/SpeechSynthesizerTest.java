@@ -106,7 +106,7 @@ public class SpeechSynthesizerTest {
         speechSynthesizer.start();
         int expectedSize = 42;
 
-        int testTimeout = 5000;
+        int testTimeout = 10000;
         long stopTime = System.currentTimeMillis() + testTimeout;
 
         addParagraph(testTimeout, stopTime, expectedSize);
