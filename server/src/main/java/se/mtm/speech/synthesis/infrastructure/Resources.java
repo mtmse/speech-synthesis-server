@@ -86,7 +86,8 @@ public class Resources {
         Mem mem;
         try {
             mem = sigar.getMem();
-            LOGGER.info("mem.getFree(): " + (mem.getFree() / FileUtils.ONE_GB) + " Gb   mem.getActualFree(): " + (mem.getActualFree() / FileUtils.ONE_GB) + " Gb");
+            String msg = "mem.getFree(): " + (mem.getFree() / FileUtils.ONE_GB) + " Gb   mem.getActualFree(): " + (mem.getActualFree() / FileUtils.ONE_GB) + " Gb";
+            LOGGER.info(msg);
         } catch (SigarException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
