@@ -68,9 +68,14 @@ class Filibuster extends Synthesizer implements Runnable {
             this.process = new FilibusterProcess(process, timeout);
             clearStartMessages(process);
             testSynthesize();
-        } catch (IOException e) {
+            allowTimeToStart();
+        } catch (Exception e) {
             throw new FilibusterException(e.getMessage(), e);
         }
+    }
+
+    private void allowTimeToStart() throws InterruptedException {
+        Thread.sleep(2000);
     }
 
     private void logStartCommand(String... command) {
