@@ -72,9 +72,7 @@ class FilibusterPool {
     private void topUpFilibuster() {
         if (topUp()) {
             LOGGER.info("Topping up with Filibusters");
-            while (topUp()) {
-                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
-            }
+            addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
         }
     }
 
