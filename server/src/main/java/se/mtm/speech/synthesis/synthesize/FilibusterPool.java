@@ -70,13 +70,13 @@ class FilibusterPool {
     }
 
     private void topUpFilibuster() {
-        if (topUp()) {
-            LOGGER.info("Topping up with Filibusters");
+        if (shouldAddFilibuster()) {
+            LOGGER.info("Topping up with a new Filibuster");
             addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
         }
     }
 
-    private boolean topUp() {
+    private boolean shouldAddFilibuster() {
         return all.size() < maxPoolSize && enoughResources();
     }
 
