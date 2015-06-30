@@ -2,7 +2,6 @@ package se.mtm.speech.synthesis.synthesize;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.Resources;
 
 import java.util.Queue;
@@ -74,17 +73,6 @@ class FilibusterPool {
         if (shouldAddFilibuster()) {
             LOGGER.info("Topping up with a new Filibuster");
             addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
-            if (!fake) {
-                allowTimeToStart();
-            }
-        }
-    }
-
-    private void allowTimeToStart() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new FilibusterException(e.getMessage(), e);
         }
     }
 

@@ -1,6 +1,5 @@
 package se.mtm.speech.synthesis.synthesize;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -11,6 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
 public class FilibusterPoolTest {
     private static final String FILIBUSTER_HOME = "not used";
     private static final String LOG_HOME = "not used";
@@ -49,7 +49,6 @@ public class FilibusterPoolTest {
     }
 
     @Test
-    @Ignore
     public void invalidate_all_filibusters() {
         FilibusterPool fakePool = mock(FilibusterPool.class);
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
