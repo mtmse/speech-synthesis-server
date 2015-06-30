@@ -41,7 +41,6 @@ class Filibuster extends Synthesizer implements Runnable {
         this.timeout = timeout;
 
         createFilibusterProcess();
-        process.waitForInputStreamToBeReady();
     }
 
     @Override

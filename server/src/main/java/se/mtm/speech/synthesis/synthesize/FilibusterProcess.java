@@ -33,7 +33,8 @@ class FilibusterProcess {
     }
 
     byte[] getSound() {
-        waitForInputStreamToBeReady();
+        InputStream reader = process.getInputStream();
+        waitFor(reader);
         int length = getSoundLength();
         return readSound(length);
     }
@@ -51,7 +52,7 @@ class FilibusterProcess {
                     throw new FilibusterException(msg);
                 }
                 size += (char) currentByte;
-                waitForInputStreamToBeReady();
+                waitFor(reader);
             }
         } catch (IOException e) {
             throw new FilibusterException(e.getMessage(), e);
@@ -68,7 +69,7 @@ class FilibusterProcess {
         byte[] audio = new byte[length];
         int remaining = length;
         while (remaining > 0) {
-            waitForInputStreamToBeReady();
+            waitFor(reader);
             int start = length - remaining;
 
             try {
@@ -85,17 +86,17 @@ class FilibusterProcess {
         return audio;
     }
 
-    void waitForInputStreamToBeReady() {
+    private void waitFor(InputStream inputStream) {
         int waitingTime = 20;
         long stopTime = System.currentTimeMillis() + timeout;
         while (System.currentTimeMillis() < stopTime) {
-            if (isStreamReady(process.getInputStream())) {
+            if (isStreamReady(inputStream)) {
                 return;
             }
             pause(waitingTime);
         }
 
-        String msg = "Wait for process stream to be ready timeout. The timeout was set to " + timeout + "ms";
+        String msg = "Wait timed out. The timeout was set to " + timeout + "ms";
         throw new FilibusterException(msg);
     }
 

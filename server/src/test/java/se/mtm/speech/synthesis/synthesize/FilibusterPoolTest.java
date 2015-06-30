@@ -10,7 +10,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
 public class FilibusterPoolTest {
     private static final String FILIBUSTER_HOME = "not used";
     private static final String LOG_HOME = "not used";
