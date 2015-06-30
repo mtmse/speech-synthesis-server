@@ -86,6 +86,6 @@ public class Resources {
         } catch (SigarException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
-        return (int) (mem.getFree() / FileUtils.ONE_GB);
+        return (int) (mem.getActualFree() / FileUtils.ONE_GB);
     }
 }

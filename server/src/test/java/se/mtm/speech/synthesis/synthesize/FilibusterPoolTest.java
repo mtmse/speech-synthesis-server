@@ -66,8 +66,6 @@ public class FilibusterPoolTest {
 
         pool.invalidate();
 
-        Thread.sleep(5000);
-
         assertThat(waiting.size(), is(1));
         assertThat(all.size(), is(2));
 
