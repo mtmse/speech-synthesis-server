@@ -74,13 +74,15 @@ class FilibusterPool {
         if (shouldAddFilibuster()) {
             LOGGER.info("Topping up with a new Filibuster");
             addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
-            pause(2000);
+            if (!fake) {
+                allowTimeToStart();
+            }
         }
     }
 
-    private void pause(int time) {
+    private void allowTimeToStart() {
         try {
-            Thread.sleep(time);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new FilibusterException(e.getMessage(), e);
         }
