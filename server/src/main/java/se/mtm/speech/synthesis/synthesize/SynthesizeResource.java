@@ -40,12 +40,17 @@ public class SynthesizeResource {
 
         long timeout = System.currentTimeMillis() + defaultTimeout;
 
-        // todo return that the que is full if the speech unit wasn't added
-        synthesizer.addSpeechUnit(speechUnit);
+        if (!synthesizer.addSpeechUnit(speechUnit)) {
+            return new SynthesizedSound.Builder()
+                    .notAccepted()
+                    .build();
+        }
 
         while (!synthesizer.isSpeechUnitReady(key)) {
             if (System.currentTimeMillis() > timeout) {
-                return new SynthesizedSound();
+                return new SynthesizedSound.Builder()
+                        .timeout()
+                        .build();
             }
 
             pause();

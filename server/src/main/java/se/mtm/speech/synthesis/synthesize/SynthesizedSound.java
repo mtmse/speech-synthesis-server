@@ -7,22 +7,16 @@ import java.util.Objects;
 
 public class SynthesizedSound {
     @JsonIgnore
-    private String key;
-    private byte[] sound;
-    private boolean timeout;
+    private final String key;
+    private final byte[] sound;
+    private final boolean timeout;
+    private final boolean notAccepted;
 
-    public SynthesizedSound() {
-        this("", new byte[0], true);
-    }
-
-    public SynthesizedSound(String key, byte[] sound) {
-        this(key, sound, false);
-    }
-
-    private SynthesizedSound(String key, byte[] sound, boolean timeout) {
-        this.key = key;
-        this.sound = Arrays.copyOf(sound, sound.length);
-        this.timeout = timeout;
+    private SynthesizedSound(Builder builder) {
+        this.key = builder.key;
+        this.sound = builder.sound;
+        this.timeout = builder.timeout;
+        this.notAccepted = builder.notAccepted;
     }
 
     public String getKey() {
@@ -37,6 +31,10 @@ public class SynthesizedSound {
         return timeout;
     }
 
+    public boolean isNotAccepted() {
+        return notAccepted;
+    }
+
     @Override
     public boolean equals(Object rhs) {
         if (this == rhs) {
@@ -48,13 +46,14 @@ public class SynthesizedSound {
         SynthesizedSound other = (SynthesizedSound) rhs;
         return key.equals(other.key) &&
                 timeout == other.timeout &&
+                notAccepted == other.notAccepted &&
                 Arrays.equals(sound, other.sound);
     }
 
     @Override
     public int hashCode() {
         String soundAsString = new String(sound);
-        return Objects.hash(key, soundAsString, timeout);
+        return Objects.hash(key, soundAsString, timeout, notAccepted);
     }
 
     @Override
@@ -63,6 +62,41 @@ public class SynthesizedSound {
                 "key=" + key +
                 "sound=" + Arrays.toString(sound) +
                 ", timeout=" + timeout +
+                ", notAccepted=" + notAccepted +
                 '}';
+    }
+
+    public static class Builder {
+        private String key = ""; // NOPMD
+        private byte[] sound = new byte[0]; // NOPMD
+        private boolean timeout = false; // NOPMD
+        private boolean notAccepted = false; // NOPMD
+
+        public Builder() {
+        }
+
+        public Builder key(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder sound(byte[] sound) {
+            this.sound = Arrays.copyOf(sound, sound.length);
+            return this;
+        }
+
+        public Builder timeout() {
+            timeout = true;
+            return this;
+        }
+
+        public Builder notAccepted() {
+            notAccepted = true;
+            return this;
+        }
+
+        public SynthesizedSound build() {
+            return new SynthesizedSound(this); // NOPMD
+        }
     }
 }

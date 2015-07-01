@@ -91,7 +91,10 @@ class Filibuster extends Synthesizer implements Runnable {
         process.write(getSpeechUnitText());
         byte[] sound = process.getSound();
 
-        return new SynthesizedSound(key, sound);
+        return new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
     }
 
     void clearStartMessages(Process process) throws IOException {

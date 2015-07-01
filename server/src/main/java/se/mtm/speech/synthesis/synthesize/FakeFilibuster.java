@@ -30,7 +30,10 @@ class FakeFilibuster extends Synthesizer implements Runnable {
         String sentence = getSpeechUnitText();
         byte[] sound = sentence.getBytes();
 
-        return new SynthesizedSound(key, sound);
+        return new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
     }
 
     private void simulateSlowExecution() {

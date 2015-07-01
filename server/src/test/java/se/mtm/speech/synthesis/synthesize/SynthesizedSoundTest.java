@@ -12,7 +12,10 @@ public class SynthesizedSoundTest {
     public void create_valid_sound() {
         String key = "17";
         byte[] validSound = new byte[17];
-        SynthesizedSound synthesizedSound = new SynthesizedSound(key, validSound);
+        SynthesizedSound synthesizedSound = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(validSound)
+                .build();
 
         assertFalse("A valid synthesizedSound should not timeout", synthesizedSound.isTimeout());
 
@@ -22,7 +25,9 @@ public class SynthesizedSoundTest {
 
     @Test
     public void create_a_timeout_sound() {
-        SynthesizedSound synthesizedSound = new SynthesizedSound();
+        SynthesizedSound synthesizedSound = new SynthesizedSound.Builder()
+                .timeout()
+                .build();
 
         assertTrue("A invalid synthesizedSound should timeout", synthesizedSound.isTimeout());
 
@@ -34,8 +39,15 @@ public class SynthesizedSoundTest {
     public void same_hash_for_equal_instances() {
         String key = "17";
         byte[] sound = "The brown...".getBytes();
-        SynthesizedSound first = new SynthesizedSound(key, sound);
-        SynthesizedSound second = new SynthesizedSound(key, sound);
+        SynthesizedSound first = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
+
+        SynthesizedSound second = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
 
         assertThat(first.hashCode(), is(second.hashCode()));
     }
@@ -44,7 +56,11 @@ public class SynthesizedSoundTest {
     public void different_objects_are_not_same() {
         String key = "17";
         byte[] sound = "The brown...".getBytes();
-        SynthesizedSound first = new SynthesizedSound(key, sound);
+        SynthesizedSound first = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
+
         String second = "different";
 
         //noinspection EqualsBetweenInconvertibleTypes

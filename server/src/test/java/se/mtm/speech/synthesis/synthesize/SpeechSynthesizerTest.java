@@ -36,7 +36,11 @@ public class SpeechSynthesizerTest {
         String key = "17";
         String sentence = "A sentence to be synthesized";
         byte[] sound = sentence.getBytes();
-        SynthesizedSound paragraphReady = new SynthesizedSound(key, sound);
+        SynthesizedSound paragraphReady = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
+
         SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
         boolean actualDelivery = speechSynthesizer.addSpeechUnit(speechUnit);
@@ -72,7 +76,11 @@ public class SpeechSynthesizerTest {
         String key = "42";
         String sentence = "The brown fox...";
         byte[] sound = sentence.getBytes();
-        SynthesizedSound synthesizedSound = new SynthesizedSound(key, sound);
+        SynthesizedSound synthesizedSound = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
+
         speechSynthesizer.addSynthesizedParagraph(synthesizedSound);
 
         assertTrue("Expected ready", speechSynthesizer.isSpeechUnitReady(key));
@@ -83,7 +91,10 @@ public class SpeechSynthesizerTest {
         String key = "42";
         String sentence = "The brown fox...";
         byte[] sound = sentence.getBytes();
-        SynthesizedSound synthesizedSound = new SynthesizedSound(key, sound);
+        SynthesizedSound synthesizedSound = new SynthesizedSound.Builder()
+                .key(key)
+                .sound(sound)
+                .build();
 
         assertThat(speechSynthesizer.outSize(), is(0));
 
