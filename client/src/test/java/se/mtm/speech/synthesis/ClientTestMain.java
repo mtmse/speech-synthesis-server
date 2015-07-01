@@ -64,7 +64,8 @@ public final class ClientTestMain {
         }
 
         System.out.println(""); // NOPMD
-        System.out.println("Summary: "); // NOPMD
+        System.out.println(""); // NOPMD
+        System.out.println("Summary "); // NOPMD
         System.out.println("Success: " + success); // NOPMD
         System.out.println("Timeout: " + timeout); // NOPMD
     }
