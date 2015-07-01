@@ -1,20 +1,16 @@
 # Todo
 
-
-## Package as an rpm
-Package the speech server as an rpm.
-
-
 ## Status page
-Create a status page that 
-
-* Shows
+Create a status page that shows
   * Status
   * How many Filibusters are currently being used
   * How old is the oldest
   * How old is the youngest
-* Has a link to the release notes
-* Shows the build date, the deploy date and the version number
+
+
+## Should the server be able to suggest a timeout to a client?
+The server might know how long time it is reasonable before the client tries
+to send the same request again. Add this suggested resend time in the response.
 
 
 ## Add an optional timeout
@@ -23,6 +19,7 @@ If a specific speech unit is large, the client should be allowed to let
 the server work on it for a longer period of time than the default for
 the server.
 The client will have to deal with http timeout etc.
+
 
 ## Priority
 Investigate how three different priorities can be implemented.
@@ -37,6 +34,10 @@ the others if there is more capacity available?
 The priority should be set by the client in the request.
 
 # Done
+
+## Package as an rpm
+Package the speech server as an rpm.
+
 
 ## Health check
 Create a health check that checks the Filibuster pool, all living
@@ -62,6 +63,8 @@ should not be affected.
 ## Status page
 Create a status page that
 
-* Has a button that does a post to the invalidate resource.
-  Return to the status page with a text stating that an invalidation
-  was done at a certain point in time
+  * Has a button that does a post to the invalidate resource.
+    Return to the status page with a text stating that an invalidation
+    was done at a certain point in time
+  * Has a link to the release notes
+  * Shows the build date, the build date and the version number
