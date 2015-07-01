@@ -8,39 +8,56 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class ClientTestMain {
-
     private ClientTestMain() {
         // utility class
     }
 
     public static void main(String... args) throws Exception {
         int numberOfClients = 15;
-        int testTimeInMinutes = 1;
+        int testTimeInMinutes = 5;
 
-        long executionTime = System.currentTimeMillis() + 1000 * 60 * testTimeInMinutes;
+        List<LoadClient> clients = startClients(numberOfClients);
+        run(testTimeInMinutes);
+        shutDown(clients);
+        waitForClientsToShutdown(clients);
+        printSummary(clients);
+    }
+
+    private static List<LoadClient> startClients(int numberOfClients) {
         List<LoadClient> clients = new LinkedList<>();
         while (clients.size() < numberOfClients) {
             LoadClient client = new LoadClient();
             clients.add(client);
             new Thread(client).start();
         }
+        return clients;
+    }
 
+    private static void run(int testTimeInMinutes) throws InterruptedException {
+        long executionTime = System.currentTimeMillis() + 1000 * 60 * testTimeInMinutes;
         while (System.currentTimeMillis() < executionTime) {
             Thread.sleep(500);
         }
+    }
 
+    private static void shutDown(List<LoadClient> clients) {
         for (LoadClient client : clients) {
             client.work = false;
         }
+    }
 
+    private static void waitForClientsToShutdown(List<LoadClient> clients) throws InterruptedException {
         for (LoadClient client : clients) {
             while (client.isRunning) {
                 Thread.sleep(100);
             }
         }
+    }
 
+    private static void printSummary(List<LoadClient> clients) {
         int success = 0;
         int timeout = 0;
+
         for (LoadClient client : clients) {
             success += client.success;
             timeout += client.timeout;
