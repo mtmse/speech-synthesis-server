@@ -50,7 +50,7 @@ public class SpeechSynthesizer implements Managed {
             pause();
         }
 
-        LOGGER.info("Speech synthesiser shut down");
+        LOGGER.info("Speech synthesiser shutdown");
     }
 
     /**
