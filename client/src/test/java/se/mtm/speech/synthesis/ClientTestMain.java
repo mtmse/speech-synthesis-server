@@ -57,10 +57,12 @@ public final class ClientTestMain {
     private static void printSummary(List<LoadClient> clients) {
         int success = 0;
         int timeout = 0;
+        int notAccepted = 0;
 
         for (LoadClient client : clients) {
             success += client.success;
             timeout += client.timeout;
+            notAccepted += client.notAccepted;
         }
 
         System.out.println(""); // NOPMD
@@ -68,11 +70,13 @@ public final class ClientTestMain {
         System.out.println("Summary "); // NOPMD
         System.out.println("Success: " + success); // NOPMD
         System.out.println("Timeout: " + timeout); // NOPMD
+        System.out.println("Not accepted: " + notAccepted); // NOPMD
     }
 
     static class LoadClient implements Runnable {
         private int success = 0;
         private int timeout = 0;
+        private int notAccepted = 0;
         private boolean isRunning;
         private boolean work = true;
 
@@ -96,12 +100,28 @@ public final class ClientTestMain {
 
             SynthesizedSound sound = client.synthesise(sentence);
 
+            if (sound.isNotAccepted()) {
+                System.out.print("n"); // NOPMD
+                notAccepted++;
+                pause();
+                return;
+            }
+
             if (sound.isTimeout()) {
                 System.out.print("t"); // NOPMD
                 timeout++;
-            } else {
-                System.out.print("."); // NOPMD
-                success++;
+                return;
+            }
+
+            System.out.print("."); // NOPMD
+            success++;
+        }
+
+        private void pause() {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace(); // NOPMD
             }
         }
 
