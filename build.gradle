@@ -40,10 +40,11 @@ subprojects {
     }
 
     artifactoryPublish {
-        dependsOn sourceJar, javadocJar
+        dependsOn jar, sourceJar, javadocJar
     }
 
     artifacts {
+        published jar
         published sourceJar
         published javadocJar
     }
