@@ -11,14 +11,15 @@ public class SpeechClient {
     private final Client client;
     private final String host;
     private final int port;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
 
     public SpeechClient(String host, int port) {
-        this(ClientBuilder.newClient(), host, port);
+        this(ClientBuilder.newClient(), new ObjectMapper(), host, port);
     }
 
-    public SpeechClient(Client client, String host, int port) {
+    SpeechClient(Client client, ObjectMapper mapper, String host, int port) {
         this.client = client;
+        this.mapper = mapper;
         this.host = host;
         this.port = port;
     }
@@ -33,6 +34,7 @@ public class SpeechClient {
         try {
             return mapper.readValue(json, SynthesizedSound.class);
         } catch (IOException e) {
+            System.err.println(e.getMessage()); // NOPMD PipeOnline monitors std err
             throw new SpeechSynthesisClientException(e.getMessage(), e);
         }
     }
