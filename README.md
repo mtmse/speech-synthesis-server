@@ -4,12 +4,14 @@ A server that acts as a facade for speech synthesis. The current implementation
 is a Facade to Filibuster.
 
 
-[Usage](usage)
+[Usage](#usage)
 
-[Manual installation](manual_installation)
+[Installation](#installation)
+
+[Manual installation](#Manual installation)
 
 
-## Usage (#usage)
+## Usage
 
 A user interface is available at [http://pipeutv1.mtm.se:9090](http://pipeutv1.mtm.se:9090).
 An admin interface is available at [http://pipeutv1.mtm.se:9091](http://pipeutv1.mtm.se:9091)
@@ -24,7 +26,7 @@ Install on the target is either automated or manual.
 
 Not yet implemented.
 
-### Manual installation (#manual_installation)
+### Manual installation
 
 As root:
 ```
