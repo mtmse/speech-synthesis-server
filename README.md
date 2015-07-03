@@ -131,7 +131,7 @@ Each Filibuster logs to a log file that follows the pattern
 ```
 
 ### Log rotation
-The server and access log are rotated as defined in the configuration file.
+The server and access logs are rotated as defined in the configuration file.
 
 The Filibuster logs are currently not rotated.
 
