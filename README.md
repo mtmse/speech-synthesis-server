@@ -20,10 +20,13 @@ is a Facade to Filibuster.
 
 ## Usage
 
-A user interface is available at [http://pipeutv1.mtm.se:9090](http://pipeutv1.mtm.se:9090).
-An admin interface is available at [http://pipeutv1.mtm.se:9091](http://pipeutv1.mtm.se:9091)
+A user- and admin-interface is available at
 
-The host above may have to be varied depending on the environment you want to look at.
+| Environment     | User interface      | Admin interface  |
+| --------------- |-------------| ------------------------ |
+| Test            | [http://pipeutv1.mtm.se:9090](http://pipeutv1.mtm.se:9090) | [http://pipeutv1.mtm.se:9091](http://pipeutv1.mtm.se:9091) |
+| Acceptance test | [http://pipetest1.mtm.se:9090](http://pipetest1.mtm.se:9090) | [http://pipetest1.mtm.se:9091](http://pipetest1.mtm.se:9091) |
+| Production      | [http://pipeonline.mtm.se:9090](http://pipeonline.mtm.se:9090) | [http://pipeonline.mtm.se:9091](http://pipeonline.mtm.se:9091) |
 
 The synthesizing is hidden behind a REST API. A Java client is available that
 can can be used instead of connecting to the raw REST interface. For more
