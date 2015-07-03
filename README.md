@@ -3,19 +3,19 @@
 A server that acts as a facade for speech synthesis. The current implementation
 is a Facade to Filibuster.
 
-[Usage](#Usage)
+[Usage](#usage)
 
-[Installation](#Installation)
+[Installation](#installation)
 
-[Configuration](#Configuration)
+[Configuration](#configuration)
 
-[Logging](#Logging)
+[Logging](#logging)
 
-[Build](#Build)
+[Build](#build)
 
-[Run local](#Run local)
+[Run local](#run local)
 
-[References](#References)
+[References](#references)
 
 ## Usage
 
