@@ -11,11 +11,11 @@ is a Facade to Filibuster.
 
 [Logging](#Logging)
 
-[Build](Build)
+[Build](#Build)
 
-[Run local](Run local)
+[Run local](#Run local)
 
-[References](References)
+[References](#References)
 
 ## Usage
 
