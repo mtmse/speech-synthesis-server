@@ -25,6 +25,11 @@ An admin interface is available at [http://pipeutv1.mtm.se:9091](http://pipeutv1
 
 The host above may have to be varied depending on the environment you want to look at.
 
+The synthesizing is hidden behind a REST API. A Java client is available that
+can can be used instead of connecting to the raw REST interface. For more
+information, look in the sub project `client`.
+An [example implementation](client/src/test/java/se/mtm/speech/synthesis/ClientTestMain.java) is available.
+
 ## Installation
 
 Installation on the target host is either automated or manual.
