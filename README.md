@@ -3,6 +3,7 @@
 A server that acts as a facade for speech synthesis. The current implementation
 is a Facade to Filibuster.
 
+## Table of content
 
 * [Usage](#usage)
 * [Installation](#installation)
