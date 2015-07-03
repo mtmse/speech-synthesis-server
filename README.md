@@ -27,7 +27,7 @@ The host above may have to be varied depending on the environment you want to lo
 
 ## Installation
 
-Install on the target host is either automated or manual.
+Installation on the target host is either automated or manual.
 
 ### Automated installation
 
