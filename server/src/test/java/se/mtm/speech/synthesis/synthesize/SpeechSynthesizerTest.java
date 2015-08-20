@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -19,7 +20,7 @@ public class SpeechSynthesizerTest {
         int capacity = 1;
         int poolSize = 1;
         int minimumMemory = 2;
-        int timeout = 30000;
+        Timeout timeout = new Timeout(30);
         int timeToLive = 1;
         int idleTime = 1;
         speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
@@ -110,7 +111,7 @@ public class SpeechSynthesizerTest {
         int inCapacity = 17;
         int poolSize = 5;
         int minimumMemory = 2;
-        int timeout = 30000;
+        Timeout timeout = new Timeout(30);
         int timeToLive = 1;
         int idleTime = 1;
         speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);

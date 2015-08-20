@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 public class Configuration extends io.dropwizard.Configuration {
 
@@ -31,8 +32,8 @@ public class Configuration extends io.dropwizard.Configuration {
     @JsonProperty
     private boolean fake = false; // NOPMD set by reflection
 
-    public int getTimeout() {
-        return timeout;
+    public Timeout getTimeout() {
+        return new Timeout(timeout);
     }
 
     public int getCapacity() {

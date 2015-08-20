@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.apache.commons.lang3.SystemUtils;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,11 +21,11 @@ public final class FilibusterProcessTest {
         String fileName = "01.wav";
 
         Process process = getProcess();
-        long timeout = 30000;
+        Timeout timeout = new Timeout(30);
 
         FilibusterProcess filibusterProcess = new FilibusterProcess(process, timeout);
 
-        Filibuster filibuster = new Filibuster(null, null, null, null, 0, 0);
+        Filibuster filibuster = new Filibuster(null, null, null, null, new Timeout(0), 0);
 
         filibuster.clearStartMessages(process);
 

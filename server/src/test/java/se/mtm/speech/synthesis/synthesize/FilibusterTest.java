@@ -2,6 +2,7 @@ package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +19,7 @@ public class FilibusterTest {
         when(process.getSound()).thenReturn(new byte[0]);
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        long timeout = 0;
+        Timeout timeout = new Timeout(0);
         long timeToLive = 0;
 
         Filibuster filibuster = new Filibuster(process, pool, synthesizer, NOT_USED, NOT_USED, timeout, timeToLive);
@@ -42,7 +43,7 @@ public class FilibusterTest {
         when(process.getSound()).thenThrow(FilibusterException.class);
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        long timeout = 0;
+        Timeout timeout = new Timeout(0);
         long timeToLive = 0;
 
         Filibuster filibuster = new Filibuster(process, pool, synthesizer, NOT_USED, NOT_USED, timeout, timeToLive);

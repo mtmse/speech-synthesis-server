@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Resources;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -14,7 +15,7 @@ class FilibusterPool {
     private SpeechSynthesizer speechSynthesizer;
     private int maxPoolSize;
     private String logHome;
-    private long timeout;
+    private Timeout timeout;
     private long timeToLive;
     private boolean fake;
     private Queue<Synthesizer> waiting;
@@ -24,7 +25,7 @@ class FilibusterPool {
     private String filibusterHome;
 
     FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 2, "not defined", "not used", 30000, timeToLive, true);
+        this(null, maxPoolSize, 2, "not defined", "not used", new Timeout(30), timeToLive, true);
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
@@ -34,7 +35,7 @@ class FilibusterPool {
         this.fake = true;
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -97,7 +98,7 @@ class FilibusterPool {
         return addMore;
     }
 
-    private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, String logHome, long timeout, long timeToLive, boolean fake) {
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, String filibusterHome, String logHome, Timeout timeout, long timeToLive, boolean fake) {
         Synthesizer synthesizer;
 
         if (fake) {

@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,6 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
 public class FilibusterPoolTest {
     private static final String FILIBUSTER_HOME = "not used";
     private static final String LOG_HOME = "not used";
@@ -23,7 +25,7 @@ public class FilibusterPoolTest {
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
 
-        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, LOG_HOME, 0, 0);
+        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), 0);
 
         pool.returnFilibuster(filibuster);
 
@@ -39,7 +41,7 @@ public class FilibusterPoolTest {
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
         FilibusterProcess process = mock(FilibusterProcess.class);
-        Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, 0, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), timeToLive);
 
         pool.returnFilibuster(filibuster);
 
@@ -54,12 +56,12 @@ public class FilibusterPoolTest {
         Queue<Synthesizer> all = new LinkedList<>();
 
         FilibusterProcess idleProcess = mock(FilibusterProcess.class);
-        Synthesizer idle = new Filibuster(idleProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, 0, Integer.MAX_VALUE);
+        Synthesizer idle = new Filibuster(idleProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), Integer.MAX_VALUE);
         waiting.offer(idle);
         all.add(idle);
 
         FilibusterProcess runningProcess = mock(FilibusterProcess.class);
-        Filibuster running = new Filibuster(runningProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, 0, Integer.MAX_VALUE);
+        Filibuster running = new Filibuster(runningProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), Integer.MAX_VALUE);
         all.add(running);
 
         FilibusterPool pool = new FilibusterPool(waiting, all, 2);

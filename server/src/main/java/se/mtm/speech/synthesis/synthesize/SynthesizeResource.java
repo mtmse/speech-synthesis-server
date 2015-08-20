@@ -4,6 +4,7 @@ package se.mtm.speech.synthesis.synthesize;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,12 +19,12 @@ public class SynthesizeResource {
 
     private final SpeechSynthesizer synthesizer;
     private final long idleTime;
-    private final long defaultTimeout;
+    private final Timeout defaultTimeout;
 
-    public SynthesizeResource(SpeechSynthesizer synthesizer, long defaultTimeout, long idleTime) {
+    public SynthesizeResource(SpeechSynthesizer synthesizer, Timeout defaultTimeout, long idleTime) {
         this.synthesizer = synthesizer;
         this.idleTime = idleTime;
-        this.defaultTimeout = defaultTimeout * 1000;
+        this.defaultTimeout = defaultTimeout ;
     }
 
     @GET
@@ -38,7 +39,7 @@ public class SynthesizeResource {
         String key = "synthesize-" + Thread.currentThread().getId();
         SpeechUnit speechUnit = new SpeechUnit(key, sentence);
 
-        long timeout = System.currentTimeMillis() + defaultTimeout;
+        long timeout = System.currentTimeMillis() + defaultTimeout.getTimeoutMilliseconds();
 
         if (!synthesizer.addSpeechUnit(speechUnit)) {
             return new SynthesizedSound.Builder()

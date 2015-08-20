@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.nio.charset.Charset;
 
@@ -27,7 +28,7 @@ public class SynthesizeResourceTest {
         when(synthesizer.addSpeechUnit(any(SpeechUnit.class))).thenReturn(true);
         when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(true);
         when(synthesizer.getSynthesizedSound(anyString())).thenReturn(expected);
-        long timeout = 100;
+        Timeout timeout = new Timeout(1);
         long idleTime = 90;
         SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, timeout, idleTime);
 
@@ -44,7 +45,7 @@ public class SynthesizeResourceTest {
         when(synthesizer.addSpeechUnit(any(SpeechUnit.class))).thenReturn(true);
         when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(false);
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0, 0);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, new Timeout(0), 0);
 
         SynthesizedSound actual = synthesizeRest.synthesize(sentence);
 
@@ -56,7 +57,7 @@ public class SynthesizeResourceTest {
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
         when(synthesizer.addSpeechUnit(any(SpeechUnit.class))).thenReturn(false);
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, 0, 0);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, new Timeout(0), 0);
         SynthesizedSound actual = synthesizeRest.synthesize("any sentence");
 
         assertTrue("The sentence should not have been accepted", actual.isNotAccepted());

@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.Map;
 import java.util.Queue;
@@ -16,14 +17,13 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, long timeout, long timeToLive, long idleTime, boolean fake) {
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, long idleTime, boolean fake) {
         this.filibusters = maxFilibusters;
 
         int second = 1000;
         int minute = 60 * second;
-        long timeoutMillis = timeout * second;
         long ttl = timeToLive * minute;
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeoutMillis, ttl, fake);
+        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(inCapacity);

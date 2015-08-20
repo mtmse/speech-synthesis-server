@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.LogName;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,13 +17,13 @@ class Filibuster extends Synthesizer implements Runnable {
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer synthesizer;
-    private final long timeout;
+    private final Timeout timeout;
     private FilibusterProcess process;
     private final String filibusterHome;
     private final String logHome;
 
     // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, long timeout, long timeToLive) {
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
@@ -32,7 +33,7 @@ class Filibuster extends Synthesizer implements Runnable {
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, long timeout, long timeToLive) {
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;

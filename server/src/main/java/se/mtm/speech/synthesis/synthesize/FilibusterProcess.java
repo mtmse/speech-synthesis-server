@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
+import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -12,9 +13,9 @@ import java.io.OutputStreamWriter;
 class FilibusterProcess {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterProcess.class);
     private final Process process;
-    private final long timeout;
+    private final Timeout timeout;
 
-    FilibusterProcess(Process process, long timeout) {
+    FilibusterProcess(Process process, Timeout timeout) {
         this.process = process;
         this.timeout = timeout;
     }
@@ -88,7 +89,7 @@ class FilibusterProcess {
 
     private void waitFor(InputStream inputStream) {
         int waitingTime = 20;
-        long stopTime = System.currentTimeMillis() + timeout;
+        long stopTime = System.currentTimeMillis() + timeout.getTimeoutMilliseconds();
         while (System.currentTimeMillis() < stopTime) {
             if (isStreamReady(inputStream)) {
                 return;

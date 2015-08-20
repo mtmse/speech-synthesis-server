@@ -39,7 +39,7 @@ public class ConfigurationIntegrationTest {
     @Test
     public void get_timeout() {
         int expected = 20;
-        int actual = APPLICATION.getConfiguration().getTimeout();
+        int actual = APPLICATION.getConfiguration().getTimeout().getTimeoutSeconds();
         assertThat(actual, is(expected));
     }
 }

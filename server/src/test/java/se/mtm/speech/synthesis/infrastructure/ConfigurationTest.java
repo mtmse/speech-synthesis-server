@@ -37,9 +37,16 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void get_timeout() {
+    public void get_timeout_in_seconds() {
         int expected = 30;
-        int actual = configuration.getTimeout();
+        int actual = configuration.getTimeout().getTimeoutSeconds();
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void get_timeout_in_milli_seconds() {
+        long expected = 30000;
+        long actual = configuration.getTimeout().getTimeoutMilliseconds();
         assertThat(actual, is(expected));
     }
 
