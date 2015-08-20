@@ -1,6 +1,5 @@
 package se.mtm.speech.synthesis.synthesize;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
@@ -19,7 +18,6 @@ public class FilibusterPoolTest {
     private static final String LOG_HOME = "not used";
 
     @Test
-    @Ignore
     public void accept_young_filibusters() {
         MaxFilibusters maxPoolSize = new MaxFilibusters(0);
         int timeToLive = Integer.MAX_VALUE;
