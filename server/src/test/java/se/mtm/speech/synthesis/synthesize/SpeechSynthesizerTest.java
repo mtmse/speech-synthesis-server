@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import static junit.framework.TestCase.assertFalse;
@@ -18,7 +19,7 @@ public class SpeechSynthesizerTest {
     @Before
     public void setUp() throws Exception {
         int capacity = 1;
-        int poolSize = 1;
+        MaxFilibusters poolSize = new MaxFilibusters(1);
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
         int timeToLive = 1;
@@ -109,7 +110,7 @@ public class SpeechSynthesizerTest {
     @Test
     public void add_many_paragraphs_and_verify_that_they_are_synthesised_within_the_timeout_period() throws Exception {
         int inCapacity = 17;
-        int poolSize = 5;
+        MaxFilibusters poolSize = new MaxFilibusters(5);
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
         int timeToLive = 1;

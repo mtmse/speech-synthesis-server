@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Resources;
+import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.Queue;
@@ -13,7 +14,7 @@ class FilibusterPool {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterPool.class);
 
     private SpeechSynthesizer speechSynthesizer;
-    private int maxPoolSize;
+    private MaxFilibusters maxPoolSize;
     private String logHome;
     private Timeout timeout;
     private long timeToLive;
@@ -24,18 +25,18 @@ class FilibusterPool {
     private int minimumMemory;
     private String filibusterHome;
 
-    FilibusterPool(int maxPoolSize, long timeToLive) {
+    FilibusterPool(MaxFilibusters maxPoolSize, long timeToLive) {
         this(null, maxPoolSize, 2, "not defined", "not used", new Timeout(30), timeToLive, true);
     }
 
-    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
+    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, MaxFilibusters maxPoolSize) {
         this.waiting = waiting;
         this.all = all;
         this.maxPoolSize = maxPoolSize;
         this.fake = true;
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, MaxFilibusters maxPoolSize, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, boolean fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -80,7 +81,7 @@ class FilibusterPool {
     }
 
     private boolean shouldAddFilibuster() {
-        boolean wantMore = all.size() < maxPoolSize;
+        boolean wantMore = all.size() < maxPoolSize.getMax();
         boolean enoughResources = enoughResources();
 
         boolean addMore = wantMore && enoughResources;
