@@ -3,7 +3,6 @@ package se.mtm.speech.synthesis.synthesize;
 import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.Map;
@@ -16,9 +15,9 @@ public class SpeechSynthesizer implements Managed {
     private final Dispatcher dispatcher;
     private final Queue<SpeechUnit> inQue;
     private final Map<String, SynthesizedSound> out;
-    private final MaxFilibusters filibusters;
+    private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, MaxFilibusters maxFilibusters, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, long idleTime, boolean fake) {
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, String filibusterHome, String logHome, Timeout timeout, long timeToLive, long idleTime, boolean fake) {
         this.filibusters = maxFilibusters;
 
         int second = 1000;

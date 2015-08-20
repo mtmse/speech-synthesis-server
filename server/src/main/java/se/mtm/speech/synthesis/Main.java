@@ -7,7 +7,6 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
-import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
@@ -21,7 +20,7 @@ public class Main extends Application<Configuration> {
     @Override
     public void run(Configuration configuration, Environment environment) throws Exception {
         int capacity = configuration.getCapacity();
-        MaxFilibusters maxFilibusters = configuration.getMaxFilibusters();
+        int maxFilibusters = configuration.getMaxFilibusters();
 
         String filibusterHome = configuration.getFilibusterHome();
         filibusterHome = addTrailingSlash(filibusterHome);

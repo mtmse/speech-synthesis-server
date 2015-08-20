@@ -1,7 +1,6 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.mtm.speech.synthesis.infrastructure.configuration.MaxFilibusters;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 public class Configuration extends io.dropwizard.Configuration {
@@ -41,8 +40,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return capacity;
     }
 
-    public MaxFilibusters getMaxFilibusters() {
-        return new MaxFilibusters(maxFilibusters);
+    public int getMaxFilibusters() {
+        return maxFilibusters;
     }
 
     public int getMinimumMemory() {
