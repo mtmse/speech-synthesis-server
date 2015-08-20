@@ -9,8 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class FilibusterPoolTest {
     private static final String FILIBUSTER_HOME = "not used";
@@ -24,8 +23,8 @@ public class FilibusterPoolTest {
         FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
-
-        Filibuster filibuster = new Filibuster(null, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), 0);
+        FilibusterProcess process = mock(FilibusterProcess.class);
+        Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), 1000);
 
         pool.returnFilibuster(filibuster);
 
