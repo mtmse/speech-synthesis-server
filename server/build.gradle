@@ -7,7 +7,7 @@ apply plugin: 'os-package'
 apply plugin: 'se.mtm.artifactory-rpm'
 
 project.ext {
-    dropwizardVersion = '0.8.1'
+    dropwizardVersion = '0.8.2'
     rpmVersion = version - '-SNAPSHOT'
 }
 
@@ -24,7 +24,7 @@ dependencies {
 
     testCompile project(':client')
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion
-    testCompile 'org.seleniumhq.selenium:selenium-java:2.46.0'
+    testCompile 'org.seleniumhq.selenium:selenium-java:2.47.1'
 }
 
 sourceSets {
