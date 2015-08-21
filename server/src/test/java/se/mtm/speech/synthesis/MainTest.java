@@ -28,6 +28,7 @@ public class MainTest {
         when(environment.jersey()).thenReturn(jersey);
         when(config.getMaxFilibusters()).thenReturn(new MaxFilibusters(1));
         when(config.getCapacity()).thenReturn(new Capacity(1));
+        when(config.getMinimumMemory()).thenReturn(new MinimumMemory(0));
         when(config.getFilibusterHome()).thenReturn(new FilibusterHome("not important"));
         when(config.getLogHome()).thenReturn(new LogHome("not important"));
         when(config.getFakeSynthesize()).thenReturn(new FakeSynthesize(true));

@@ -19,7 +19,7 @@ public class SpeechSynthesizerTest {
     public void setUp() throws Exception {
         Capacity capacity = new Capacity(1);
         MaxFilibusters poolSize = new MaxFilibusters(1);
-        int minimumMemory = 2;
+        MinimumMemory minimumMemory = new MinimumMemory(2);
         Timeout timeout = new Timeout(30);
         TimeToLive timeToLive = new TimeToLive(1);
         IdleTime idleTime = new IdleTime(1);
@@ -111,7 +111,7 @@ public class SpeechSynthesizerTest {
     public void add_many_paragraphs_and_verify_that_they_are_synthesised_within_the_timeout_period() throws Exception {
         Capacity capacity = new Capacity(17);
         MaxFilibusters poolSize = new MaxFilibusters(5);
-        int minimumMemory = 2;
+        MinimumMemory minimumMemory = new MinimumMemory(2);
         Timeout timeout = new Timeout(30);
         TimeToLive timeToLive = new TimeToLive(1);
         IdleTime idleTime = new IdleTime(1);

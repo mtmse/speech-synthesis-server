@@ -21,21 +21,24 @@ class FilibusterPool {
     private Queue<Synthesizer> waiting;
     private Queue<Synthesizer> all;
     private Resources resources;
-    private int minimumMemory;
+    private MinimumMemory minimumMemory;
     private FilibusterHome filibusterHome;
 
     FilibusterPool(MaxFilibusters maxPoolSize, TimeToLive ttl) {
-        this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), ttl, new FakeSynthesize(true));
+        this(null, maxPoolSize, new MinimumMemory(2), new FilibusterHome("not defined"), new LogHome("not used"),
+                new Timeout(30), ttl, new FakeSynthesize(true));
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, MaxFilibusters maxPoolSize) {
         this.waiting = waiting;
         this.all = all;
         this.maxPoolSize = maxPoolSize;
+        this.minimumMemory = new MinimumMemory(0);
         this.fake = new FakeSynthesize(true);
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, MaxFilibusters maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, MaxFilibusters maxPoolSize, MinimumMemory minimumMemory,
+                          FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -119,7 +122,7 @@ class FilibusterPool {
         String message = "Have " + availableMemory + " Gb memory free";
         LOGGER.info(message);
 
-        return availableMemory > minimumMemory;
+        return availableMemory > minimumMemory.getMin();
     }
 
     /**

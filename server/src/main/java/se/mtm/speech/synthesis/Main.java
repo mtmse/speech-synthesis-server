@@ -26,7 +26,7 @@ public class Main extends Application<Configuration> {
 
         LogHome logHome = configuration.getLogHome();
 
-        int minimumMemory = configuration.getMinimumMemory();
+        MinimumMemory minimumMemory = configuration.getMinimumMemory();
         Timeout timeout = configuration.getTimeout();
         TimeToLive timeToLive = configuration.getTimeToLive();
         IdleTime idleTime = configuration.getIdleTime();

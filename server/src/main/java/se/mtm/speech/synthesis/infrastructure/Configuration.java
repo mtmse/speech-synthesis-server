@@ -44,8 +44,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return new MaxFilibusters(maxFilibusters);
     }
 
-    public int getMinimumMemory() {
-        return minimumMemory;
+    public MinimumMemory getMinimumMemory() {
+        return new MinimumMemory(minimumMemory);
     }
 
     public IdleTime getIdleTime() {
