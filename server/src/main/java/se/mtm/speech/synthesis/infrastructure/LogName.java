@@ -10,7 +10,7 @@ public final class LogName {
     private static String logExtension = "log";
 
     private LogName() {
-        // Utility classes should be final and have a private constructor...
+        // Utility classes should be final and have a private constructors...
     }
 
     public static String getLogFileName(String logHome) {
