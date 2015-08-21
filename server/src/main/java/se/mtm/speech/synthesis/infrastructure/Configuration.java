@@ -1,10 +1,7 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
-import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
+import se.mtm.speech.synthesis.infrastructure.configuration.*;
 
 public class Configuration extends io.dropwizard.Configuration {
 
@@ -51,8 +48,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return minimumMemory;
     }
 
-    public int getIdleTime() {
-        return idleTime;
+    public IdleTime getIdleTime() {
+        return new IdleTime(idleTime);
     }
 
     public int getTimeToLive() {

@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.IdleTime;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.nio.charset.Charset;
@@ -29,7 +30,7 @@ public class SynthesizeResourceTest {
         when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(true);
         when(synthesizer.getSynthesizedSound(anyString())).thenReturn(expected);
         Timeout timeout = new Timeout(1);
-        long idleTime = 90;
+        IdleTime idleTime = new IdleTime(90);
         SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, timeout, idleTime);
 
         SynthesizedSound actual = synthesizeRest.synthesize(sentence);
@@ -45,7 +46,9 @@ public class SynthesizeResourceTest {
         when(synthesizer.addSpeechUnit(any(SpeechUnit.class))).thenReturn(true);
         when(synthesizer.isSpeechUnitReady(anyString())).thenReturn(false);
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, new Timeout(0), 0);
+        Timeout defaultTimeout = new Timeout(0);
+        IdleTime idleTime = new IdleTime(0);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, defaultTimeout, idleTime);
 
         SynthesizedSound actual = synthesizeRest.synthesize(sentence);
 
@@ -57,7 +60,9 @@ public class SynthesizeResourceTest {
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
         when(synthesizer.addSpeechUnit(any(SpeechUnit.class))).thenReturn(false);
 
-        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, new Timeout(0), 0);
+        Timeout defaultTimeout = new Timeout(0);
+        IdleTime idleTime = new IdleTime(0);
+        SynthesizeResource synthesizeRest = new SynthesizeResource(synthesizer, defaultTimeout, idleTime);
         SynthesizedSound actual = synthesizeRest.synthesize("any sentence");
 
         assertTrue("The sentence should not have been accepted", actual.isNotAccepted());

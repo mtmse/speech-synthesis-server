@@ -31,8 +31,8 @@ public class ConfigurationIntegrationTest {
 
     @Test
     public void get_idle_time() {
-        int expected = 19;
-        int actual = APPLICATION.getConfiguration().getIdleTime();
+        long expected = 19;
+        long actual = APPLICATION.getConfiguration().getIdleTime().getIdle();
         assertThat(actual, is(expected));
     }
 

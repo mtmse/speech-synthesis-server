@@ -32,8 +32,8 @@ public class ConfigurationTest {
 
     @Test
     public void get_idle_time() {
-        int expected = 100;
-        int actual = configuration.getIdleTime();
+        long expected = 100;
+        long actual = configuration.getIdleTime().getIdle();
         assertThat(actual, is(expected));
     }
 

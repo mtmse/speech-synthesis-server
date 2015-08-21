@@ -2,17 +2,18 @@ package se.mtm.speech.synthesis.synthesize;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.configuration.IdleTime;
 
 class Dispatcher implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class);
 
     private final FilibusterPool pool;
     private final SpeechSynthesizer speechSynthesizer;
-    private final long idleTime;
+    private final IdleTime idleTime;
     private boolean work = true;
     private boolean running;
 
-    Dispatcher(FilibusterPool pool, SpeechSynthesizer speechSynthesizer, long idleTime) {
+    Dispatcher(FilibusterPool pool, SpeechSynthesizer speechSynthesizer, IdleTime idleTime) {
         this.pool = pool;
         this.speechSynthesizer = speechSynthesizer;
         this.idleTime = idleTime;
@@ -48,7 +49,7 @@ class Dispatcher implements Runnable {
 
     private void pause() {
         try {
-            Thread.sleep(idleTime);
+            Thread.sleep(idleTime.getIdle());
         } catch (InterruptedException e) {
             LOGGER.warn(e.getMessage());
         }
