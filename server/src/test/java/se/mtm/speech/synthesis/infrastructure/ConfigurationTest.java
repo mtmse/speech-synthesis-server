@@ -19,7 +19,7 @@ public class ConfigurationTest {
     @Test
     public void get_filibusters() {
         int expected = 6;
-        int actual = configuration.getMaxFilibusters();
+        int actual = configuration.getMaxFilibusters().getMax();
         assertThat(actual, is(expected));
     }
 

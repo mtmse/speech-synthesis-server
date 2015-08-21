@@ -40,8 +40,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return new Capacity(capacity);
     }
 
-    public int getMaxFilibusters() {
-        return maxFilibusters;
+    public MaxFilibusters getMaxFilibusters() {
+        return new MaxFilibusters(maxFilibusters);
     }
 
     public int getMinimumMemory() {

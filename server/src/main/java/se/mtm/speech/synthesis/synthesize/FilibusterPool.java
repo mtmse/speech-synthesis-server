@@ -13,7 +13,7 @@ class FilibusterPool {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterPool.class);
 
     private SpeechSynthesizer speechSynthesizer;
-    private int maxPoolSize;
+    private MaxFilibusters maxPoolSize;
     private LogHome logHome;
     private Timeout timeout;
     private TimeToLive ttl;
@@ -24,18 +24,18 @@ class FilibusterPool {
     private int minimumMemory;
     private FilibusterHome filibusterHome;
 
-    FilibusterPool(int maxPoolSize, TimeToLive ttl) {
+    FilibusterPool(MaxFilibusters maxPoolSize, TimeToLive ttl) {
         this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), ttl, new FakeSynthesize(true));
     }
 
-    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
+    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, MaxFilibusters maxPoolSize) {
         this.waiting = waiting;
         this.all = all;
         this.maxPoolSize = maxPoolSize;
         this.fake = new FakeSynthesize(true);
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, MaxFilibusters maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -80,7 +80,7 @@ class FilibusterPool {
     }
 
     private boolean shouldAddFilibuster() {
-        boolean wantMore = all.size() < maxPoolSize;
+        boolean wantMore = all.size() < maxPoolSize.getMax();
         boolean enoughResources = enoughResources();
 
         boolean addMore = wantMore && enoughResources;

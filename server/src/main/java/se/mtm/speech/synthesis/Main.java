@@ -20,7 +20,7 @@ public class Main extends Application<Configuration> {
     @Override
     public void run(Configuration configuration, Environment environment) throws Exception {
         Capacity capacity = configuration.getCapacity();
-        int maxFilibusters = configuration.getMaxFilibusters();
+        MaxFilibusters maxFilibusters = configuration.getMaxFilibusters();
 
         FilibusterHome filibusterHome = configuration.getFilibusterHome();
 

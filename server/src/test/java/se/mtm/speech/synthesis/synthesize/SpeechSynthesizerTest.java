@@ -18,7 +18,7 @@ public class SpeechSynthesizerTest {
     @Before
     public void setUp() throws Exception {
         Capacity capacity = new Capacity(1);
-        int poolSize = 1;
+        MaxFilibusters poolSize = new MaxFilibusters(1);
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
         TimeToLive timeToLive = new TimeToLive(1);
@@ -110,7 +110,7 @@ public class SpeechSynthesizerTest {
     @Test
     public void add_many_paragraphs_and_verify_that_they_are_synthesised_within_the_timeout_period() throws Exception {
         Capacity capacity = new Capacity(17);
-        int poolSize = 5;
+        MaxFilibusters poolSize = new MaxFilibusters(5);
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
         TimeToLive timeToLive = new TimeToLive(1);

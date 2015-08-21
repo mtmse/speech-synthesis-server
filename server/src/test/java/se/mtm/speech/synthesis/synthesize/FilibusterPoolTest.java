@@ -1,10 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
-import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.TimeToLive;
-import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
+import se.mtm.speech.synthesis.infrastructure.configuration.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,7 +18,7 @@ public class FilibusterPoolTest {
 
     @Test
     public void accept_young_filibusters() {
-        int maxPoolSize = 0;
+        MaxFilibusters maxPoolSize = new MaxFilibusters(0);
         TimeToLive timeToLive = new TimeToLive(Integer.MAX_VALUE);
 
         FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
@@ -37,7 +34,7 @@ public class FilibusterPoolTest {
 
     @Test
     public void do_not_accept_too_old_filibusters() {
-        int maxPoolSize = 0;
+        MaxFilibusters maxPoolSize = new MaxFilibusters(0);
         TimeToLive timeToLive = new TimeToLive(Integer.MIN_VALUE);
 
         FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
@@ -67,7 +64,7 @@ public class FilibusterPoolTest {
         Filibuster running = new Filibuster(runningProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
         all.add(running);
 
-        FilibusterPool pool = new FilibusterPool(waiting, all, 2);
+        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
 
         pool.invalidate();
 

@@ -25,7 +25,7 @@ public class ConfigurationIntegrationTest {
     @Test
     public void get_filibusters() {
         int expected = 3;
-        int actual = APPLICATION.getConfiguration().getMaxFilibusters();
+        int actual = APPLICATION.getConfiguration().getMaxFilibusters().getMax();
         assertThat(actual, is(expected));
     }
 
