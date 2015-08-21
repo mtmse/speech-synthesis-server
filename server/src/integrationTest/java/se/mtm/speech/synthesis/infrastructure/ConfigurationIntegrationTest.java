@@ -18,7 +18,7 @@ public class ConfigurationIntegrationTest {
     @Test
     public void get_capacity() {
         int expected = 17;
-        int actual = APPLICATION.getConfiguration().getCapacity();
+        int actual = APPLICATION.getConfiguration().getCapacity().getCapacity();
         assertThat(actual, is(expected));
     }
 

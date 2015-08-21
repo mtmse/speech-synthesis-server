@@ -36,8 +36,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return new Timeout(timeout);
     }
 
-    public int getCapacity() {
-        return capacity;
+    public Capacity getCapacity() {
+        return new Capacity(capacity);
     }
 
     public int getMaxFilibusters() {

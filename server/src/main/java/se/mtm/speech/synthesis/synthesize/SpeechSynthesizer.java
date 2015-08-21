@@ -17,12 +17,13 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, IdleTime idleTime, FakeSynthesize fake) {
+    public SpeechSynthesizer(Capacity capacity, int maxFilibusters, int minimumMemory, FilibusterHome filibusterHome,
+                             LogHome logHome, Timeout timeout, TimeToLive ttl, IdleTime idleTime, FakeSynthesize fake) {
         this.filibusters = maxFilibusters;
         FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);
-        inQue = new LinkedBlockingQueue<>(inCapacity);
+        inQue = new LinkedBlockingQueue<>(capacity.getCapacity());
         out = new ConcurrentHashMap<>();
     }
 

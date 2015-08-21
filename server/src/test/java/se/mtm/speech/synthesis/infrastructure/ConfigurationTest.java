@@ -12,7 +12,7 @@ public class ConfigurationTest {
     @Test
     public void get_capacity() {
         int expected = 17;
-        int actual = configuration.getCapacity();
+        int actual = configuration.getCapacity().getCapacity();
         assertThat(actual, is(expected));
     }
 
