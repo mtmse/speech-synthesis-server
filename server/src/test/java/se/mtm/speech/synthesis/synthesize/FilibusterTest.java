@@ -4,6 +4,7 @@ import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.TimeToLive;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.File;
@@ -19,6 +20,8 @@ public class FilibusterTest {
     private static final String NOT_USED = "not used";
     private final FilibusterHome filibusterHome = new FilibusterHome(NOT_USED);
     private final LogHome logHome = new LogHome(NOT_USED);
+    private final Timeout timeout = new Timeout(0);
+    private final TimeToLive timeToLive = new TimeToLive(0);
 
     @Test
     public void synthesize() {
@@ -26,8 +29,6 @@ public class FilibusterTest {
         when(process.getSound()).thenReturn(new byte[0]);
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        Timeout timeout = new Timeout(0);
-        long timeToLive = 0;
 
         Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 
@@ -50,8 +51,6 @@ public class FilibusterTest {
         when(process.getSound()).thenThrow(FilibusterException.class);
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        Timeout timeout = new Timeout(0);
-        long timeToLive = 0;
 
         Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 
@@ -71,8 +70,6 @@ public class FilibusterTest {
         when(process.getSound()).thenReturn(new byte[0]);
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
-        Timeout timeout = new Timeout(0);
-        long timeToLive = 0;
 
         Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 

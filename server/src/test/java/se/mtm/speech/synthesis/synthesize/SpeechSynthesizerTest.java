@@ -21,7 +21,7 @@ public class SpeechSynthesizerTest {
         int poolSize = 1;
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
-        int timeToLive = 1;
+        TimeToLive timeToLive = new TimeToLive(1);
         IdleTime idleTime = new IdleTime(1);
         FakeSynthesize fake = new FakeSynthesize(true);
         speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, fake);
@@ -113,7 +113,7 @@ public class SpeechSynthesizerTest {
         int poolSize = 5;
         int minimumMemory = 2;
         Timeout timeout = new Timeout(30);
-        int timeToLive = 1;
+        TimeToLive timeToLive = new TimeToLive(1);
         IdleTime idleTime = new IdleTime(1);
         FakeSynthesize fake = new FakeSynthesize(true);
         speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, fake);

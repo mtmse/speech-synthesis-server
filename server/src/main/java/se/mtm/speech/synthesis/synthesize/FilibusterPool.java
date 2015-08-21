@@ -3,10 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Resources;
-import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
-import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
+import se.mtm.speech.synthesis.infrastructure.configuration.*;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -19,7 +16,7 @@ class FilibusterPool {
     private int maxPoolSize;
     private LogHome logHome;
     private Timeout timeout;
-    private long timeToLive;
+    private TimeToLive ttl;
     private FakeSynthesize fake;
     private Queue<Synthesizer> waiting;
     private Queue<Synthesizer> all;
@@ -27,8 +24,8 @@ class FilibusterPool {
     private int minimumMemory;
     private FilibusterHome filibusterHome;
 
-    FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), timeToLive, new FakeSynthesize(true));
+    FilibusterPool(int maxPoolSize, TimeToLive ttl) {
+        this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), ttl, new FakeSynthesize(true));
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
@@ -38,14 +35,14 @@ class FilibusterPool {
         this.fake = new FakeSynthesize(true);
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, FakeSynthesize fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
         this.filibusterHome = filibusterHome;
         this.logHome = logHome;
         this.timeout = timeout;
-        this.timeToLive = timeToLive;
+        this.ttl = ttl;
         this.fake = fake;
 
         waiting = new LinkedBlockingQueue<>();
@@ -77,7 +74,7 @@ class FilibusterPool {
         synchronized (this) {
             if (shouldAddFilibuster()) {
                 LOGGER.info("Topping up with a new Filibuster");
-                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, timeToLive, fake);
+                addFilibuster(speechSynthesizer, filibusterHome, logHome, timeout, ttl, fake);
             }
         }
     }
@@ -101,13 +98,13 @@ class FilibusterPool {
         return addMore;
     }
 
-    private void addFilibuster(SpeechSynthesizer speechSynthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, FakeSynthesize fake) {
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
         Synthesizer synthesizer;
 
         if (fake.isFake()) {
             synthesizer = new FakeFilibuster(this, speechSynthesizer);
         } else {
-            synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, logHome, timeout, timeToLive);
+            synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, logHome, timeout, ttl);
         }
         waiting.add(synthesizer);
         all.add(synthesizer);

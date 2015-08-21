@@ -7,6 +7,7 @@ import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.LogName;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.TimeToLive;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.IOException;
@@ -25,8 +26,8 @@ class Filibuster extends Synthesizer implements Runnable {
     private final LogHome logHome;
 
     // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive) {
-        super(System.currentTimeMillis() + timeToLive);
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl) {
+        super(System.currentTimeMillis() + ttl.getTtlInMilliseconds());
         this.process = process;
         this.pool = pool;
         this.synthesizer = synthesizer;
@@ -35,8 +36,8 @@ class Filibuster extends Synthesizer implements Runnable {
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive) {
-        super(System.currentTimeMillis() + timeToLive);
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl) {
+        super(System.currentTimeMillis() + ttl.getTtlInMilliseconds());
         this.pool = pool;
         this.synthesizer = synthesizer;
         this.filibusterHome = filibusterHome;

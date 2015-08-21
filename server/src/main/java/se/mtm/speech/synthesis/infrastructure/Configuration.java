@@ -52,8 +52,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return new IdleTime(idleTime);
     }
 
-    public int getTimeToLive() {
-        return timeToLive;
+    public TimeToLive getTimeToLive() {
+        return new TimeToLive(timeToLive);
     }
 
     public FakeSynthesize getFakeSynthesize() {

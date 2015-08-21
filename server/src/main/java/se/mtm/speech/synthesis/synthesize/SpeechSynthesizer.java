@@ -17,12 +17,8 @@ public class SpeechSynthesizer implements Managed {
     private final Map<String, SynthesizedSound> out;
     private final int filibusters;
 
-    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, IdleTime idleTime, FakeSynthesize fake) {
+    public SpeechSynthesizer(int inCapacity, int maxFilibusters, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, IdleTime idleTime, FakeSynthesize fake) {
         this.filibusters = maxFilibusters;
-
-        int second = 1000;
-        int minute = 60 * second;
-        long ttl = timeToLive * minute;
         FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, ttl, fake);
 
         dispatcher = new Dispatcher(pool, this, idleTime);

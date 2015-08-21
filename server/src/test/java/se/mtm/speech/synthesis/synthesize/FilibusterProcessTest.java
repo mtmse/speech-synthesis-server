@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.synthesize;
 
 import org.apache.commons.lang3.SystemUtils;
+import se.mtm.speech.synthesis.infrastructure.configuration.TimeToLive;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.FileOutputStream;
@@ -25,7 +26,7 @@ public final class FilibusterProcessTest {
 
         FilibusterProcess filibusterProcess = new FilibusterProcess(process, timeout);
 
-        Filibuster filibuster = new Filibuster(null, null, null, null, new Timeout(0), 0);
+        Filibuster filibuster = new Filibuster(null, null, null, null, new Timeout(0), new TimeToLive(0));
 
         filibuster.clearStartMessages(process);
 

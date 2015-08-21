@@ -28,7 +28,7 @@ public class Main extends Application<Configuration> {
 
         int minimumMemory = configuration.getMinimumMemory();
         Timeout timeout = configuration.getTimeout();
-        int timeToLive = configuration.getTimeToLive();
+        TimeToLive timeToLive = configuration.getTimeToLive();
         IdleTime idleTime = configuration.getIdleTime();
         FakeSynthesize fake = configuration.getFakeSynthesize();
         SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fake);

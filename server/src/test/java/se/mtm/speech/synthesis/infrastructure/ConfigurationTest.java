@@ -25,8 +25,8 @@ public class ConfigurationTest {
 
     @Test
     public void get_time_to_live() {
-        int expected = 25;
-        int actual = configuration.getTimeToLive();
+        long expected = 25 * 60 * 1000;
+        long actual = configuration.getTimeToLive().getTtlInMilliseconds();
         assertThat(actual, is(expected));
     }
 
