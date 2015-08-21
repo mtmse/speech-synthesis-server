@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.status;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,9 +15,9 @@ import java.io.IOException;
 @Path("/showLog/{logFile}")
 public class ShowLogResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShowLogResource.class);
-    private final String logHome;
+    private final LogHome logHome;
 
-    public ShowLogResource(String logHome) {
+    public ShowLogResource(LogHome logHome) {
         this.logHome = logHome;
     }
 
@@ -26,7 +27,7 @@ public class ShowLogResource {
         String message = "View log file <" + logFileName + ">";
         LOGGER.info(message);
 
-        File logFileContent = new File(logHome + logFileName);
+        File logFileContent = new File(logHome.getHome() + logFileName);
 
         return FileUtils.readFileToString(logFileContent);
     }

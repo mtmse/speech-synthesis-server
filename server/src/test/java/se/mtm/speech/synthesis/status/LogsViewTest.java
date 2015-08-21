@@ -2,6 +2,7 @@ package se.mtm.speech.synthesis.status;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class LogsViewTest {
 
     @Test
     public void get_available_log_files() throws Exception {
-        String logHome = "build/speech-synthesis-server";
+        LogHome logHome = new LogHome("build/speech-synthesis-server");
         List<String> expected = prepareLogFiles(logHome);
 
         LogsView logsView = new LogsView(logHome);
@@ -25,8 +26,8 @@ public class LogsViewTest {
         assertThat(actual, is(expected));
     }
 
-    private List<String> prepareLogFiles(String logHome) throws IOException {
-        File logDir = new File(logHome);
+    private List<String> prepareLogFiles(LogHome logHome) throws IOException {
+        File logDir = new File(logHome.getHome());
         FileUtils.deleteDirectory(logDir);
         //noinspection ResultOfMethodCallIgnored
         logDir.mkdirs();
@@ -35,7 +36,7 @@ public class LogsViewTest {
         for (int i = 0; i < 10; i++) {
             String fileName = "filibuster-test-" + i + ".log";
             logFiles.add(fileName);
-            FileUtils.touch(new File(logHome + "/" + fileName));
+            FileUtils.touch(new File(logHome.getHome() + fileName));
         }
 
         return logFiles;

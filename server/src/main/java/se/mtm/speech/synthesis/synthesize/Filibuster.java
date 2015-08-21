@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.LogName;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.IOException;
@@ -21,10 +22,10 @@ class Filibuster extends Synthesizer implements Runnable {
     private final Timeout timeout;
     private FilibusterProcess process;
     private final FilibusterHome filibusterHome;
-    private final String logHome;
+    private final LogHome logHome;
 
     // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, String logHome, Timeout timeout, long timeToLive) {
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
@@ -34,7 +35,7 @@ class Filibuster extends Synthesizer implements Runnable {
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, String logHome, Timeout timeout, long timeToLive) {
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;
@@ -85,7 +86,7 @@ class Filibuster extends Synthesizer implements Runnable {
     }
 
     private String createLogFileName() {
-        return LogName.getLogFileName(logHome);
+        return LogName.getLogFileName(logHome.getHome());
     }
 
     private SynthesizedSound synthesize() {

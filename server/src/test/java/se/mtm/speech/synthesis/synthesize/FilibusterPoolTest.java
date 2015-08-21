@@ -2,6 +2,7 @@ package se.mtm.speech.synthesis.synthesize;
 
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class FilibusterPoolTest {
     private static final FilibusterHome FILIBUSTER_HOME = new FilibusterHome("not used");
-    private static final String LOG_HOME = "not used";
+    private static final LogHome LOG_HOME = new LogHome("not used");
 
     @Test
     public void accept_young_filibusters() {

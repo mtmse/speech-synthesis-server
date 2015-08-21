@@ -8,6 +8,7 @@ import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
@@ -25,8 +26,7 @@ public class Main extends Application<Configuration> {
 
         FilibusterHome filibusterHome = configuration.getFilibusterHome();
 
-        String logHome = configuration.getLogHome();
-        logHome = addTrailingSlash(logHome);
+        LogHome logHome = configuration.getLogHome();
 
         int minimumMemory = configuration.getMinimumMemory();
         Timeout timeout = configuration.getTimeout();

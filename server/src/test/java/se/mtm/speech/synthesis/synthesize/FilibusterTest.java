@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.File;
@@ -15,8 +16,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class FilibusterTest {
-
-    public static final String NOT_USED = "not used";
+    private static final String NOT_USED = "not used";
+    private final FilibusterHome filibusterHome = new FilibusterHome(NOT_USED);
+    private final LogHome logHome = new LogHome(NOT_USED);
 
     @Test
     public void synthesize() {
@@ -27,7 +29,7 @@ public class FilibusterTest {
         Timeout timeout = new Timeout(0);
         long timeToLive = 0;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, new FilibusterHome(NOT_USED), NOT_USED, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
@@ -51,7 +53,7 @@ public class FilibusterTest {
         Timeout timeout = new Timeout(0);
         long timeToLive = 0;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, new FilibusterHome(NOT_USED), NOT_USED, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
@@ -72,7 +74,7 @@ public class FilibusterTest {
         Timeout timeout = new Timeout(0);
         long timeToLive = 0;
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, new FilibusterHome(NOT_USED), NOT_USED, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
 
         String[] actual = filibuster.getCommand("filibusterLog");
 

@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import static junit.framework.TestCase.assertFalse;
@@ -13,7 +14,7 @@ import static org.hamcrest.core.Is.is;
 
 public class SpeechSynthesizerTest {
     private static final FilibusterHome FILIBUSTER_HOME = new FilibusterHome("filibusterHome");
-    private static final String LOG_HOME = "logHome";
+    private static final LogHome LOG_HOME = new LogHome("logHome");
     private SpeechSynthesizer speechSynthesizer;
 
     @Before
