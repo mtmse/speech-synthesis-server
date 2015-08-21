@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
@@ -25,7 +26,8 @@ public class SpeechSynthesizerTest {
         Timeout timeout = new Timeout(30);
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
+        FakeSynthesize fake = new FakeSynthesize(true);
+        speechSynthesizer = new SpeechSynthesizer(capacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, fake);
         speechSynthesizer.start();
     }
 
@@ -116,7 +118,8 @@ public class SpeechSynthesizerTest {
         Timeout timeout = new Timeout(30);
         int timeToLive = 1;
         int idleTime = 1;
-        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, true);
+        FakeSynthesize fake = new FakeSynthesize(true);
+        speechSynthesizer = new SpeechSynthesizer(inCapacity, poolSize, minimumMemory, FILIBUSTER_HOME, LOG_HOME, timeout, timeToLive, idleTime, fake);
         speechSynthesizer.start();
         int expectedSize = 42;
 

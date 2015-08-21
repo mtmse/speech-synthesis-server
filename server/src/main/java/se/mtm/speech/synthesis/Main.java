@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
+import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
@@ -32,8 +33,8 @@ public class Main extends Application<Configuration> {
         Timeout timeout = configuration.getTimeout();
         int timeToLive = configuration.getTimeToLive();
         int idleTime = configuration.getIdleTime();
-        boolean fakeSynthesize = configuration.isFakeSynthesize();
-        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fakeSynthesize);
+        FakeSynthesize fake = configuration.getFakeSynthesize();
+        SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fake);
         environment.lifecycle().manage(speechSynthesizer);
 
         environment.healthChecks().register("Filibuster health check", new FilibusterHealthCheck(speechSynthesizer));

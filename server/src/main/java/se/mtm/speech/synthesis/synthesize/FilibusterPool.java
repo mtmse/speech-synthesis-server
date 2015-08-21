@@ -3,6 +3,7 @@ package se.mtm.speech.synthesis.synthesize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Resources;
+import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
@@ -19,7 +20,7 @@ class FilibusterPool {
     private LogHome logHome;
     private Timeout timeout;
     private long timeToLive;
-    private boolean fake;
+    private FakeSynthesize fake;
     private Queue<Synthesizer> waiting;
     private Queue<Synthesizer> all;
     private Resources resources;
@@ -27,17 +28,17 @@ class FilibusterPool {
     private FilibusterHome filibusterHome;
 
     FilibusterPool(int maxPoolSize, long timeToLive) {
-        this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), timeToLive, true);
+        this(null, maxPoolSize, 2, new FilibusterHome("not defined"), new LogHome("not used"), new Timeout(30), timeToLive, new FakeSynthesize(true));
     }
 
     FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, int maxPoolSize) {
         this.waiting = waiting;
         this.all = all;
         this.maxPoolSize = maxPoolSize;
-        this.fake = true;
+        this.fake = new FakeSynthesize(true);
     }
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, boolean fake) {
+    public FilibusterPool(SpeechSynthesizer speechSynthesizer, int maxPoolSize, int minimumMemory, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, FakeSynthesize fake) {
         this.speechSynthesizer = speechSynthesizer;
         this.maxPoolSize = maxPoolSize;
         this.minimumMemory = minimumMemory;
@@ -100,10 +101,10 @@ class FilibusterPool {
         return addMore;
     }
 
-    private void addFilibuster(SpeechSynthesizer speechSynthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, boolean fake) {
+    private void addFilibuster(SpeechSynthesizer speechSynthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, long timeToLive, FakeSynthesize fake) {
         Synthesizer synthesizer;
 
-        if (fake) {
+        if (fake.isFake()) {
             synthesizer = new FakeFilibuster(this, speechSynthesizer);
         } else {
             synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, logHome, timeout, timeToLive);

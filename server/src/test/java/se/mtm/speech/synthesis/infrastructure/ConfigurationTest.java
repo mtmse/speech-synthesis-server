@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.FakeSynthesize;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -52,7 +53,7 @@ public class ConfigurationTest {
 
     @Test
     public void ensure_default_value_for_fake_is_false() throws Exception {
-        boolean actual = configuration.isFakeSynthesize();
-        assertThat(actual, is(false));
+        FakeSynthesize actual = configuration.getFakeSynthesize();
+        assertThat(actual.isFake(), is(false));
     }
 }
