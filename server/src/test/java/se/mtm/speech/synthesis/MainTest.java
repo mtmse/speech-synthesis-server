@@ -6,6 +6,7 @@ import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
+import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 
 import static org.hamcrest.core.Is.is;
@@ -27,7 +28,7 @@ public class MainTest {
         when(environment.jersey()).thenReturn(jersey);
         when(config.getMaxFilibusters()).thenReturn(1);
         when(config.getCapacity()).thenReturn(1);
-        when(config.getFilibusterHome()).thenReturn("not important");
+        when(config.getFilibusterHome()).thenReturn(new FilibusterHome("not important"));
         when(config.getLogHome()).thenReturn("not important");
         when(config.isFakeSynthesize()).thenReturn(true);
 

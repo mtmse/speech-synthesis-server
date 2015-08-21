@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
+import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
@@ -22,8 +23,7 @@ public class Main extends Application<Configuration> {
         int capacity = configuration.getCapacity();
         int maxFilibusters = configuration.getMaxFilibusters();
 
-        String filibusterHome = configuration.getFilibusterHome();
-        filibusterHome = addTrailingSlash(filibusterHome);
+        FilibusterHome filibusterHome = configuration.getFilibusterHome();
 
         String logHome = configuration.getLogHome();
         logHome = addTrailingSlash(logHome);
@@ -69,11 +69,11 @@ public class Main extends Application<Configuration> {
         bootstrap.addBundle(new AssetsBundle());
     }
 
-    static String addTrailingSlash(String filibusterHome) {
-        if (filibusterHome.endsWith("/")) {
-            return filibusterHome;
+    static String addTrailingSlash(String path) {
+        if (path.endsWith("/")) {
+            return path;
         } else {
-            return filibusterHome + "/";
+            return path + "/";
         }
     }
 }

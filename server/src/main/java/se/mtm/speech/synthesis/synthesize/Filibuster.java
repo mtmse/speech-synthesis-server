@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.LogName;
+import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.IOException;
@@ -19,11 +20,11 @@ class Filibuster extends Synthesizer implements Runnable {
     private final SpeechSynthesizer synthesizer;
     private final Timeout timeout;
     private FilibusterProcess process;
-    private final String filibusterHome;
+    private final FilibusterHome filibusterHome;
     private final String logHome;
 
     // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, Timeout timeout, long timeToLive) {
+    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, String logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.process = process;
         this.pool = pool;
@@ -33,7 +34,7 @@ class Filibuster extends Synthesizer implements Runnable {
         this.timeout = timeout;
     }
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, String filibusterHome, String logHome, Timeout timeout, long timeToLive) {
+    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, String logHome, Timeout timeout, long timeToLive) {
         super(System.currentTimeMillis() + timeToLive);
         this.pool = pool;
         this.synthesizer = synthesizer;
@@ -124,8 +125,8 @@ class Filibuster extends Synthesizer implements Runnable {
         synthesize();
     }
 
-    private String[] getCommand(String logFileName) {
-        String filibusterScript = filibusterHome + "filibuster.tcl";
+    String[] getCommand(String logFileName) {
+        String filibusterScript = filibusterHome.getHome() + "filibuster.tcl";
         String logFile = logHome + logFileName;
 
         List<String> cmd = new LinkedList<>();

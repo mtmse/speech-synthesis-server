@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 public class Configuration extends io.dropwizard.Configuration {
@@ -60,8 +61,8 @@ public class Configuration extends io.dropwizard.Configuration {
         return fake;
     }
 
-    public String getFilibusterHome() {
-        return filibusterHome;
+    public FilibusterHome getFilibusterHome() {
+        return new FilibusterHome(filibusterHome);
     }
 
     public String getLogHome() {
