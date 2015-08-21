@@ -1,11 +1,11 @@
 package se.mtm.speech.synthesis.infrastructure.configuration;
 
+/**
+ * The size of the in que on the server
+ */
 public class Capacity {
     private final int cap;
 
-    /**
-     * @param capacity The size of the in que on the server
-     */
     public Capacity(int capacity) {
         this.cap = capacity;
     }

@@ -1,5 +1,8 @@
 package se.mtm.speech.synthesis.infrastructure.configuration;
 
+/**
+ * The directory where filibuster.tcl is installed
+ */
 public class FilibusterHome {
     private String home;
 

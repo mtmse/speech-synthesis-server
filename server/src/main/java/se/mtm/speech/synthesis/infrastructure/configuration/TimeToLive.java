@@ -1,11 +1,11 @@
 package se.mtm.speech.synthesis.infrastructure.configuration;
 
+/**
+ * ttl Time to live in minutes
+ */
 public class TimeToLive {
     private final long ttl;
 
-    /**
-     * @param ttl Time to live in minutes
-     */
     public TimeToLive(int ttl) {
         this.ttl = ttl;
     }

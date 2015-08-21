@@ -1,7 +1,10 @@
 package se.mtm.speech.synthesis.infrastructure.configuration;
 
+/**
+ * The log directory
+ */
 public class LogHome {
-    private String home ;
+    private String home;
 
     public LogHome(String home) {
         this.home = home;
