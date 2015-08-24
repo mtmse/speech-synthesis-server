@@ -9,6 +9,7 @@ apply plugin: 'se.mtm.artifactory-rpm'
 project.ext {
     dropwizardVersion = '0.8.2'
     rpmVersion = version - '-SNAPSHOT'
+    buildNumber = (System.getenv().BUILD_NUMBER != null) ? System.getenv().BUILD_NUMBER : "0";
 }
 
 dependencies {
@@ -75,7 +76,7 @@ shadowJar {
     exclude 'META-INF/*.RSA'
     manifest {
         attributes 'Main-Class': 'se.mtm.speech.synthesis.Main',
-                'Version': version,
+                'Version': (rpmVersion + "-" + buildNumber),
                 'Build-Date': new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
     }
 }
@@ -83,7 +84,7 @@ shadowJar {
 ospackage {
     packageName = 'speech-synthesis-server'
     version = rpmVersion
-    release = (System.getenv().BUILD_NUMBER != null) ? System.getenv().BUILD_NUMBER : "0";
+    release = buildNumber
     os = LINUX
     user = "root"
 
