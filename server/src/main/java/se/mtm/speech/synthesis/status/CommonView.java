@@ -1,6 +1,5 @@
 package se.mtm.speech.synthesis.status;
 
-import com.jcabi.manifests.Manifests;
 import io.dropwizard.views.View;
 import se.mtm.speech.synthesis.infrastructure.Version;
 
@@ -10,7 +9,8 @@ import java.util.Date;
 import java.util.Locale;
 
 class CommonView extends View {
-    private Version version;
+    private final Version version;
+
     CommonView(String templateName, Charset charset) {
         super(templateName, charset);
         version = new Version();
