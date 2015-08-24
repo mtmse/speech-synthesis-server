@@ -90,7 +90,7 @@ yum clean all
 
 The speech server can be uninstalled with
 ```
-yum erase speech-synthesis-server
+yum -y erase speech-synthesis-server
 ```
 
 This will not remove the configuration in
