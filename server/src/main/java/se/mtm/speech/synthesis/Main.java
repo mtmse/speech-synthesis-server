@@ -70,12 +70,4 @@ public class Main extends Application<Configuration> {
         bootstrap.addBundle(new ViewBundle());
         bootstrap.addBundle(new AssetsBundle());
     }
-
-    static String addTrailingSlash(String path) {
-        if (path.endsWith("/")) {
-            return path;
-        } else {
-            return path + "/";
-        }
-    }
 }
