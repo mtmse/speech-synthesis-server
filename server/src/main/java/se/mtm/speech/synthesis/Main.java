@@ -11,6 +11,7 @@ import se.mtm.speech.synthesis.infrastructure.configuration.*;
 import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
+import se.mtm.speech.synthesis.version.VersionResource;
 
 public class Main extends Application<Configuration> {
     public static void main(String... args) throws Exception {
@@ -54,6 +55,9 @@ public class Main extends Application<Configuration> {
 
         AboutResource about = new AboutResource();
         environment.jersey().register(about);
+
+        VersionResource version = new VersionResource();
+        environment.jersey().register(version);
     }
 
     @Override
