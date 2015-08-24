@@ -4,6 +4,8 @@ import org.apache.commons.io.FileUtils;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Resources {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Resources.class);
     private final Sigar sigar;
 
     public Resources() {
@@ -28,6 +31,8 @@ public class Resources {
             makeLibrariesKnown(directory);
             copyLibrariesToDisk(directory);
         } catch (IOException e) {
+            String message = "Directory: <" + directory + "> message: " + e.getMessage();
+            LOGGER.error(message, e);
             throw new FilibusterException(e.getMessage(), e);
         }
     }
