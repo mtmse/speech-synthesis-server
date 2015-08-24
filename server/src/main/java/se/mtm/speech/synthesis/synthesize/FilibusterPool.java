@@ -143,9 +143,13 @@ class FilibusterPool {
             next = waiting.poll();
         }
 
+        boolean addedOne = false;
         while (!next.isHealthy()) {
             killFilibuster(next);
-            topUpFilibuster();
+            if (!addedOne) {
+                topUpFilibuster();
+                addedOne = true;
+            }
             next = waiting.poll();
         }
 
