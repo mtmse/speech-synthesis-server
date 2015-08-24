@@ -136,7 +136,20 @@ class FilibusterPool {
     }
 
     Synthesizer getSynthesizer() {
-        return waiting.poll();
+        Synthesizer next = waiting.poll();
+
+        if (next == null) {
+            topUpFilibuster();
+            next = waiting.poll();
+        }
+
+        while (!next.isHealthy()) {
+            killFilibuster(next);
+            topUpFilibuster();
+            next = waiting.poll();
+        }
+
+        return next;
     }
 
     void returnFilibuster(Synthesizer synthesizer) {

@@ -11,6 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class FilibusterPoolTest {
     private static final FilibusterHome FILIBUSTER_HOME = new FilibusterHome("not used");
@@ -77,5 +78,32 @@ public class FilibusterPoolTest {
         assertNotSame("The waiting Filibuster should have been recreated, but found the old one", idle, newIdle);
 
         verify(idleProcess).kill();
+    }
+
+    @Test
+    public void get_a_healthy_filibuster_from_a_pool_of_unhealthy_filibusters() {
+        Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
+        Queue<Synthesizer> all = new LinkedList<>();
+        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+
+        Synthesizer synthesizer = mock(Synthesizer.class);
+        when(synthesizer.isHealthy()).thenReturn(false);
+        waiting.add(synthesizer);
+        all.add(synthesizer);
+
+        Synthesizer actual = pool.getSynthesizer();
+
+        assertTrue("Expected a healthy filibuster", actual.isHealthy());
+    }
+
+    @Test
+    public void get_a_healthy_filibuster_from_an_empty_a_pool() {
+        Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
+        Queue<Synthesizer> all = new LinkedList<>();
+        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+
+        Synthesizer actual = pool.getSynthesizer();
+
+        assertTrue("Expected a healthy filibuster", actual.isHealthy());
     }
 }

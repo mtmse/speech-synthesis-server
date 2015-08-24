@@ -34,11 +34,9 @@ class Dispatcher implements Runnable {
             if (speechSynthesizer.peekNext() && pool.peekFilibuster()) {
                 SpeechUnit speechUnit = speechSynthesizer.getNext();
                 Synthesizer filibuster = pool.getSynthesizer();
-                if (filibuster != null) {
-                    filibuster.setSpeechUnit(speechUnit);
-                    Thread thread = new Thread((Runnable) filibuster);
-                    thread.start();
-                }
+                filibuster.setSpeechUnit(speechUnit);
+                Thread thread = new Thread((Runnable) filibuster);
+                thread.start();
             } else {
                 pause();
             }
@@ -60,6 +58,6 @@ class Dispatcher implements Runnable {
     }
 
     public boolean isHealthy() {
-       return pool.isHealthy();
+        return pool.isHealthy();
     }
 }
