@@ -92,8 +92,6 @@ ospackage {
     postInstall file('rpm/scripts/postInstall.sh')
     postUninstall file('rpm/scripts/postUninstall.sh')
     
-    //requires('java-1.8.0-openjdk', '1.8')
-
     into '/opt/speech-synthesis-server'
 
     from('./build/libs') {
