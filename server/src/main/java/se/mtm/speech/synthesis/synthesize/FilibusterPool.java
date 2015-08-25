@@ -162,7 +162,7 @@ class FilibusterPool {
     }
 
     void returnFilibuster(Synthesizer synthesizer) {
-        if (synthesizer.isTooOld()) {
+        if (synthesizer.isTooOld() || synthesizer.unHealthy()) {
             killFilibuster(synthesizer);
         } else {
             waiting.offer(synthesizer);

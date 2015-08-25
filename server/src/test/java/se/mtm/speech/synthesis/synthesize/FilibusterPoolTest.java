@@ -26,6 +26,7 @@ public class FilibusterPoolTest {
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
         FilibusterProcess process = mock(FilibusterProcess.class);
+        when(process.isHealthy()).thenReturn(true);
         Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(1));
 
         pool.returnFilibuster(filibuster);

@@ -30,5 +30,9 @@ abstract class Synthesizer {
 
     abstract boolean isHealthy();
 
+    boolean unHealthy() {
+        return !isHealthy();
+    }
+
     abstract void kill();
 }
