@@ -20,7 +20,17 @@ public class SpeechSynthesizer implements Managed {
     public SpeechSynthesizer(Capacity capacity, MaxFilibusters maxFilibusters, MinimumMemory minimumMemory, FilibusterHome filibusterHome,
                              LogHome logHome, Timeout timeout, TimeToLive ttl, IdleTime idleTime, FakeSynthesize fake) {
         this.filibusters = maxFilibusters;
-        FilibusterPool pool = new FilibusterPool(this, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, ttl, fake);
+
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .speechSynthesizer(this)
+                .maxPoolSize(maxFilibusters)
+                .minimumMemory(minimumMemory)
+                .filibusterHome(filibusterHome)
+                .logHome(logHome)
+                .timeout(timeout)
+                .ttl(ttl)
+                .fake(fake)
+                .build();
 
         dispatcher = new Dispatcher(pool, this, idleTime);
         inQue = new LinkedBlockingQueue<>(capacity.getCapacity());

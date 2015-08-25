@@ -14,20 +14,25 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class FilibusterPoolTest {
-    private static final FilibusterHome FILIBUSTER_HOME = new FilibusterHome("not used");
-    private static final LogHome LOG_HOME = new LogHome("not used");
 
     @Test
     public void accept_young_filibusters() {
         MaxFilibusters maxPoolSize = new MaxFilibusters(0);
-        TimeToLive timeToLive = new TimeToLive(Integer.MAX_VALUE);
 
-        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .maxPoolSize(maxPoolSize)
+                .minimumMemory(new MinimumMemory(2))
+                .build();
+
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
         FilibusterProcess process = mock(FilibusterProcess.class);
         when(process.isHealthy()).thenReturn(true);
-        Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(1));
+
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(process)
+                .ttl(new TimeToLive(1))
+                .build();
 
         pool.returnFilibuster(filibuster);
 
@@ -39,11 +44,18 @@ public class FilibusterPoolTest {
         MaxFilibusters maxPoolSize = new MaxFilibusters(0);
         TimeToLive timeToLive = new TimeToLive(Integer.MIN_VALUE);
 
-        FilibusterPool pool = new FilibusterPool(maxPoolSize, timeToLive);
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .maxPoolSize(maxPoolSize)
+                .minimumMemory(new MinimumMemory(2))
+                .build();
+
         assertFalse("No Filibuster should be available", pool.peekFilibuster());
 
         FilibusterProcess process = mock(FilibusterProcess.class);
-        Filibuster filibuster = new Filibuster(process, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), timeToLive);
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(process)
+                .ttl(timeToLive)
+                .build();
 
         pool.returnFilibuster(filibuster);
 
@@ -55,12 +67,17 @@ public class FilibusterPoolTest {
     public void invalidate_all_filibusters() throws Exception {
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
-        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .maxPoolSize(new MaxFilibusters(2))
+                .waiting(waiting)
+                .all(all)
+                .build();
 
         FilibusterProcess idleProcess = mock(FilibusterProcess.class);
-        Synthesizer idle = addIdleProcess(waiting, all, pool, idleProcess);
+        Synthesizer idle = addIdleProcess(waiting, all, idleProcess);
 
-        Filibuster running = addRunningPRocess(all, pool);
+        Filibuster running = addRunningProcess(all);
 
         pool.invalidate();
 
@@ -75,17 +92,27 @@ public class FilibusterPoolTest {
         verify(idleProcess).kill();
     }
 
-    private Synthesizer addIdleProcess(Queue<Synthesizer> waiting, Queue<Synthesizer> all, FilibusterPool pool, FilibusterProcess idleProcess) {
-        Synthesizer idle = new Filibuster(idleProcess, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
+    private Synthesizer addIdleProcess(Queue<Synthesizer> waiting, Queue<Synthesizer> all, FilibusterProcess idleProcess) {
+        Filibuster idle = new Filibuster.Builder()
+                .fakeProcess(idleProcess)
+                .ttl(new TimeToLive(Integer.MAX_VALUE))
+                .build();
+
         waiting.offer(idle);
         all.add(idle);
+
         return idle;
     }
 
-    private Filibuster addRunningPRocess(Queue<Synthesizer> all, FilibusterPool pool) {
+    private Filibuster addRunningProcess(Queue<Synthesizer> all) {
         FilibusterProcess runningProcess = mock(FilibusterProcess.class);
-        Filibuster running = new Filibuster(runningProcess, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
+        Filibuster running = new Filibuster.Builder()
+                .fakeProcess(runningProcess)
+                .ttl(new TimeToLive(Integer.MAX_VALUE))
+                .build();
+
         all.add(running);
+
         return running;
     }
 
@@ -93,7 +120,12 @@ public class FilibusterPoolTest {
     public void get_a_healthy_filibuster_from_a_pool_of_unhealthy_filibusters() {
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
-        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .maxPoolSize(new MaxFilibusters(2))
+                .waiting(waiting)
+                .all(all)
+                .build();
 
         Synthesizer synthesizer = mock(Synthesizer.class);
         when(synthesizer.isHealthy()).thenReturn(false);
@@ -109,7 +141,11 @@ public class FilibusterPoolTest {
     public void get_a_healthy_filibuster_from_an_empty_a_pool() {
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
-        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+        FilibusterPool pool = new FilibusterPool.Builder()
+                .maxPoolSize(new MaxFilibusters(2))
+                .waiting(waiting)
+                .all(all)
+                .build();
 
         Synthesizer actual = pool.getSynthesizer();
 

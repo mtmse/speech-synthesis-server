@@ -2,11 +2,7 @@ package se.mtm.speech.synthesis.synthesize;
 
 abstract class Synthesizer {
     private SpeechUnit speechUnit;
-    private long timeToDie;
-
-    Synthesizer(long timeToDie) {
-        this.timeToDie = timeToDie;
-    }
+    protected long timeToDie;
 
     void setSpeechUnit(SpeechUnit speechUnit) {
         this.speechUnit = speechUnit;
@@ -24,8 +20,8 @@ abstract class Synthesizer {
         return System.currentTimeMillis() > timeToDie;
     }
 
-    void setTimeToDie(long timeToDie) {
-        this.timeToDie = timeToDie;
+    void prepareToDie() {
+        this.timeToDie = 0;
     }
 
     abstract boolean isHealthy();

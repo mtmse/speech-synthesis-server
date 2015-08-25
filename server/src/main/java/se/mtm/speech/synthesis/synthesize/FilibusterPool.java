@@ -9,47 +9,54 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
-class FilibusterPool {
+class FilibusterPool { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(FilibusterPool.class);
 
-    private SpeechSynthesizer speechSynthesizer;
-    private MaxFilibusters maxPoolSize;
-    private LogHome logHome;
-    private Timeout timeout;
-    private TimeToLive ttl;
-    private FakeSynthesize fake;
-    private Queue<Synthesizer> waiting;
-    private Queue<Synthesizer> all;
+    private final SpeechSynthesizer speechSynthesizer;
+    private final MaxFilibusters maxPoolSize;
+    private final LogHome logHome;
+    private final Timeout timeout;
+    private final TimeToLive ttl;
+    private final FakeSynthesize fake;
+    private final Queue<Synthesizer> waiting;
+    private final Queue<Synthesizer> all;
     private Resources resources;
-    private MinimumMemory minimumMemory;
-    private FilibusterHome filibusterHome;
+    private final MinimumMemory minimumMemory;
+    private final FilibusterHome filibusterHome;
 
-    FilibusterPool(MaxFilibusters maxPoolSize, TimeToLive ttl) {
-        this(null, maxPoolSize, new MinimumMemory(2), new FilibusterHome("not defined"), new LogHome("not used"),
-                new Timeout(30), ttl, new FakeSynthesize(true));
-    }
+    private FilibusterPool(Builder builder) {
+        speechSynthesizer = builder.speechSynthesizer;
+        maxPoolSize = builder.maxPoolSize;
 
-    FilibusterPool(Queue<Synthesizer> waiting, Queue<Synthesizer> all, MaxFilibusters maxPoolSize) {
-        this.waiting = waiting;
-        this.all = all;
-        this.maxPoolSize = maxPoolSize;
-        this.minimumMemory = new MinimumMemory(0);
-        this.fake = new FakeSynthesize(true);
-    }
+        if (builder.minimumMemory == null) {
+            minimumMemory = new MinimumMemory(0);
+        } else {
 
-    public FilibusterPool(SpeechSynthesizer speechSynthesizer, MaxFilibusters maxPoolSize, MinimumMemory minimumMemory,
-                          FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl, FakeSynthesize fake) {
-        this.speechSynthesizer = speechSynthesizer;
-        this.maxPoolSize = maxPoolSize;
-        this.minimumMemory = minimumMemory;
-        this.filibusterHome = filibusterHome;
-        this.logHome = logHome;
-        this.timeout = timeout;
-        this.ttl = ttl;
-        this.fake = fake;
+            minimumMemory = builder.minimumMemory;
+        }
 
-        waiting = new LinkedBlockingQueue<>();
-        all = new LinkedBlockingDeque<>();
+        filibusterHome = builder.filibusterHome;
+        logHome = builder.logHome;
+        timeout = builder.timeout;
+        ttl = builder.ttl;
+
+        if (builder.fake == null) {
+            fake = new FakeSynthesize();
+        } else {
+            fake = builder.fake;
+        }
+
+        if (builder.waiting == null) {
+            waiting = new LinkedBlockingQueue<>();
+        } else {
+            waiting = builder.waiting;
+        }
+
+        if (builder.all == null) {
+            all = new LinkedBlockingDeque<>();
+        } else {
+            all = builder.all;
+        }
 
         topUpFilibuster();
     }
@@ -69,7 +76,7 @@ class FilibusterPool {
 
     private void prepareFilibusterToDie() {
         for (Synthesizer filibuster : all) {
-            filibuster.setTimeToDie(0);
+            filibuster.prepareToDie();
         }
     }
 
@@ -107,7 +114,14 @@ class FilibusterPool {
         if (fake.isFake()) {
             synthesizer = new FakeFilibuster(this, speechSynthesizer);
         } else {
-            synthesizer = new Filibuster(this, speechSynthesizer, filibusterHome, logHome, timeout, ttl);
+            synthesizer = new Filibuster.Builder()
+                    .pool(this)
+                    .synthesizer(speechSynthesizer)
+                    .filibusterHome(filibusterHome)
+                    .logHome(logHome)
+                    .timeout(timeout)
+                    .ttl(ttl)
+                    .build();
         }
         waiting.add(synthesizer);
         all.add(synthesizer);
@@ -182,5 +196,73 @@ class FilibusterPool {
             }
         }
         return true;
+    }
+
+    public static class Builder {
+        private SpeechSynthesizer speechSynthesizer; // NOPMD
+        private MaxFilibusters maxPoolSize; // NOPMD
+        Queue<Synthesizer> waiting; // NOPMD
+        Queue<Synthesizer> all; // NOPMD
+        private MinimumMemory minimumMemory; // NOPMD
+        private FilibusterHome filibusterHome; // NOPMD
+        private LogHome logHome; // NOPMD
+        private Timeout timeout; // NOPMD
+        private TimeToLive ttl; // NOPMD
+        private FakeSynthesize fake; // NOPMD
+
+        public Builder speechSynthesizer(SpeechSynthesizer speechSynthesizer) {
+            this.speechSynthesizer = speechSynthesizer;
+            return this;
+        }
+
+        public Builder maxPoolSize(MaxFilibusters maxPoolSize) {
+            this.maxPoolSize = maxPoolSize;
+            return this;
+        }
+
+        public Builder waiting(Queue<Synthesizer> waiting) {
+            this.waiting = waiting;
+            return this;
+        }
+
+        public Builder all(Queue<Synthesizer> all) {
+            this.all = all;
+            return this;
+        }
+
+        public Builder minimumMemory(MinimumMemory minimumMemory) {
+            this.minimumMemory = minimumMemory;
+            return this;
+        }
+
+        public Builder filibusterHome(FilibusterHome filibusterHome) {
+            this.filibusterHome = filibusterHome;
+            return this;
+        }
+
+        public Builder logHome(LogHome logHome) {
+            this.logHome = logHome;
+            return this;
+        }
+
+        public Builder timeout(Timeout timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+        public Builder ttl(TimeToLive ttl) {
+            this.ttl = ttl;
+            return this;
+        }
+
+        public Builder fake(FakeSynthesize fake) {
+            this.fake = fake;
+            return this;
+        }
+
+        public FilibusterPool build() {
+            return new FilibusterPool(this); // NOPMD
+        }
+
     }
 }

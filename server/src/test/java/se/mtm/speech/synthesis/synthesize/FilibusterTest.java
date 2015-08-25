@@ -3,7 +3,6 @@ package se.mtm.speech.synthesis.synthesize;
 import org.junit.Test;
 import se.mtm.speech.synthesis.infrastructure.FilibusterException;
 import se.mtm.speech.synthesis.infrastructure.configuration.FilibusterHome;
-import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 import se.mtm.speech.synthesis.infrastructure.configuration.TimeToLive;
 import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.*;
 public class FilibusterTest {
     private static final String NOT_USED = "not used";
     private final FilibusterHome filibusterHome = new FilibusterHome(NOT_USED);
-    private final LogHome logHome = new LogHome(NOT_USED);
     private final Timeout timeout = new Timeout(0);
     private final TimeToLive timeToLive = new TimeToLive(0);
 
@@ -30,7 +28,12 @@ public class FilibusterTest {
         FilibusterPool pool = mock(FilibusterPool.class);
         SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(process)
+                .pool(pool)
+                .synthesizer(synthesizer)
+                .ttl(timeToLive)
+                .build();
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
@@ -49,10 +52,12 @@ public class FilibusterTest {
     public void synthesize_timeout() {
         FilibusterProcess process = mock(FilibusterProcess.class);
         when(process.getSound()).thenThrow(FilibusterException.class);
-        FilibusterPool pool = mock(FilibusterPool.class);
-        SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(process)
+                .timeout(timeout)
+                .ttl(timeToLive)
+                .build();
 
         SpeechUnit speechUnit = new SpeechUnit("key", "sentence");
         filibuster.setSpeechUnit(speechUnit);
@@ -68,10 +73,12 @@ public class FilibusterTest {
     public void tcl_command_should_be_valid_path() throws Exception {
         FilibusterProcess process = mock(FilibusterProcess.class);
         when(process.getSound()).thenReturn(new byte[0]);
-        FilibusterPool pool = mock(FilibusterPool.class);
-        SpeechSynthesizer synthesizer = mock(SpeechSynthesizer.class);
 
-        Filibuster filibuster = new Filibuster(process, pool, synthesizer, filibusterHome, logHome, timeout, timeToLive);
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(process)
+                .filibusterHome(filibusterHome)
+                .ttl(timeToLive)
+                .build();
 
         String[] actual = filibuster.getCommand("filibusterLog");
 

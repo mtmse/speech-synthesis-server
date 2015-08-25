@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-class Filibuster extends Synthesizer implements Runnable {
+class Filibuster extends Synthesizer implements Runnable { // NOPMD
     private static final Logger LOGGER = LoggerFactory.getLogger(Filibuster.class);
 
     private final FilibusterPool pool;
@@ -25,26 +25,18 @@ class Filibuster extends Synthesizer implements Runnable {
     private final FilibusterHome filibusterHome;
     private final LogHome logHome;
 
-    // used for testing
-    Filibuster(FilibusterProcess process, FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl) {
-        super(System.currentTimeMillis() + ttl.getTtlInMilliseconds());
-        this.process = process;
-        this.pool = pool;
-        this.synthesizer = synthesizer;
-        this.filibusterHome = filibusterHome;
-        this.logHome = logHome;
-        this.timeout = timeout;
-    }
+    private Filibuster(Builder builder) {
+        this.process = builder.process;
+        this.pool = builder.pool;
+        this.synthesizer = builder.synthesizer;
+        this.filibusterHome = builder.filibusterHome;
+        this.logHome = builder.logHome;
+        this.timeout = builder.timeout;
+        this.timeToDie = System.currentTimeMillis() + builder.ttl.getTtlInMilliseconds();
 
-    Filibuster(FilibusterPool pool, SpeechSynthesizer synthesizer, FilibusterHome filibusterHome, LogHome logHome, Timeout timeout, TimeToLive ttl) {
-        super(System.currentTimeMillis() + ttl.getTtlInMilliseconds());
-        this.pool = pool;
-        this.synthesizer = synthesizer;
-        this.filibusterHome = filibusterHome;
-        this.logHome = logHome;
-        this.timeout = timeout;
-
-        createFilibusterProcess();
+        if (process == null) {
+            createFilibusterProcess();
+        }
     }
 
     @Override
@@ -169,18 +161,53 @@ class Filibuster extends Synthesizer implements Runnable {
     void kill() {
         process.kill();
     }
+
+    public static class Builder {
+        private FilibusterProcess process; // NOPMD
+        private FilibusterPool pool; // NOPMD
+        private SpeechSynthesizer synthesizer; // NOPMD
+        private FilibusterHome filibusterHome; // NOPMD
+        private LogHome logHome; // NOPMD
+        private Timeout timeout; // NOPMD
+        private TimeToLive ttl; // NOPMD
+
+        public Builder fakeProcess(FilibusterProcess process) {
+            this.process = process;
+            return this;
+        }
+
+        public Builder pool(FilibusterPool pool) {
+            this.pool = pool;
+            return this;
+        }
+
+        public Builder synthesizer(SpeechSynthesizer synthesizer) {
+            this.synthesizer = synthesizer;
+            return this;
+        }
+
+        public Builder filibusterHome(FilibusterHome filibusterHome) {
+            this.filibusterHome = filibusterHome;
+            return this;
+        }
+
+        public Builder logHome(LogHome logHome) {
+            this.logHome = logHome;
+            return this;
+        }
+
+        public Builder timeout(Timeout timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+        public Builder ttl(TimeToLive ttl) {
+            this.ttl = ttl;
+            return this;
+        }
+
+        public Filibuster build() {
+            return new Filibuster(this); // NOPMD
+        }
+    }
 }
-
-
-
-
-/*
-
-/home/folke/filibuster/Synthesis/SynthesisCore/filibuster.tcl -lang sv -mode batch -textfile - -outdir - -rate 22050 -log /var/log/mtm/speech-synthesis-server/filibuster-17-Jun-0003.log -debug 1 -print_header FILESIZE
-
-
-
-*/
-
-
-

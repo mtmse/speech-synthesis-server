@@ -11,7 +11,6 @@ class FakeFilibuster extends Synthesizer implements Runnable {
     private final SpeechSynthesizer synthesizer;
 
     FakeFilibuster(FilibusterPool pool, SpeechSynthesizer synthesizer) {
-        super(0);
         this.pool = pool;
         this.synthesizer = synthesizer;
     }

@@ -23,10 +23,14 @@ public final class FilibusterProcessTest {
 
         Process process = getProcess();
         Timeout timeout = new Timeout(30);
+        TimeToLive ttl = new TimeToLive(30);
 
         FilibusterProcess filibusterProcess = new FilibusterProcess(process, timeout);
 
-        Filibuster filibuster = new Filibuster(null, null, null, null, new Timeout(0), new TimeToLive(0));
+        Filibuster filibuster = new Filibuster.Builder()
+                .timeout(timeout)
+                .ttl(ttl)
+                .build();
 
         filibuster.clearStartMessages(process);
 
