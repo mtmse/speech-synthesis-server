@@ -53,20 +53,14 @@ public class FilibusterPoolTest {
 
     @Test
     public void invalidate_all_filibusters() throws Exception {
-        FilibusterPool fakePool = mock(FilibusterPool.class);
         Queue<Synthesizer> waiting = new LinkedBlockingQueue<>();
         Queue<Synthesizer> all = new LinkedList<>();
+        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
 
         FilibusterProcess idleProcess = mock(FilibusterProcess.class);
-        Synthesizer idle = new Filibuster(idleProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
-        waiting.offer(idle);
-        all.add(idle);
+        Synthesizer idle = addIdleProcess(waiting, all, pool, idleProcess);
 
-        FilibusterProcess runningProcess = mock(FilibusterProcess.class);
-        Filibuster running = new Filibuster(runningProcess, fakePool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
-        all.add(running);
-
-        FilibusterPool pool = new FilibusterPool(waiting, all, new MaxFilibusters(2));
+        Filibuster running = addRunningPRocess(all, pool);
 
         pool.invalidate();
 
@@ -79,6 +73,20 @@ public class FilibusterPoolTest {
         assertNotSame("The waiting Filibuster should have been recreated, but found the old one", idle, newIdle);
 
         verify(idleProcess).kill();
+    }
+
+    private Synthesizer addIdleProcess(Queue<Synthesizer> waiting, Queue<Synthesizer> all, FilibusterPool pool, FilibusterProcess idleProcess) {
+        Synthesizer idle = new Filibuster(idleProcess, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
+        waiting.offer(idle);
+        all.add(idle);
+        return idle;
+    }
+
+    private Filibuster addRunningPRocess(Queue<Synthesizer> all, FilibusterPool pool) {
+        FilibusterProcess runningProcess = mock(FilibusterProcess.class);
+        Filibuster running = new Filibuster(runningProcess, pool, null, FILIBUSTER_HOME, LOG_HOME, new Timeout(0), new TimeToLive(Integer.MAX_VALUE));
+        all.add(running);
+        return running;
     }
 
     @Test
