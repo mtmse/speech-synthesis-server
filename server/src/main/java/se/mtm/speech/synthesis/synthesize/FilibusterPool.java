@@ -136,20 +136,25 @@ class FilibusterPool {
     }
 
     Synthesizer getSynthesizer() {
-        Synthesizer next = waiting.poll();
-
-        if (next == null) {
+        if (waiting.isEmpty()) {
             topUpFilibuster();
-            next = waiting.poll();
+            return waiting.poll();
         }
 
-        boolean addedOne = false;
-        while (!next.isHealthy()) {
+        Synthesizer synthesizer = getFirstHealthySynthesizer();
+
+        if (synthesizer == null) {
+            topUpFilibuster();
+            synthesizer = waiting.poll();
+        }
+
+        return synthesizer;
+    }
+
+    private Synthesizer getFirstHealthySynthesizer() {
+        Synthesizer next = waiting.poll();
+        while (next != null && !next.isHealthy()) {
             killFilibuster(next);
-            if (!addedOne) {
-                topUpFilibuster();
-                addedOne = true;
-            }
             next = waiting.poll();
         }
 
