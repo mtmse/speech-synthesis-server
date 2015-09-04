@@ -1,0 +1,53 @@
+{{> header }}
+
+<div class="container">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <h2>Test Synthesize</h2>
+
+        <br>
+
+        <form id="testSynthesize" action="testSynthesize" method="post">
+            <div class="row">
+                <div class="text-center">
+                    <label>
+                    <textarea id="sampleText"
+                              rows="5"
+                              cols="100"
+                              name="sampleText">Ett exempel på en text som ska bli ljud.</textarea>
+                    </label>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-xs-4 text-center">
+                    <button id="submitSampleText"
+                            class="navbar-btn btn-primary btn"
+                            type="submit">Synthesize with Tora
+                    </button>
+                </div>
+
+                <div class="col-xs-4 text-center">
+                    <button id="submitSampleText"
+                            class="navbar-btn btn-primary btn"
+                            type="submit">Synthesize with Folke
+                    </button>
+                </div>
+
+                <div class="col-xs-4 text-center">
+                    <button id="submitSampleText"
+                            class="navbar-btn btn-primary btn"
+                            type="submit">Synthesize with Brage
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+
+{{> footer }}

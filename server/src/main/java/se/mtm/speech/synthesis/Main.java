@@ -47,6 +47,9 @@ public class Main extends Application<Configuration> {
         StatusResource status = new StatusResource();
         environment.jersey().register(status);
 
+        TestSynthesizeResource test = new TestSynthesizeResource(synthesizer);
+        environment.jersey().register(test);
+
         LogsResource logs = new LogsResource(logHome);
         environment.jersey().register(logs);
 
