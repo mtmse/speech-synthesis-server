@@ -16,8 +16,8 @@ public class TestSynthesizeResource {
 
     @GET
     @Produces("text/html;charset=UTF-8")
-    public TestSynthesizeView showTestSynthesizeForm() {
-        return new TestSynthesizeView();
+    public TestSynthesizeViewChangedName showTestSynthesizeForm() {
+        return new TestSynthesizeViewChangedName();
     }
 
     @POST // NOPMD
