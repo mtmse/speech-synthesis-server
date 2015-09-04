@@ -17,4 +17,9 @@ public class Timeout {
     public long getTimeoutMilliseconds() {
         return seconds * 1000;
     }
+
+    @Override
+    public String toString() {
+        return "" + seconds;
+    }
 }

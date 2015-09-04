@@ -13,5 +13,10 @@ public class Capacity {
     public int getCapacity() {
         return cap;
     }
+
+    @Override
+    public String toString() {
+        return "" + cap;
+    }
 }
 

@@ -13,4 +13,9 @@ public class MinimumMemory {
     public int getMin() {
         return min;
     }
+
+    @Override
+    public String toString() {
+        return "" + min;
+    }
 }

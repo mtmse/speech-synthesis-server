@@ -16,4 +16,9 @@ public class LogHome {
     public String getHome() {
         return home;
     }
+
+    @Override
+    public String toString() {
+        return home;
+    }
 }

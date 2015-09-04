@@ -14,4 +14,9 @@ public class MaxFilibusters {
     public int getMax() {
         return max;
     }
+
+    @Override
+    public String toString() {
+        return "" + max;
+    }
 }

@@ -13,4 +13,9 @@ public class IdleTime {
     public long getIdle() {
         return idle;
     }
+
+    @Override
+    public String toString() {
+        return "" + idle;
+    }
 }

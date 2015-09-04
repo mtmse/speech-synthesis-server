@@ -17,4 +17,9 @@ public class FakeSynthesize {
     public boolean isFake() {
         return fake;
     }
+
+    @Override
+    public String toString() {
+        return "" + fake;
+    }
 }

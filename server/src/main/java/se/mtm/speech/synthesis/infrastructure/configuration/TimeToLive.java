@@ -13,4 +13,9 @@ public class TimeToLive {
     public long getTtlInMilliseconds() {
         return ttl * 60 * 1000;
     }
+
+    @Override
+    public String toString() {
+        return "" + ttl;
+    }
 }
