@@ -79,7 +79,7 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
     }
 
     private String createLogFileName() {
-        return LogName.getLogFileName(logHome.getHome());
+        return LogName.getLogFileName(logHome);
     }
 
     private SynthesizedSound synthesize() {

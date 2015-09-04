@@ -16,4 +16,9 @@ public class FilibusterHome {
     public String getHome() {
         return home;
     }
+
+    @Override
+    public String toString() {
+        return home;
+    }
 }

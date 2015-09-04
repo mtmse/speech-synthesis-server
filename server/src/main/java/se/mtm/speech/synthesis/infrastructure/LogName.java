@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis.infrastructure;
 
 import org.apache.commons.io.FileUtils;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -13,12 +14,12 @@ public final class LogName {
         // Utility classes should be final and have a private constructors...
     }
 
-    public static String getLogFileName(String logHome) {
+    public static String getLogFileName(LogHome logHome) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM", Locale.ENGLISH);
         String today = sdf.format(new Date());
         String leading = "filibuster-" + today + "-";
 
-        File logDir = new File(logHome);
+        File logDir = new File(logHome.getHome());
 
         createMissingLogDir(logDir);
 

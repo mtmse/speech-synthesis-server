@@ -2,6 +2,7 @@ package se.mtm.speech.synthesis.infrastructure;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class LogNameTest {
 
     @Test
     public void return_first_log_file_name() throws Exception {
-        String logHome = createLogDir();
+        LogHome logHome = createLogDir();
         String today = getToday();
 
         String expected = FILIBUSTER + today + "-0001.log";
@@ -29,7 +30,7 @@ public class LogNameTest {
 
     @Test
     public void return_second_log_file_name() throws Exception {
-        String logHome = createLogDir();
+        LogHome logHome = createLogDir();
         String today = getToday();
 
         File previousLog = new File(logHome + "/" + FILIBUSTER + today + "-0001.log");
@@ -44,7 +45,7 @@ public class LogNameTest {
 
     @Test
     public void return_first_filibuster_log_file_name() throws Exception {
-        String logHome = createLogDir();
+        LogHome logHome = createLogDir();
         String today = getToday();
 
         File previousLog = new File(logHome + "/" + "speech-synthesis.log");
@@ -62,12 +63,13 @@ public class LogNameTest {
         return sdf.format(new Date());
     }
 
-    private String createLogDir() throws IOException {
+    private LogHome createLogDir() throws IOException {
         String logHome = "build/speech-synthesis-server";
         File logDir = new File(logHome);
         FileUtils.deleteDirectory(logDir);
         //noinspection ResultOfMethodCallIgnored
         logDir.mkdirs();
-        return logHome;
+
+        return new LogHome(logHome);
     }
 }
