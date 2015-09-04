@@ -14,7 +14,7 @@ public class TestSynthesizeResourceTest {
         SynthesizeResource synthesizer = mock(SynthesizeResource.class);
         TestSynthesizeResource resource = new TestSynthesizeResource(synthesizer);
 
-        TestSynthesizeViewChangedName actual = resource.showTestSynthesizeForm();
+        TestSynthesizeView actual = resource.showTestSynthesizeForm();
 
         assertNotNull("Expected a correct view", actual);
     }

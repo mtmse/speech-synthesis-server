@@ -2,9 +2,9 @@ package se.mtm.speech.synthesis.status;
 
 import java.nio.charset.Charset;
 
-public class TestSynthesizeViewChangedName extends CommonView {
+public class TestSynthesizeView extends CommonView {
 
-    public TestSynthesizeViewChangedName() {
+    public TestSynthesizeView() {
         super("testSynthesize.mustache", Charset.forName("UTF-8"));
     }
 
