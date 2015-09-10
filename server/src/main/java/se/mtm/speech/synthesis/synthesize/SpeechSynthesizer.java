@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.configuration.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -120,5 +121,9 @@ public class SpeechSynthesizer implements Managed {
 
     public boolean isHealthy() {
         return dispatcher.isHealthy();
+    }
+
+    public List<Synthesizer> getSynthesizers() {
+        return dispatcher.getSynthesizers();
     }
 }

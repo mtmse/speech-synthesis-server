@@ -8,15 +8,16 @@ import se.mtm.speech.synthesis.infrastructure.configuration.Timeout;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class FilibusterTest {
     private static final String NOT_USED = "not used";
+    private final FilibusterProcess fake = mock(FilibusterProcess.class);
     private final FilibusterHome filibusterHome = new FilibusterHome(NOT_USED);
     private final Timeout timeout = new Timeout(0);
     private final TimeToLive timeToLive = new TimeToLive(0);
@@ -71,11 +72,10 @@ public class FilibusterTest {
 
     @Test
     public void tcl_command_should_be_valid_path() throws Exception {
-        FilibusterProcess process = mock(FilibusterProcess.class);
-        when(process.getSound()).thenReturn(new byte[0]);
+        when(fake.getSound()).thenReturn(new byte[0]);
 
         Filibuster filibuster = new Filibuster.Builder()
-                .fakeProcess(process)
+                .fakeProcess(fake)
                 .filibusterHome(filibusterHome)
                 .ttl(timeToLive)
                 .build();
@@ -83,6 +83,50 @@ public class FilibusterTest {
         String[] actual = filibuster.getCommand("filibusterLog");
 
         assertFilibusterCommand(actual);
+    }
+
+    @Test
+    public void get_type() {
+        String expected = "Filibuster";
+
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(fake)
+                .build();
+
+        String actual = filibuster.getType();
+
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void get_created() {
+        Date expected = new Date();
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(fake)
+                .build();
+
+        Date actual = filibuster.getCreated();
+
+        assertDatesAlmostEqual(actual, expected);
+    }
+
+    @Test
+    public void get_end_of_life() {
+        long timeToDie = System.currentTimeMillis() + (1000 * 60 * 10);
+        Date expected = new Date(timeToDie);
+        Filibuster filibuster = new Filibuster.Builder()
+                .fakeProcess(fake)
+                .ttl(new TimeToLive(10))
+                .build();
+
+        Date actual = filibuster.getEndOfLife();
+
+        assertDatesAlmostEqual(actual, expected);
+    }
+
+    private void assertDatesAlmostEqual(Date actual, Date expected) {
+        long difference = actual.getTime() - expected.getTime();
+        assertTrue("Dates aren't close enough to each other!", difference < 1000);
     }
 
     private void assertFilibusterCommand(String... commandParts) throws IOException {

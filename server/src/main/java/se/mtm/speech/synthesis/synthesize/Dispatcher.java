@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.configuration.IdleTime;
 
+import java.util.List;
+
 class Dispatcher implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class);
 
@@ -59,5 +61,9 @@ class Dispatcher implements Runnable {
 
     public boolean isHealthy() {
         return pool.isHealthy();
+    }
+
+    public List<Synthesizer> getSynthesizers() {
+        return pool.getSynthesizers();
     }
 }

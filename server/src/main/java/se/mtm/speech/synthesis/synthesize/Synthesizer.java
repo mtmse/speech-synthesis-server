@@ -1,8 +1,15 @@
 package se.mtm.speech.synthesis.synthesize;
 
-abstract class Synthesizer {
+import java.util.Date;
+
+public abstract class Synthesizer {
     private SpeechUnit speechUnit;
+    private final Date created;
     protected long timeToDie;
+
+    public Synthesizer() {
+        created = new Date();
+    }
 
     void setSpeechUnit(SpeechUnit speechUnit) {
         this.speechUnit = speechUnit;
@@ -31,4 +38,14 @@ abstract class Synthesizer {
     }
 
     abstract void kill();
+
+    public abstract String getType();
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public Date getEndOfLife() {
+        return new Date(timeToDie);
+    }
 }

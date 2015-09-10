@@ -62,4 +62,9 @@ class FakeFilibuster extends Synthesizer implements Runnable {
     void kill() {
         // no implementation needed
     }
+
+    @Override
+    public String getType() {
+        return "Fake Synthesizer";
+    }
 }

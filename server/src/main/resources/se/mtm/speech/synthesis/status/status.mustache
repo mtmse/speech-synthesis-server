@@ -1,8 +1,49 @@
 {{> header }}
 
 <div class="container">
-    <a href="/invalidate" class="navbar-btn btn-danger btn">Invalidate
-        Filibusters</a>
+
+    <br> <br> <br> <br>
+
+    <div class="col-sm-2">
+    </div>
+
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>Synthesis type</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>Created</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>End of life</h4>
+            </div>
+        </div>
+
+        {{#filibusters}}
+            <div class="row">
+                <div class="col-sm-4">
+                    {{type}}
+                </div>
+                <div class="col-sm-4">
+                    {{created}}
+                </div>
+                <div class="col-sm-4">
+                    {{endOfLife}}
+                </div>
+            </div>
+        {{/filibusters}}
+
+        <br> <br> <br>
+
+        <div class="row">
+            <a href="/invalidate" class="navbar-btn btn-danger btn pull-right">Invalidate Filibusters</a>
+        </div>
+
+    </div>
+
+    <div class="col-sm-2">
+    </div>
 </div>
 
 {{> footer }}

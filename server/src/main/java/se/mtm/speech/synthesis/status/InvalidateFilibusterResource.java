@@ -27,6 +27,6 @@ public class InvalidateFilibusterResource {
 
         LOGGER.info("All Filibusters was invalidated");
 
-        return new StatusView();
+        return new StatusView(synthesizer);
     }
 }

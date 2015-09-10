@@ -44,7 +44,7 @@ public class Main extends Application<Configuration> {
         InvalidateFilibusterResource invalidator = new InvalidateFilibusterResource(speechSynthesizer);
         environment.jersey().register(invalidator);
 
-        StatusResource status = new StatusResource();
+        StatusResource status = new StatusResource(speechSynthesizer);
         environment.jersey().register(status);
 
         TestSynthesizeResource test = new TestSynthesizeResource(synthesizer);

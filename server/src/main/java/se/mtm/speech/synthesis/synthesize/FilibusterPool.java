@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Resources;
 import se.mtm.speech.synthesis.infrastructure.configuration.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -196,6 +198,13 @@ class FilibusterPool { // NOPMD
             }
         }
         return true;
+    }
+
+    public List<Synthesizer> getSynthesizers() {
+        List<Synthesizer> synthesizers = new LinkedList<>();
+        synthesizers.addAll(all);
+
+        return synthesizers;
     }
 
     public static class Builder {

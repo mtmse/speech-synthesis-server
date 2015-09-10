@@ -162,14 +162,19 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
         process.kill();
     }
 
+    @Override
+    public String getType() {
+        return "Filibuster";
+    }
+
     public static class Builder {
-        private FilibusterProcess process; // NOPMD
+        private FilibusterProcess process;
         private FilibusterPool pool; // NOPMD
         private SpeechSynthesizer synthesizer; // NOPMD
-        private FilibusterHome filibusterHome; // NOPMD
-        private LogHome logHome; // NOPMD
+        private FilibusterHome filibusterHome = new FilibusterHome("."); // NOPMD
+        private LogHome logHome = new LogHome("."); // NOPMD
         private Timeout timeout; // NOPMD
-        private TimeToLive ttl; // NOPMD
+        private TimeToLive ttl = new TimeToLive(0); // NOPMD
 
         public Builder fakeProcess(FilibusterProcess process) {
             this.process = process;
