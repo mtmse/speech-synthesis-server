@@ -12,6 +12,8 @@ CONFIG_ROOT=/etc/opt/speech-synthesis-server
 LOGDIR=/var/log/mtm/speech-synthesis-server
 
 if [ $ACTION -eq $UNINSTALL ]; then
+    service speech-synthesis-server stop
+    rm -f /etc/init.d/speech-synthesis-server
     rm -rf $INSTALLATION_ROOT
     rm -rf $CONFIG_ROOT
     rm -rf $LOGDIR
