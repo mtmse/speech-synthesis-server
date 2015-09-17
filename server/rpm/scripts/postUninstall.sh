@@ -22,4 +22,6 @@ else # Unrecognized action type
     exit 1
 fi
 
+service speech-synthesis-server stop
+
 echo "Done running postUninstall"
