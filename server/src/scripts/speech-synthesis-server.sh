@@ -1,7 +1,9 @@
 #!/bin/bash
 #
-# Script for running speech-synthesis-server as a service
-#echo "Running speech-synthesis-server"
+# speech-synthesis-server Control Script
+#
+# chkconfig: 2345 80 20
+#
 
 INSTALL_ROOT=/opt/speech-synthesis-server
 CONFIG_ROOT=/etc/opt/speech-synthesis-server
@@ -10,7 +12,6 @@ RUN_AS_USER=tpbadmin
 daemon_pid() {
     echo `ps aux | grep speech-synthesis-server | grep jar | grep -v su | awk '{ print $2 }'`
 }
-
 
 case "$1" in
     start)
