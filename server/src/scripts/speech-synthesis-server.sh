@@ -29,6 +29,7 @@ case "$1" in
        	fi
        	
         kill $(daemon_pid)
+        exit 0
         ;;
     
     restart)
