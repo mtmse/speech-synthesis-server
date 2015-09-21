@@ -16,6 +16,11 @@ daemon_pid() {
 case "$1" in
     start)
         echo "Starting speech-synthesis-server..."
+
+        LANGTECH_ROOT=/opt/langtech
+        chmod -R a+rwx $LANGTECH_ROOT # We have had problems with permissions and this is a work around
+        chown -R tpbadmin:tpbadmin $LANGTECH_ROOT
+
         su -c "java -jar $INSTALL_ROOT/lib/server-all.jar server $CONFIG_ROOT/configuration.yaml" $RUN_AS_USER &
         ;;
     
