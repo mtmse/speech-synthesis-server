@@ -4,4 +4,8 @@ echo "Running utils"
 
 ACTION=$1
 
-echo "Acton: $ACTION"
+UNINSTALL=0
+
+if [ $ACTION -eq $UNINSTALL ]; then
+    service speech-synthesis-server stop
+fi
