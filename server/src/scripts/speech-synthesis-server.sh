@@ -2,7 +2,7 @@
 #
 # speech-synthesis-server Control Script
 #
-# chkconfig: 2345 80 20
+# chkconfig: - 85 15
 #
 
 INSTALL_ROOT=/opt/speech-synthesis-server
