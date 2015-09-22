@@ -97,7 +97,7 @@ class FilibusterProcess {
             pause(waitingTime);
         }
 
-        String msg = "Wait timed out. The timeout was set to " + timeout + "ms";
+        String msg = "Wait timed out. The timeout was set to " + timeout + "s";
         throw new FilibusterException(msg);
     }
 
