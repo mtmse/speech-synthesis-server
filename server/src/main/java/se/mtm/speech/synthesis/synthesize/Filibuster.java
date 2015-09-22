@@ -91,6 +91,9 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
         process.write(speechUnitText);
         byte[] sound = process.getSound();
 
+        // todo debug logging
+        LOGGER.info("Done synthesising");
+
         return new SynthesizedSound.Builder()
                 .key(key)
                 .sound(sound)
