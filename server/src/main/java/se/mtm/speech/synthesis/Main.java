@@ -5,6 +5,8 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
 import se.mtm.speech.synthesis.infrastructure.configuration.*;
@@ -14,8 +16,14 @@ import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 import se.mtm.speech.synthesis.version.VersionResource;
 
 public class Main extends Application<Configuration> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
     public static void main(String... args) throws Exception {
-        new Main().run(args);
+        try {
+            new Main().run(args);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getStackTrace());
+        }
     }
 
     @Override
