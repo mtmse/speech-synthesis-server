@@ -159,10 +159,7 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
 
     @Override
     void kill() {
-        // todo Debug
-        LOGGER.info("Killing process");
         process.kill();
-        LOGGER.info("Process killed");
     }
 
     @Override
