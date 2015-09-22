@@ -2,9 +2,10 @@ package se.mtm.speech.synthesis.synthesize;
 
 class SpeechUnit {
     private final String text;
-    private String key;
+    private final String key;
 
     SpeechUnit(String text) {
+        this.key = "synthesize-" + Thread.currentThread().getId();
         this.text = text;
     }
 
