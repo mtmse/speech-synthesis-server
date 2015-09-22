@@ -46,8 +46,8 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
             synthesizer.addSynthesizedParagraph(synthesised);
             pool.returnFilibuster(this);
         } catch (FilibusterException e) {
-            kill();
             LOGGER.warn(e.getMessage());
+            kill();
         }
     }
 
@@ -159,7 +159,10 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
 
     @Override
     void kill() {
+        // todo Debug
+        LOGGER.info("Killing process");
         process.kill();
+        LOGGER.info("Process killed");
     }
 
     @Override

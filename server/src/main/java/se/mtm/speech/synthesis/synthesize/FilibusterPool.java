@@ -187,8 +187,12 @@ class FilibusterPool { // NOPMD
     }
 
     private void killFilibuster(Synthesizer synthesizer) {
-        synthesizer.kill();
+        // todo debug
+        LOGGER.info("killFilibuster");
+        LOGGER.info("Filibusters: " + all.size());
         all.remove(synthesizer);
+        LOGGER.info("Filibusters: " + all.size());
+        synthesizer.kill();
     }
 
     public boolean isHealthy() {
