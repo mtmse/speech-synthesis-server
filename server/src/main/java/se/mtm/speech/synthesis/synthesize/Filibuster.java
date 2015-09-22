@@ -84,7 +84,10 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
 
     private SynthesizedSound synthesize() {
         String key = getSpeechUnitKey();
-        process.write(getSpeechUnitText());
+        String speechUnitText = getSpeechUnitText();
+        // todo debug logging
+        LOGGER.info("Synthesising '" + speechUnitText + "' that is found using the key '" + key + "'");
+        process.write(speechUnitText);
         byte[] sound = process.getSound();
 
         return new SynthesizedSound.Builder()
@@ -114,7 +117,10 @@ class Filibuster extends Synthesizer implements Runnable { // NOPMD
     }
 
     private void testSynthesize() {
-        SpeechUnit speechUnit = new SpeechUnit("Den bruna räven hoppade över den lata hunden.");
+        String text = "The quick brown fox jumps over the lazy dog";
+        // todo debug logging
+        LOGGER.info("Test synthesize '" + text + "'");
+        SpeechUnit speechUnit = new SpeechUnit(text);
         setSpeechUnit(speechUnit);
         synthesize();
     }
