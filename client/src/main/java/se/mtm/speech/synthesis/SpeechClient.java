@@ -1,6 +1,7 @@
 package se.mtm.speech.synthesis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.glassfish.jersey.client.ClientProperties;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,6 +23,9 @@ public class SpeechClient {
         this.mapper = mapper;
         this.host = host;
         this.port = port;
+
+        int fifteenMinutes = 1000 * 60 * 15;
+        client.property(ClientProperties.READ_TIMEOUT, fifteenMinutes);
     }
 
     public SynthesizedSound synthesise(String sentence) {

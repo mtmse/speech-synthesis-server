@@ -5,7 +5,7 @@ logHome: /var/log/mtm/speech-synthesis-server                     # The Filibust
 minimumMemory: 4                                                  # The minimum memory that should be available before allocating a new Filibuster
 timeToLive: 30                                                    # The expected life time of a Filibuster in minutes
 idleTime: 100                                                     # The idle time the server will wait before looking asking for a synthesized result in milli seconds
-timeout: 30                                                       # The time a job is allowed for synthesize before a timeout is returned to the caller in seconds
+timeout: 900                                                      # The time a job is allowed for synthesize before a timeout is returned to the caller in seconds
 
 server:
   applicationConnectors:
