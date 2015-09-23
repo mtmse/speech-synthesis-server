@@ -1,10 +1,12 @@
 package se.mtm.speech.synthesis.status;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConfigurationView extends CommonView {
@@ -13,14 +15,15 @@ public class ConfigurationView extends CommonView {
     }
 
     public String getConfiguration() throws IOException {
-        String configurationFile = "/etc/opt/speech-synthesis-server/configuration.yaml";
-        InputStream releaseNotes = getClass().getResourceAsStream(configurationFile);
+        File configurationFile = new File("/etc/opt/speech-synthesis-server/configuration.yaml");
+        List<String> lines = new LinkedList<>();
 
-        if (releaseNotes == null) {
-            return "No configuration found, searched for " + configurationFile;
+        try {
+            lines = FileUtils.readLines(configurationFile);
+        } catch (FileNotFoundException e) {
+            lines.add(e.getMessage());
         }
 
-        List<String> lines = IOUtils.readLines(releaseNotes);
         StringBuilder stringBuilder = new StringBuilder();
         for (String line : lines) {
             stringBuilder.append(line);
