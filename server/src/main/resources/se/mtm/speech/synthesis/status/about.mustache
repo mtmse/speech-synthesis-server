@@ -2,7 +2,9 @@
 
 <div class="container">
     <h2>Release notes</h2>
-    {{releaseNotes}}
+    {{#releaseNotes}}
+        {{.}}<br>
+    {{/releaseNotes}}
 </div>
 
 {{> footer }}

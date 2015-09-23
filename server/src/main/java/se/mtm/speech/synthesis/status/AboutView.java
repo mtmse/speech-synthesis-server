@@ -12,16 +12,9 @@ public class AboutView extends CommonView {
         super("about.mustache", Charset.forName("UTF-8"));
     }
 
-    public String getReleaseNotes() throws IOException {
+    public List<String> getReleaseNotes() throws IOException {
         InputStream releaseNotes = getClass().getResourceAsStream("/release_notes.txt");
 
-        List<String> lines = IOUtils.readLines(releaseNotes);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String line : lines) {
-            stringBuilder.append(line);
-            stringBuilder.append('\n');
-        }
-
-        return stringBuilder.toString();
+        return IOUtils.readLines(releaseNotes);
     }
 }
