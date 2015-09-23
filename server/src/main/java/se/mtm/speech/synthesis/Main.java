@@ -64,6 +64,9 @@ public class Main extends Application<Configuration> {
         ShowLogResource showLog = new ShowLogResource(logHome);
         environment.jersey().register(showLog);
 
+        ConfigurationResource confResource = new ConfigurationResource();
+        environment.jersey().register(confResource);
+
         AboutResource about = new AboutResource();
         environment.jersey().register(about);
 
