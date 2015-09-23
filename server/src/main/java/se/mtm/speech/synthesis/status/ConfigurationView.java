@@ -27,7 +27,7 @@ public class ConfigurationView extends CommonView {
         StringBuilder stringBuilder = new StringBuilder();
         for (String line : lines) {
             stringBuilder.append(line);
-            stringBuilder.append('\n');
+            stringBuilder.append("<br>");
         }
 
         return stringBuilder.toString();
