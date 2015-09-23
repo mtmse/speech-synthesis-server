@@ -97,6 +97,16 @@ ospackage {
 
     from('./build/libs') {
         into ('/opt/speech-synthesis-server/lib')
+        include '*all.jar'
+
+        rename { String fileName ->
+            fileName.replace('-' + version + '-', '')
+        }
+
+        rename { String fileName ->
+            fileName.replace('SNAPSHOT', '')
+        }
+
         fileMode = 0555
     }
 
