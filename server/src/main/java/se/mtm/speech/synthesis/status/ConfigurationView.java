@@ -14,7 +14,7 @@ public class ConfigurationView extends CommonView {
         super("configuration.mustache", Charset.forName("UTF-8"));
     }
 
-    public String getConfiguration() throws IOException {
+    public List<String> getConfiguration() throws IOException {
         File configurationFile = new File("/etc/opt/speech-synthesis-server/configuration.yaml");
         List<String> lines = new LinkedList<>();
 
@@ -24,12 +24,6 @@ public class ConfigurationView extends CommonView {
             lines.add(e.getMessage());
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String line : lines) {
-            stringBuilder.append(line);
-            stringBuilder.append("<br>");
-        }
-
-        return stringBuilder.toString();
+        return lines;
     }
 }
