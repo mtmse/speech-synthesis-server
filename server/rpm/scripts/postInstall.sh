@@ -13,9 +13,6 @@ if [ ! -f "$CONFIG_ROOT/configuration.yaml" ]; then
 	cp $INSTALL_ROOT/conf/configuration-prod.yaml $CONFIG_ROOT/configuration.yaml
 fi
 
-rm -f $INSTALL_ROOT/lib/server-all.jar
-ln -s $INSTALL_ROOT/lib/server-*-all.jar $INSTALL_ROOT/lib/server-all.jar
-
 mkdir -p $LOGDIR
 chown -R $RUN_AS_USER:$RUN_AS_USER $LOGDIR
 
