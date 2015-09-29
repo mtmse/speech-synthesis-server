@@ -19,8 +19,7 @@ This is guide book to the implementation.
 * [Deployment](#deployment)
 * [Operation and Support](#operation-and-support)
 * [Decision Log](#decision-log)
-* [Old Documentation](#old-documentation)
- 
+
 ## Context
 
 MTM need to be able to parallelize speech synthesisation and synthesise more than one book at a time.
