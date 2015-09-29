@@ -1,7 +1,7 @@
 # Speech synthesis server
 
-A server that acts as a facade for speech synthesis. The only supported synthesis engine
-is [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+Filibuster).
+A server that acts as a facade for speech synthesis.
+It supports [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+Filibuster) as synthesis engine.
 
 This is guide book to the implementation.
 
@@ -124,6 +124,12 @@ Running the server local
 
 The version number above is not correct, check your build directory for the correct one.
 
+### Local testing
+
+It is possible to install on a local [Centos](https://www.centos.org/). The RPM is possible to install using
+
+`rpm -ivh rpm-file`
+
 ## Data
 
 There is no specific data associated with this system. It is a facade to other systems and doesn't keep
@@ -131,7 +137,8 @@ a state of its own.
 
 ## Infrastructure Architecture
 
-
+The system is deployed and executed MTMs standard [RHEL](http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
+virtual server.
 
 ## Deployment
 
@@ -157,6 +164,8 @@ A user- and admin-interface is available at
 | Acceptance test | [http://pipetest1.mtm.se:9090](http://pipetest1.mtm.se:9090) | [http://pipetest1.mtm.se:9091](http://pipetest1.mtm.se:9091) |
 | Production      | [http://pipeonline.mtm.se:9090](http://pipeonline.mtm.se:9090) | [http://pipeonline.mtm.se:9091](http://pipeonline.mtm.se:9091) |
 
+The system is executed as a RHEL
+[service]([RHEL](http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)).
 
 Checking that the server is running is done as root with the command
 
