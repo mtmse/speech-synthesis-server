@@ -164,8 +164,7 @@ A user- and admin-interface is available at
 | Acceptance test | [http://pipetest1.mtm.se:9090](http://pipetest1.mtm.se:9090) | [http://pipetest1.mtm.se:9091](http://pipetest1.mtm.se:9091) |
 | Production      | [http://pipeonline.mtm.se:9090](http://pipeonline.mtm.se:9090) | [http://pipeonline.mtm.se:9091](http://pipeonline.mtm.se:9091) |
 
-The system is executed as a RHEL
-[service]([RHEL](http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)).
+The system is executed as a RHEL [service](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-Services_and_Daemons.html).
 
 Checking that the server is running is done as root with the command
 
