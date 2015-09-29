@@ -180,6 +180,6 @@ There is an admin interface available. The port is defined in the configuration.
 
 ## Decision Log
 
-The decision to use a REST api is based on the need for loose coupling. Other system should be able to connect
+* The decision to use a REST api is based on the need for loose coupling. Other system should be able to connect
 without too much knowledge about the inner workings of the implementation. MTM has a record of compile time
 dependencies between systems and this has turned out to be unnecessary complicated.
