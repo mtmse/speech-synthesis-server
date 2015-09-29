@@ -5,7 +5,7 @@ It supports [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+
 
 This is guide book to the implementation.
 
-The [official MTM documentation s done in Confluence](http://confluence.mtm.se/display/ITDOCS/IT+Modul+-+Speech+synthesis+server).
+The [official MTM documentation is done in Confluence](http://confluence.mtm.se/display/ITDOCS/IT+Modul+-+Speech+synthesis+server).
 
 ## Table of content
 * [Context](#context)
