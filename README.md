@@ -1,6 +1,7 @@
 # Speech synthesis server
 
-A server that acts as a facade for speech synthesis. The only supported synthesis engine is [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+Filibuster).
+A server that acts as a facade for speech synthesis. The only supported synthesis engine
+is [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+Filibuster).
 
 This is guide book to the implementation.
 
@@ -22,29 +23,57 @@ This is guide book to the implementation.
  
 ## Context
 
-MTM need to be able to paralellize speech synthesisation and synthesise more than one book at a time. 
+MTM need to be able to parallelize speech synthesisation and synthesise more than one book at a time.
 
+The solution is to implement a web application that hides concrete speech synthesisers. The web application accepts
+request from more than one client and is therefore able to parallelize the synthesization by dispatching jobs to
+many synthesise instances.
 
-
-
-
-
+The primary client is [PipeOnline](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+PipeOnline) that
+the production team is using when creating books.
 
 ## Functional Overview
 
+A sentence that should be synthesised is sent to the system and a synthesised sound is returned.
 
+The synthesisers, filibusters, have a limited life time and will be recreated after this life span. The synthesizers
+available are listed on the front page of the web application.
+
+It is possible to verify that the system is able to synthesise any sentence through the user interface. Click on
+'Test Synthesize' in the menu bar. You will be able to enter any text that should be synthesised in the text area. The
+main purpose is for testing the system and verifying that th ecomponents are possible to connect and sound generated.
+
+The logs generated from the system is also available from the web application. They are offered as a convenience for
+the maintainers of the system. They are also available on the executing host. Reading them on the host requires
+ssh access.
+
+The configuration of the system is possible to review using the 'Configuration' in the menu bar. The configuration
+is the same configuration as the system is started with.
+
+The release history is available from the 'About' menu.
 
 ## Quality Attributes
 
-
+There are no apparent quality attributes that we must honor. Synthesising books takes time and the bottle neck
+isn't in the dispatching server.
 
 ## Constraints
 
+Speech synthesisers consume a lot of memory. It is possible to configure the maximum number of synthesisers
+and the minimum memory that should be available. We have started with 6 filibusters and they requires 4 Gb of memory.
+These number should be subject for revision when we know more about how the system behaves.
 
+MTM is a mainly Java shop and the implementation is done using Java.
 
 ## Principles
 
+The implementation is done with a focus on the interaction between the components. Anything related to each other lives
+in the same package.
 
+The main entry point to each package is a [resource](https://dropwizard.github.io/dropwizard/manual/core.html#resources)
+that is reachable from using a web browser or a REST client.
+
+The resources are wired through the [Main](https://github.com/mtmse/speech-synthesis-server/blob/master/server/src/main/java/se/mtm/speech/synthesis/Main.java) class.
 
 ## Software Architecture
 
@@ -52,15 +81,54 @@ MTM need to be able to paralellize speech synthesisation and synthesise more tha
 
 ## External Interfaces
 
+The external interface to the system, except the web based user interface, is one REST resource.
+It is hidden behind `/synthesize` and it takes the sentence that should be synthesised as a query parameter.
 
+The returned value is a JSON document with a byte array that should be interpreted as as a wav file.
+
+There is a [Java client](https://github.com/mtmse/speech-synthesis-server/tree/master/client) implemented that
+removes the need for low level knowledge about the communication with the server.
 
 ## Code
 
+### Server
 
+The server application is built using [Dropwizard](http://www.dropwizard.io/).
+
+The web interface is built using [Mustache](http://mustache.github.io/mustache.5.html) templates.
+
+The styling is done using [Boostrap](http://getbootstrap.com/).
+
+Configuration is done with a [YAML](http://yaml.org/) file and follows the standard
+[Dropwizard](http://www.dropwizard.io/manual/core.html#configuration) format.
+
+### Client
+
+The client is implemented using [Jersey](https://jersey.java.net/) and
+[Jackson](http://wiki.fasterxml.com/JacksonHome).
+
+### Building
+
+The system is built using [Gradle](https://gradle.org) [wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+
+`./gradlew clean shadowJar`
+
+Creating an RPM for testing is done using
+
+`./gradlew clean buildRpm`
+
+### Local execution
+
+Running the server local
+
+`java -jar server\build\libs\server-1.0.0-all.jar server configuration.yaml`
+
+The version number above is not correct, check your build directory for the correct one.
 
 ## Data
 
-
+There is no specific data associated with this system. It is a facade to other systems and doesn't keep
+a state of its own.
 
 ## Infrastructure Architecture
 
@@ -68,26 +136,19 @@ MTM need to be able to paralellize speech synthesisation and synthesise more tha
 
 ## Deployment
 
+It is deployed on [RHEL](http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux) as
+an [RPM](http://www.rpm.org/). The latest version is available at MTMs local [YUM](http://yum.baseurl.org/) repository.
 
+Each environment at MTM knows which repository to use. It is therefore easy to use [Puppet](https://puppetlabs.com/)
+for installation.
+
+Deploying a new version is done by
+* Promote an RPM package to the repo a specific environment fetches its packages from
+* Trigger or wait for Puppet to execute. The current, old version, will be updated with the latest found in
+the repository
+* Repeat the steps above when promoting to test or production
 
 ## Operation and Support
-
-
-
-## Decision Log
-
-
-
-
-
-
-
-
-
-
-
-
-## Old documentation
 
 A user- and admin-interface is available at
 
@@ -97,129 +158,28 @@ A user- and admin-interface is available at
 | Acceptance test | [http://pipetest1.mtm.se:9090](http://pipetest1.mtm.se:9090) | [http://pipetest1.mtm.se:9091](http://pipetest1.mtm.se:9091) |
 | Production      | [http://pipeonline.mtm.se:9090](http://pipeonline.mtm.se:9090) | [http://pipeonline.mtm.se:9091](http://pipeonline.mtm.se:9091) |
 
-The synthesizing is hidden behind a REST API. A Java client is available that
-can can be used instead of connecting to the raw REST interface. For more
-information, look in the sub project `client`
 
-An [example implementation](client/src/test/java/se/mtm/speech/synthesis/ClientTestMain.java)
-is available in `client/src/test/java/se/mtm/speech/synthesis/ClientTestMain.java`.
+Checking that the server is running is done as root with the command
 
-## Installation
+`service speech-synthesis-server status`
 
-Installation on the target host is either automated or manual.
+Starting is done
 
-### Automated installation
+`service speech-synthesis-server start`
 
-Not yet implemented.
+Restarting is
 
-### Manual installation
+`service speech-synthesis-server restart`
 
-As root:
-```
-yum install speech-synthesis-server
-```
+The logs are available at the location that the configuration `logHome` is set to. This is
+probably `/var/log/mtm/speech-synthesis-server`
 
-Start it
+The configuration is stored in `/etc/opt/speech-synthesis-server/configuration.yaml`
 
-```
-service speech-synthesis-server start
-```
+There is an admin interface available. The port is defined in the configuration. It is probably `9090`
 
-#### Trouble shooting
+## Decision Log
 
-The yum repo must be aware of a repo where the package is available.
-
-The repository is defined in
-```
-/etc/yum.repos.d/mtm.repo
-```
-
-The content should look something like this:
-```
-[mtm]
-name=MTM utv repository
-baseurl=http://artifactory.mtm.se:8081/artifactory/mtm-utv/
-enabled=1
-gpgcheck=0
-```
-
-Where this repository is aware of packages available in the utv repo.
-
-New packages are automatically added to the utv repo on each build.
-
-The latest version should be retrieved when 'yum install' is executed. It turns
-out that this fails sometimes. It seems necessary to clear the yum cache or
-allow some time to pass before trying again.
-
-Clearing the yum caches can be done as root:
-```
-yum clean all
-```
-
-### Manual uninstallation
-
-The speech server can be uninstalled with
-```
-yum -y erase speech-synthesis-server
-```
-
-This will not remove the configuration in
-```
-/etc/opt/speech-synthesis-server/configuration.yaml
-```
-
-An unstallation will not remove any logs from
-```
-/var/log/mtm/speech-synthesis-server/
-```
-
-## Configuration
-
-The settings can be changed in
-
-```
-/etc/opt/speech-synthesis-server/configuration.yaml
-```
-
-## Logging
-
-The logs are available in
-```
-/var/log/mtm/speech-synthesis-server/
-```
-
-The server log is available in
-```
-/var/log/mtm/speech-synthesis-server/speech-synthesis.log
-```
-
-The access log is available in
-```
-/var/log/mtm/speech-synthesis-server/speech-synthesis-access.log
-```
-
-Each Filibuster logs to a log file that follows the pattern
-```
-/var/log/mtm/speech-synthesis-server/filibuster-date-number.log
-```
-
-### Log rotation
-The server and access logs are rotated as defined in the configuration file.
-
-The Filibuster logs are currently not rotated.
-
-## Build
-
-```
-./gradlew clean build shadowJar
-```
-
-## Run local
-
-```
-java -jar server\build\libs\server-1.0.0-all.jar server configuration.yaml
-```
-
-## References
-
-The server is built using [Dropwizard](http://www.dropwizard.io/).
+The decision to use a REST api is based on the need for loose coupling. Other system should be able to connect
+without too much knowledge about the inner workings of the implementation. MTM has a record of compile time
+dependencies between systems and this has turned out to be unnecessary complicated.
