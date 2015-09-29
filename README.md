@@ -1,24 +1,93 @@
 # Speech synthesis server
 
-A server that acts as a facade for speech synthesis. The current implementation
-is a Facade to Filibuster.
+A server that acts as a facade for speech synthesis. The only supported synthesis engine is [Filibuster](http://confluence.mtm.se/display/ITDOCS/IT+Komponent+-+Filibuster).
+
+This is guide book to the implementation.
 
 ## Table of content
+* [Context](#context)
+* [Functional Overview](#functional-overview)
+* [Quality Attributes](#quality-attributes)
+* [Constraints](#constraints)
+* [Principles](#principles)
+* [Software Architecture](#software-architecture)
+* [External Interfaces](#external-interfaces)
+* [Code](#code)
+* [Data](#data)
+* [Infrastructure Architecture](#infrastructure-architecture)
+* [Deployment](#deployment)
+* [Operation and Support](#operation-and-support)
+* [Decision Log](#decision-log)
+* [Old Documentation](#old-documentation)
+ 
+## Context
 
-* [Usage](#usage)
-* [Installation](#installation)
-  * [Automated installation](#automated-installation)
-  * [Manual installation](#manua-linstallation)
-    * [Trouble shooting](#trouble-shooting)
-  * [Manual uninstallation](#manual-uninstallation)
-* [Configuration](#configuration)
-* [Logging](#logging)
-  * [Log rotation](#log-rotation)
-* [Build](#build)
-* [Run local](#run-local)
-* [References](#references)
+MTM need to be able to paralellize speech synthesisation and synthesise more than one book at a time. 
 
-## Usage
+
+
+
+
+
+
+## Functional Overview
+
+
+
+## Quality Attributes
+
+
+
+## Constraints
+
+
+
+## Principles
+
+
+
+## Software Architecture
+
+
+
+## External Interfaces
+
+
+
+## Code
+
+
+
+## Data
+
+
+
+## Infrastructure Architecture
+
+
+
+## Deployment
+
+
+
+## Operation and Support
+
+
+
+## Decision Log
+
+
+
+
+
+
+
+
+
+
+
+
+## Old documentation
 
 A user- and admin-interface is available at
 
