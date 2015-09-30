@@ -11,6 +11,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URLEncoder;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -32,7 +33,7 @@ public class SpeechClientTest {
     }
 
     @Test
-    public void call_server() throws IOException {
+    public void call_server() throws Exception {
         String expectedSentence = "Hello Filibuster!";
 
         Client httpClient = mock(Client.class);
@@ -56,7 +57,7 @@ public class SpeechClientTest {
 
         verify(httpClient).target("http://localhost:80");
         verify(webTarget).path("synthesize");
-        verify(webTarget).queryParam("sentence", expectedSentence);
+        verify(webTarget).queryParam("sentence", URLEncoder.encode(expectedSentence, "UTF-8"));
         verify(webTarget).request(MediaType.APPLICATION_JSON_TYPE);
         verify(builder).get(String.class);
     }

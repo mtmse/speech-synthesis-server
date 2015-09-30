@@ -31,4 +31,18 @@ public class SynthesizeIntegrationTest {
         assertFalse("The call should not have timed out", actual.isTimeout());
         assertThat(actual.getSound(), is(expectedSound));
     }
+
+    @Test
+    public void synthesise_complicated_sentence() throws Exception {
+        int port = application.getLocalPort();
+        SpeechClient client = new SpeechClient("localhost", port);
+
+        String sentence = "tjänsteproduktionen (Hirschman 2008 {1970], s. 98–101).";
+        byte[] expectedSound = sentence.getBytes();
+
+        SynthesizedSound actual = client.synthesise(sentence);
+
+        assertFalse("The call should not have timed out", actual.isTimeout());
+        assertThat(actual.getSound(), is(expectedSound));
+    }
 }
