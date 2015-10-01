@@ -8,7 +8,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.Base64;
 
 public class SpeechClient {
     private final Client client;
@@ -31,9 +31,9 @@ public class SpeechClient {
     }
 
     public SynthesizedSound synthesise(String sentence) {
-        String encoded = null;
+        String encoded;
         try {
-            encoded = URLEncoder.encode(sentence, "UTF-8");
+            encoded = Base64.getEncoder().encodeToString(sentence.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             throw new SpeechSynthesisClientException(e.getMessage(), e);
         }

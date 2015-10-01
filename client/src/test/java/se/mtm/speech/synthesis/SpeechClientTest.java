@@ -11,7 +11,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URLEncoder;
+import java.util.Base64;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -57,7 +57,10 @@ public class SpeechClientTest {
 
         verify(httpClient).target("http://localhost:80");
         verify(webTarget).path("synthesize");
-        verify(webTarget).queryParam("sentence", URLEncoder.encode(expectedSentence, "UTF-8"));
+
+        String encoded = Base64.getEncoder().encodeToString(expectedSentence.getBytes("UTF-8"));
+        verify(webTarget).queryParam("sentence", encoded);
+
         verify(webTarget).request(MediaType.APPLICATION_JSON_TYPE);
         verify(builder).get(String.class);
     }

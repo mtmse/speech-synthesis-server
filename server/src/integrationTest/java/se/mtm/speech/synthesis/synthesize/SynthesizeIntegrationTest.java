@@ -45,4 +45,18 @@ public class SynthesizeIntegrationTest {
         assertFalse("The call should not have timed out", actual.isTimeout());
         assertThat(actual.getSound(), is(expectedSound));
     }
+
+    @Test
+    public void synthesise_sentence_with_percent() throws Exception {
+        int port = application.getLocalPort();
+        SpeechClient client = new SpeechClient("localhost", port);
+
+        String sentence = "60 %, är = 17";
+        byte[] expectedSound = sentence.getBytes();
+
+        SynthesizedSound actual = client.synthesise(sentence);
+
+        assertFalse("The call should not have timed out", actual.isTimeout());
+        assertThat(actual.getSound(), is(expectedSound));
+    }
 }

@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.util.Base64;
 
 @Path("/synthesize")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +28,7 @@ public class SynthesizeResource {
     public SynthesizeResource(SpeechSynthesizer synthesizer, Timeout defaultTimeout, IdleTime idleTime) {
         this.synthesizer = synthesizer;
         this.idleTime = idleTime;
-        this.defaultTimeout = defaultTimeout ;
+        this.defaultTimeout = defaultTimeout;
     }
 
     @GET
@@ -40,7 +40,8 @@ public class SynthesizeResource {
 
         String decoded;
         try {
-            decoded = URLDecoder.decode(sentence, "UTF-8");
+            byte[] decodedBytes = Base64.getDecoder().decode(sentence);
+            decoded = new String(decodedBytes, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new SpeechSynthesisException(e.getMessage(), e);
         }
@@ -74,7 +75,7 @@ public class SynthesizeResource {
 
         long stop = System.currentTimeMillis();
 
-        message = "Returned the synthesised sound for <" + sentence + "> It took " + (stop - start) + "ms";
+        message = "Returned the synthesised sound for <" + decoded + "> It took " + (stop - start) + "ms";
         LOGGER.info(message);
 
         return result;
