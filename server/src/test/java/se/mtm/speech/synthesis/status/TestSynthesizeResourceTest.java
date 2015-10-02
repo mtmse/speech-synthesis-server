@@ -4,6 +4,8 @@ import org.junit.Test;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 import se.mtm.speech.synthesis.synthesize.SynthesizedSound;
 
+import java.util.Base64;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -28,8 +30,10 @@ public class TestSynthesizeResourceTest {
         TestSynthesizeResource resource = new TestSynthesizeResource(synthesizer);
 
         String sampleText = "Not important content";
+
+        String expected = Base64.getEncoder().encodeToString(sampleText.getBytes("UTF-8"));
         resource.testSynthesize(sampleText);
 
-        verify(synthesizer, times(1)).synthesize(sampleText);
+        verify(synthesizer, times(1)).synthesize(expected);
     }
 }
