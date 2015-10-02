@@ -122,7 +122,7 @@ Creating an RPM for testing is done using
 
 Running the server local
 
-`java -jar server\build\libs\server-1.0.0-all.jar server configuration.yaml`
+`java -jar server/build/libs/server-1.0.15-SNAPSHOT-all.jar server configuration-fake.yaml`
 
 The version number above is not correct, check your build directory for the correct one.
 
