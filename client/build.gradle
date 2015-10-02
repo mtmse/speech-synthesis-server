@@ -23,3 +23,11 @@ shadowJar {
                 'Build-Date': new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
     }
 }
+
+artifactoryPublish {
+    dependsOn shadowJar
+}
+
+artifacts {
+    published shadowJar
+}
