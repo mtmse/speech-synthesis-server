@@ -1,3 +1,8 @@
 
+2015-10-02
+Expect the sentence sent to the server to be Base 64 encoded.
+This solves problems with characters being destroyed when sent
+over a network.
+
 2015-09-23
 First release
