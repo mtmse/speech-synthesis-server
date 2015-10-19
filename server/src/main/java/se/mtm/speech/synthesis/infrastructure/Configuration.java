@@ -32,6 +32,9 @@ public class Configuration extends io.dropwizard.Configuration {
     @JsonProperty
     private boolean fake = false; // NOPMD set by reflection
 
+    @JsonProperty
+    private int maxLogAge = 7; // NOPMD set by reflection
+
     public Timeout getTimeout() {
         return new Timeout(timeout);
     }
@@ -66,5 +69,9 @@ public class Configuration extends io.dropwizard.Configuration {
 
     public LogHome getLogHome() {
         return new LogHome(logHome);
+    }
+
+    public SynthesiseLogsMaxAge getSyntesiseLogsMaxAge() {
+        return new SynthesiseLogsMaxAge(maxLogAge);
     }
 }

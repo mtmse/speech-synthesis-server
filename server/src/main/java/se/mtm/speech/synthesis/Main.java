@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
 import se.mtm.speech.synthesis.infrastructure.configuration.*;
+import se.mtm.speech.synthesis.log.rotation.LogRotator;
 import se.mtm.speech.synthesis.status.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
@@ -42,6 +43,10 @@ public class Main extends Application<Configuration> {
         FakeSynthesize fake = configuration.getFakeSynthesize();
         SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(capacity, maxFilibusters, minimumMemory, filibusterHome, logHome, timeout, timeToLive, idleTime, fake);
         environment.lifecycle().manage(speechSynthesizer);
+
+        SynthesiseLogsMaxAge maxAge = configuration.getSyntesiseLogsMaxAge();
+        LogRotator logRotator = new LogRotator(maxAge, logHome);
+        environment.lifecycle().manage(logRotator);
 
         environment.healthChecks().register("Filibuster health check", new FilibusterHealthCheck(speechSynthesizer));
 
