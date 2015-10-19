@@ -1,4 +1,7 @@
 
+2015-10-19
+Delete old logs
+
 2015-10-02
 Expect the sentence sent to the server to be Base 64 encoded.
 This solves problems with characters being destroyed when sent

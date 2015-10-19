@@ -37,6 +37,7 @@ class RotateLogs implements Runnable {
     }
 
     void clearOldLogs() {
+        LOGGER.info("Deleting old log files");
         Collection<File> logFiles = FileUtils.listFiles(logHome.getLogHome(), null, false);
         logFiles.stream().filter(this::tooOld).forEach(File::delete);
     }
