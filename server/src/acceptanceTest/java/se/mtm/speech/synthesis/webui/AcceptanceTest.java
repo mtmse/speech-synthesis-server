@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.status;
+package se.mtm.speech.synthesis.webui;
 
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;

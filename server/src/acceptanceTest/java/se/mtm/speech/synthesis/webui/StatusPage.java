@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.status;
+package se.mtm.speech.synthesis.webui;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.status;
+package se.mtm.speech.synthesis.webui;
 
 import org.apache.commons.io.FileUtils;
 import se.mtm.speech.synthesis.infrastructure.configuration.LogHome;

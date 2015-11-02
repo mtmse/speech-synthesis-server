@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.status;
+package se.mtm.speech.synthesis.webui;
 
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 

@@ -1,4 +1,4 @@
-package se.mtm.speech.synthesis.status;
+package se.mtm.speech.synthesis.webui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

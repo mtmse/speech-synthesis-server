@@ -1,7 +1,7 @@
 package se.mtm.speech.synthesis.invalidate;
 
 import org.junit.Test;
-import se.mtm.speech.synthesis.status.InvalidateFilibusterResource;
+import se.mtm.speech.synthesis.webui.InvalidateFilibusterResource;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 
 import static org.mockito.Mockito.mock;

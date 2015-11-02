@@ -11,7 +11,7 @@ import se.mtm.speech.synthesis.infrastructure.Configuration;
 import se.mtm.speech.synthesis.infrastructure.FilibusterHealthCheck;
 import se.mtm.speech.synthesis.infrastructure.configuration.*;
 import se.mtm.speech.synthesis.log.rotation.LogRotator;
-import se.mtm.speech.synthesis.status.*;
+import se.mtm.speech.synthesis.webui.*;
 import se.mtm.speech.synthesis.synthesize.SpeechSynthesizer;
 import se.mtm.speech.synthesis.synthesize.SynthesizeResource;
 import se.mtm.speech.synthesis.version.VersionResource;
