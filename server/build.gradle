@@ -130,3 +130,9 @@ buildRpm {
 deployRpm {
     it.dependsOn buildRpm
 }
+
+gradlePuppet {
+    utvHosts = ['pipeutv1.mtm.se']
+    testHosts = ['pipetest1.mtm.se']
+    prodHosts = ['pipe1.mtm.se']
+}
