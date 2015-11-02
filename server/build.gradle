@@ -5,6 +5,7 @@ plugins {
 }
 apply plugin: 'os-package'
 apply plugin: 'se.mtm.artifactory-rpm'
+apply plugin: 'se.mtm.gradle-puppet'
 
 project.ext {
     dropwizardVersion = '0.8.2'
