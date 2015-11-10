@@ -128,8 +128,8 @@ buildRpm {
     it.dependsOn shadowJar
 }
 
-deployRpm {
-    it.dependsOn buildRpm
+artifactoryRpm {
+    packageName = 'speech-synthesis-server'
 }
 
 gradlePuppet {
