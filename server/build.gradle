@@ -8,7 +8,7 @@ apply plugin: 'se.mtm.artifactory-rpm'
 apply plugin: 'se.mtm.gradle-puppet'
 
 project.ext {
-    dropwizardVersion = '0.8.2'
+    dropwizardVersion = '0.9.1'
     rpmVersion = version - '-SNAPSHOT'
     buildNumber = (System.getenv().BUILD_NUMBER != null) ? System.getenv().BUILD_NUMBER : "0";
 }
