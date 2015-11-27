@@ -36,12 +36,11 @@ class FilibusterProcess {
     byte[] getSound() {
         InputStream reader = process.getInputStream();
         waitFor(reader);
-        int length = getSoundLength();
-        return readSound(length);
+        int length = getSoundLength(reader);
+        return readSound(reader, length);
     }
 
-    private int getSoundLength() {
-        InputStream reader = process.getInputStream();
+    private int getSoundLength(InputStream reader) {
         String size = "";
         int currentByte;
 
@@ -62,11 +61,10 @@ class FilibusterProcess {
         return Integer.parseInt(size);
     }
 
-    private byte[] readSound(int length) {
+    private byte[] readSound(InputStream reader, int length) {
         String message = "Read " + length + " bytes from Filibuster";
         LOGGER.info(message);
 
-        InputStream reader = process.getInputStream();
         byte[] audio = new byte[length];
         int remaining = length;
         while (remaining > 0) {
