@@ -4,7 +4,7 @@ allprojects {
 
     repositories {
         maven {
-            url "http://artifactory.mtm.se:8081/artifactory/repo"
+            url "http://artifactory.mtm.se:8081/artifactory/libs-both"
         }
         jcenter()    }
 
@@ -96,7 +96,7 @@ artifactory {
 buildscript {
     repositories {
         maven {
-            url "http://artifactory.mtm.se:8081/artifactory/repo"
+            url "http://artifactory.mtm.se:8081/artifactory/libs-both"
         }
         jcenter()
         dependencies {
