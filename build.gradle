@@ -107,3 +107,7 @@ buildscript {
         }
     }
 }
+
+task wrapper(type: Wrapper, description: 'Refreshes the gradle wrapper') {
+    gradleVersion = '3.5'
+}
