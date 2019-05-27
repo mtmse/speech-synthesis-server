@@ -19,7 +19,7 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'pmd'
 
-    group = 'se.mtm.production.speech.synthesis'
+    group = 'se.mtm.produktion.speech.synthesis'
 
     dependencies {
         testCompile "junit:junit:4.12"
